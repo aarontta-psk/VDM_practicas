@@ -31,7 +31,6 @@ public class MainActivity {
             // En "modo debug" podríamos querer escribir esto.
             //System.out.println("BufferStrategy tras " + (100 - intentos) + " intentos.");
         }
-
         IExample ie = new IExample();
         renderView.add(ie);
 
