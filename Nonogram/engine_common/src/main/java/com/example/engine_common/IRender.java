@@ -1,8 +1,8 @@
 package com.example.engine_common;
 
 public interface IRender {
-    public void loadImage();
-    public void loadFont();
+    public String loadImage(String filePath);
+    public String loadFont(String filePath);
 
     public void setResolution();
     public void setColor();

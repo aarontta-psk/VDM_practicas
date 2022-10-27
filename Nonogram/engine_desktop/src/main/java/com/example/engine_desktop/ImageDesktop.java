@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 public class ImageDesktop implements IImage {
     Image image;
 
-    public ImageDesktop(String path) throws IOException {
+    public ImageDesktop(String path) {
         image = ImageIO.read(new File(path));
     }
 

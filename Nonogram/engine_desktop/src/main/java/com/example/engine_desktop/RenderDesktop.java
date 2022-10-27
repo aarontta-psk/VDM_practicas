@@ -71,7 +71,7 @@ public class RenderDesktop implements IRender {
     }
 
     @Override
-    public String loadImage(String filePath) throws IOException {
+    public String loadImage(String filePath) {
         File imageFile = new File(filePath);
         images.put(imageFile.getName(), new ImageDesktop(filePath));
         return imageFile.getName();
