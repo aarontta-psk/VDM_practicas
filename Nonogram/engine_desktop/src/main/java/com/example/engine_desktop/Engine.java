@@ -1,6 +1,6 @@
 package com.example.engine_desktop;
 
-import com.example.engine_interfaces.*;
+import com.example.engine_common.*;
 
 import javax.swing.JFrame;
 

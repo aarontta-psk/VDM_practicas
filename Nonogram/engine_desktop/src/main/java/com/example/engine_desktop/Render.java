@@ -1,18 +1,15 @@
 package com.example.engine_desktop;
 
-import com.example.engine_interfaces.IFont;
-import com.example.engine_interfaces.IImage;
-import com.example.engine_interfaces.IRender;
-import com.example.engine_interfaces.IScene;
+import com.example.engine_common.IFont;
+import com.example.engine_common.IImage;
+import com.example.engine_common.IRender;
+import com.example.engine_common.IScene;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.font.FontRenderContext;
-import java.awt.font.TextLayout;
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;

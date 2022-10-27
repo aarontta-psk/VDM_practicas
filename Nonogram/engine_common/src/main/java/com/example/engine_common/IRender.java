@@ -1,6 +1,4 @@
-package com.example.engine_interfaces;
-
-import java.awt.Color;
+package com.example.engine_common;
 
 public interface IRender {
     public IImage newImage();
