@@ -66,7 +66,7 @@ public class EngineDesktop implements IEngine, Runnable {
 //            for ((input = myInputManager.getInput()) == null)
 
             // update
-            this.mySceneManager.currentScene().update(deltaTime);
+            this.mySceneManager.currentScene().update(deltaTime / 1000.0);
 
             // render
             do {
@@ -75,11 +75,11 @@ public class EngineDesktop implements IEngine, Runnable {
                 this.myRenderDesktop.finishFrame();
             } while (this.myRenderDesktop.swapBuffer());
 
-            try {
-                Thread.sleep(16);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(16);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
         }
     }
 
