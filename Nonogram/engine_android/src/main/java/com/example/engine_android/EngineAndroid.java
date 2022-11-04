@@ -85,16 +85,16 @@ public class EngineAndroid implements IEngine, Runnable {
             // handle input
             while(!myInputManager.empty()){
                 IInput input = myInputManager.getInput();
-                this.mySceneManager.currentScene().handleInput(input);
+                this.currentScene.handleInput(input);
             }
-
+    
             currentScene.update(deltaTime);
 
-            while (this.render.surfaceValid()) {
-                this.render.clear();
-                this.currentScene.render(this.render);
-                this.render.present();
-            }
+            while (!this.render.surfaceValid());
+
+            this.render.clear();
+            this.currentScene.render(this.render);
+            this.render.present();
         }
     }
 
