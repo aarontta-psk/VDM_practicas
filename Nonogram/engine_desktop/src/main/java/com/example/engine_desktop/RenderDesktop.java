@@ -80,7 +80,7 @@ public class RenderDesktop implements IRender {
 
         System.out.println(this.borders.top);
         AffineTransform at = this.myGraphics2D.getTransform();
-        at.setToTranslation(this.borders.left, this.borders.top + this.borders.bottom);
+        at.setToTranslation(this.borders.left*baseDPI, this.borders.top *baseDPI);
         this.myGraphics2D.setTransform(at);
         at.setToScale((scaleFactor / at.getScaleX()),
                 (scaleFactor / at.getScaleY()));
