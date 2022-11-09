@@ -54,6 +54,7 @@ public class EngineAndroid implements IEngine, Runnable {
 
         while(this.running && myRenderManager.getViewWidth() == 0);
 
+        this.mySceneManager.currentScene().init(this);
         long currentTime = System.currentTimeMillis();
         while(this.running) {
             try {
