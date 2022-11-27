@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 public class Board {
-    static int SEGS_CHECKED = 5;
+    static int SEGS_CHECKED = 2;
 
     private int board_cell_size;
     private int separation_margin;
@@ -192,15 +192,15 @@ public class Board {
         }
     }
 
-    public void checkear() {
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                if (!board[i][j].isAnswer() && board[i][j].getState() == Cell.State.MARKED) {
-                    board[i][j].setChecked();
-                    checkedCells.add(board[i][j]);
-                }
-            }
+    public void checkear(int x, int y) {
+        int boardX = ((x - posX - separation_margin - maxNumbers * fontSize) - (x - posX - separation_margin - maxNumbers * fontSize) / board_cell_size * separation_margin) / board_cell_size;
+        int boardY = ((y - posY - separation_margin - maxNumbers * fontSize) - (y - posY - separation_margin - maxNumbers * fontSize) / board_cell_size * separation_margin) / board_cell_size;
+        System.out.print(x + " " + y);
+        if (!board[boardX][boardY].isAnswer() && board[boardX][boardY].getState() == Cell.State.MARKED) {
+            board[boardX][boardY].setChecked();
+            checkedCells.add(board[boardX][boardY]);
         }
+
         lastTimeChecked = SEGS_CHECKED;
         if (checkedCells.size() == 0 && cellsLeft == 0)
             win = true;
@@ -222,9 +222,8 @@ public class Board {
                 if (board[boardX][boardY].isAnswer())
                     cellsLeft -= 1;
                 else
-                    return -1;
-            }
-            else{
+                    return 1;
+            } else {
                 if (board[boardX][boardY].isAnswer())
                     cellsLeft += 1;
             }

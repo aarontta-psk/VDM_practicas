@@ -44,29 +44,29 @@ public class BoardScene implements IScene {
                 engRef.getRender().getWidth() / 3, engRef.getRender().getHeight() / 12, "Back", engRef.getRender().loadImage("./assets/images/backbutton.png"), fontButtons, btAudio);
 
         sound = engine.getAudio().loadSound("./assets/sounds/click.wav", 1);
-        liveImage = engine.getRender().loadImage("./assets/images/heart");
-        noLiveImage = engine.getRender().loadImage("./assets/images/no_heart");
+        liveImage = engine.getRender().loadImage("./assets/images/heart.png");
+        noLiveImage = engine.getRender().loadImage("./assets/images/no_heart.png");
     }
 
     @Override
     public void update(double deltaTime) {
         board.update(deltaTime);
+
     }
 
     @Override
     public void render(RenderAndroid renderMng) {
         board.render(renderMng);
-        checkButton.render(renderMng);
+        //checkButton.render(renderMng);
         backButton.render(renderMng);
-        for (int i = MAX_LIVES; i > 0; i++) {
+        for (int i = MAX_LIVES; i > 0; i--) {
             String imName;
             if(i>lives)
                 imName = noLiveImage;
             else
                 imName = liveImage;
-//            renderMng.drawImage((engRef.getRender().getWidth() - (engRef.getRender().getWidth() / 3)) / 5 + (engRef.getRender().getWidth() / 3 * (MAX_LIVES - i)),
-//                    engRef.getRender().getHeight() / 9,
-//            engRef.getRender().getWidth() / 3, engRef.getRender().getWidth() / 3, imName);
+            renderMng.drawImage((engRef.getRender().getWidth() - (engRef.getRender().getWidth() / 3)) / 5 + (engRef.getRender().getWidth() / 15 * (MAX_LIVES - i)),
+                    engRef.getRender().getHeight() / 9, engRef.getRender().getWidth() / 15, engRef.getRender().getWidth() / 15, imName);
         }
     }
 
@@ -76,14 +76,18 @@ public class BoardScene implements IScene {
             if (board.isInBoard(input.getX(), input.getY())) {
                 engRef.getAudio().playSound(sound);
                 lives -= board.markCell(input.getX(), input.getY(), false);
-                board.checkear();
+                board.checkear(input.getX(), input.getY());
                 if (board.win)
-                    engRef.getSceneManager().pushScene(new WinScene(board));
-            } else if (backButton.isInButton(input.getX(), input.getY())) {
+                    engRef.getSceneManager().pushScene(new WinScene(board, true));
+                if(lives == 0)
+                    engRef.getSceneManager().pushScene(new WinScene(board, false));
+            }
+            else if (backButton.isInButton(input.getX(), input.getY())) {
                 backButton.clicked(engRef.getAudio());
                 engRef.getSceneManager().popScene();
             }
-        } else if (input.getType() == InputType.TOUCH_LONG) {
+        }
+        else if (input.getType() == InputType.TOUCH_LONG) {
             if (board.isInBoard(input.getX(), input.getY())) {
                 board.markCell(input.getX(), input.getY(), true);
             }
