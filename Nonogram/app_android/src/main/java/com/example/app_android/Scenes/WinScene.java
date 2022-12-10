@@ -8,6 +8,7 @@ import com.example.engine_android.InputType;
 import com.example.engine_android.RenderAndroid;
 
 public class WinScene implements IScene {
+    private final String MENUTOGO = "LevelHistorySelectionMenu";
     private Board board;
     private String winText;
     private String font;
@@ -20,6 +21,9 @@ public class WinScene implements IScene {
         board = b;
         victory = win;
     }
+
+    @Override
+    public String getId(){return "WinScene";}
 
     @Override
     public void init(EngineAndroid engine) {
@@ -54,7 +58,7 @@ public class WinScene implements IScene {
     @Override
     public void handleInput(InputAndroid input) {
         if(input.getType() == InputType.TOUCH_UP && backButton.isInButton(input.getX(), input.getY())){
-            while(engRef.getSceneManager().getStackSize() > 1)
+            while(engRef.getSceneManager().currentScene().getId() != MENUTOGO)
                 engRef.getSceneManager().popScene();
             backButton.clicked(engRef.getAudio());
         }

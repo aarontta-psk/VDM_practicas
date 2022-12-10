@@ -32,6 +32,10 @@ public class MainMenu implements IScene {
     }
 
     @Override
+    public String getId(){return "MainMenu";}
+
+
+    @Override
     public void update(double deltaTime) {
 
     }

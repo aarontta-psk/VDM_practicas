@@ -25,6 +25,9 @@ public class LevelHistorySelectionMenu implements IScene {
     }
 
     @Override
+    public String getId(){return "LevelHistorySelectionMenu";}
+
+    @Override
     public void init(EngineAndroid engine) {
         engRef = engine;
         font = engRef.getRender().loadFont("./assets/fonts/SimplySquare.ttf", FontType.DEFAULT, engRef.getRender().getWidth() / 22);
@@ -37,7 +40,8 @@ public class LevelHistorySelectionMenu implements IScene {
             if(i < lastUnlocked)
                 levelSelecBut[i] = new Button(x/2 + x*(i%4), y + (y/2 * (i/4)), x-x/10, x-x/10, "Lvl " + (i + 1), "", font, btAudio);
             else
-                levelSelecBut[i] = new Button(x/2 + x*(i%4), y + (y/2 * (i/4)), x-x/10, x-x/10, "Abobole", "", font, btAudio);
+                levelSelecBut[i] = new Button(x/2 + x*(i%4), y + (y/2 * (i/4)), x-x/10, x-x/10, "Lvl " + (i + 1),
+                        engRef.getRender().loadImage("./assets/images/lock.png"), font, btAudio);
         }
 
         backButton = new Button(engRef.getRender().getWidth()/4, y/4, engRef.getRender().getWidth()/2, (y - y/4)/2, "Back", "", font, btAudio);
@@ -45,7 +49,10 @@ public class LevelHistorySelectionMenu implements IScene {
 
     @Override
     public void update(double deltaTime) {
-
+        lastUnlocked = GameManager.getInstance().getLevelUnlocked(category) + 1;
+        for(int i=0; i<lastUnlocked; i++){
+            levelSelecBut[i].setImage("");
+        }
     }
 
     @Override

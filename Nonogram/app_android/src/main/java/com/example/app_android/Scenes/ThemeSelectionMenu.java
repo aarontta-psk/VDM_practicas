@@ -20,6 +20,9 @@ public class ThemeSelectionMenu implements IScene {
     private EngineAndroid engRef;
 
     @Override
+    public String getId(){return "ThemeSelectionMenu";}
+
+    @Override
     public void init(EngineAndroid engine) {
         engRef = engine;
         String fontButton = engRef.getRender().loadFont("./assets/fonts/Exo-Regular.ttf", FontType.DEFAULT, engRef.getRender().getWidth() / 10);

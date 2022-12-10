@@ -29,6 +29,9 @@ public class ModeSelectionMenu implements IScene {
     }
 
     @Override
+    public String getId(){return "ModeSelectionMenu";}
+
+    @Override
     public void update(double deltaTime) {
 
     }

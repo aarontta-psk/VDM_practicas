@@ -9,6 +9,8 @@ import com.example.engine_android.InputAndroid;
 import com.example.engine_android.InputType;
 import com.example.engine_android.RenderAndroid;
 
+import java.util.ArrayList;
+
 //Clase interna que representa la escena que queremos pintar
 public class BoardScene implements IScene {
     static int MAX_LIVES = 3;
@@ -37,14 +39,17 @@ public class BoardScene implements IScene {
     }
 
     @Override
+    public String getId(){return "BoardScene";}
+
+    @Override
     public void init(EngineAndroid engine) {
         lives = MAX_LIVES;
         engRef = engine;
         board = new Board();
         if(dim_h != 0)
-            board.init(dim_w, dim_h, engRef, "");
+            board.init(dim_w, dim_h, engRef, null);
         else{
-            String bf = engRef.readText(route, level);
+            ArrayList<String> bf = engRef.readText(route, level);
             board.initFile(bf, engRef);
         }
 
@@ -88,7 +93,7 @@ public class BoardScene implements IScene {
                 engRef.getAudio().playSound(sound);
                 lives -= board.markCell(input.getX(), input.getY(), false);
                 board.checkear(input.getX(), input.getY());
-                if (board.win){
+                if (board.win){     //Checkeo de la victoria
                     GameManager.getInstance().updateCategory(actCategory, actLevel, null);
                     engRef.getSceneManager().pushScene(new WinScene(board, true));
                 }

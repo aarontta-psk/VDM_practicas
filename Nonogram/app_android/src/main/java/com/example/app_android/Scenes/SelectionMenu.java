@@ -29,12 +29,15 @@ public class SelectionMenu implements IScene {
         String btAudio = engRef.getAudio().loadSound("./assets/sounds/button.wav", 1);
         t4x4 = new Button(x / 4, y*2, x/2, x/2, "4x4", "", font, btAudio);
         t5x5 = new Button(x * 5 / 4, y*2, x/2, x/2, "5x5", "", font, btAudio);
-        t5x10 = new Button(x * 9 / 4, y*2, x/2, x/2, "5x10", "", font, btAudio);
+        t5x10 = new Button(x * 9 / 4, y*2, x/2, x/2, "10x5", "", font, btAudio);
         t8x8 = new Button(x / 4, y*3, x/2, x/2, "8x8", "", font, btAudio);
         t10x10 = new Button(x * 5 / 4, y*3, x/2, x/2, "10x10", "", font, btAudio);
-        t10x15 = new Button(x * 9 / 4, y*3, x/2, x/2, "10x15", "", font, btAudio);
+        t10x15 = new Button(x * 9 / 4, y*3, x/2, x/2, "15x10", "", font, btAudio);
         backButton = new Button(x, y*5, x, y/3, "Back", "", font, btAudio);
     }
+
+    @Override
+    public String getId(){return "Selectionmenu";}
 
     @Override
     public void update(double deltaTime) {
@@ -66,8 +69,8 @@ public class SelectionMenu implements IScene {
                 y=5;
             }
             else if(t5x10.isInButton(input.getX(), input.getY())){
-                x=5;
-                y=10;
+                x=10;
+                y=5;
             }
             else if(t8x8.isInButton(input.getX(), input.getY())){
                 x=8;
@@ -78,8 +81,8 @@ public class SelectionMenu implements IScene {
                 y=10;
             }
             else if(t10x15.isInButton(input.getX(), input.getY())){
-                x=10;
-                y=15;
+                x=15;
+                y=10;
             }
             else if(backButton.isInButton(input.getX(), input.getY())){
                 engRef.getSceneManager().popScene();
