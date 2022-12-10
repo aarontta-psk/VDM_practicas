@@ -1,13 +1,15 @@
-package com.example.app_android;
+package com.example.app_android.Scenes;
 
-import android.os.Debug;
+import com.example.app_android.GameManager;
+import com.example.app_android.Objects.Board;
+import com.example.app_android.Objects.Button;
 
 import com.example.engine_android.EngineAndroid;
-import com.example.engine_android.FontType;
-import com.example.engine_android.IScene;
-import com.example.engine_android.InputAndroid;
-import com.example.engine_android.InputType;
-import com.example.engine_android.RenderAndroid;
+import com.example.engine_android.Enums.FontType;
+import com.example.engine_android.Enums.InputType;
+import com.example.engine_android.DataStructures.IScene;
+import com.example.engine_android.DataStructures.InputAndroid;
+import com.example.engine_android.Modules.RenderAndroid;
 
 import java.util.ArrayList;
 
