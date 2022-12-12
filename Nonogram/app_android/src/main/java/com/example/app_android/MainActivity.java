@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         engine = new EngineAndroid(renderView, this.getBaseContext(), RATIO, BACKGROUND_COLOR);
 
         // start ad process
-//        engine.getAdSystem().loadBannerAd((AdView)findViewById(R.id.adView));
+        engine.getAdSystem().loadBannerAd((AdView)findViewById(R.id.adView));
 
         // load files
         GameManager.init(engine, savedInstanceState);
