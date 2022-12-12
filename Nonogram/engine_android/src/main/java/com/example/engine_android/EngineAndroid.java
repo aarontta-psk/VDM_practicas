@@ -16,6 +16,8 @@ import android.view.View;
 
 import android.content.res.AssetManager;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -44,7 +46,7 @@ public class EngineAndroid implements Runnable {
     private Thread configThread;
     private boolean initialConfigurationDone;
 
-    public EngineAndroid(SurfaceView surface, Context context, float ratio, int bgColor) {
+    public EngineAndroid(SurfaceView surface, AppCompatActivity activity, Context context, float ratio, int bgColor) {
         // context
         this.context = context;
         this.assetManager = context.getAssets();
@@ -54,7 +56,7 @@ public class EngineAndroid implements Runnable {
         this.myAudioManager = new AudioAndroid(this.assetManager);
         this.mySceneManager = new SceneManager(this);
         this.myInputManager = new InputManager();
-        this.myAdSystem = new AdSystemAndroid(this.context);
+        this.myAdSystem = new AdSystemAndroid(activity, this.context);
 
         // add input listener to window
         surface.setOnTouchListener(new InputListener());
