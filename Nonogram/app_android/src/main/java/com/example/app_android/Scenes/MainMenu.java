@@ -2,6 +2,7 @@ package com.example.app_android.Scenes;
 
 import com.example.app_android.Objects.Button;
 
+import com.example.app_android.R;
 import com.example.engine_android.EngineAndroid;
 import com.example.engine_android.Enums.InputType;
 import com.example.engine_android.Enums.FontType;
@@ -51,7 +52,8 @@ public class MainMenu implements IScene {
     @Override
     public void handleInput(InputAndroid input) {
         if(input.getType() == InputType.TOUCH_UP && playButton.isInButton(input.getX(), input.getY())){
-            engRef.getSceneManager().pushScene(new ModeSelectionMenu());
+            //engRef.getSceneManager().pushScene(new ModeSelectionMenu());
+            engRef.getIntentSystemAndroid().createNotification(androidx.constraintlayout.widget.R.drawable.notification_template_icon_low_bg);
             playButton.clicked(engRef.getAudio());
         }
     }
