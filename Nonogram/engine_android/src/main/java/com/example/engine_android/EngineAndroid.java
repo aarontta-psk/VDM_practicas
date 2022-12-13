@@ -5,6 +5,7 @@ import com.example.engine_android.DataStructures.InputAndroid;
 import com.example.engine_android.Modules.AdSystemAndroid;
 import com.example.engine_android.Modules.AudioAndroid;
 import com.example.engine_android.Modules.InputManager;
+import com.example.engine_android.Modules.IntentSystemAndroid;
 import com.example.engine_android.Modules.RenderAndroid;
 import com.example.engine_android.Modules.SceneManager;
 
@@ -35,6 +36,7 @@ public class EngineAndroid implements Runnable {
     private InputManager myInputManager;
     private AudioAndroid myAudioManager;
     private AdSystemAndroid myAdSystem;
+    private IntentSystemAndroid myIntentSystem;
 
     // asset manager
     private AssetManager assetManager;
@@ -57,6 +59,7 @@ public class EngineAndroid implements Runnable {
         this.mySceneManager = new SceneManager(this);
         this.myInputManager = new InputManager();
         this.myAdSystem = new AdSystemAndroid(activity, this.context);
+        this.myIntentSystem = new IntentSystemAndroid(this.context);
 
         // add input listener to window
         surface.setOnTouchListener(new InputListener());
@@ -145,6 +148,10 @@ public class EngineAndroid implements Runnable {
 
     public AdSystemAndroid getAdSystem() {
         return this.myAdSystem;
+    }
+
+    public IntentSystemAndroid getIntentSystem() {
+        return this.myIntentSystem;
     }
 
     public FileInputStream openInputFile(String path) {
