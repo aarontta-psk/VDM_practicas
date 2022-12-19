@@ -42,10 +42,6 @@ public class MainActivity extends AppCompatActivity {
     // engine
     private EngineAndroid engine;
 
-    // sensor
-    private SensorManager sensorManager;
-    private Sensor sensor;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,12 +63,7 @@ public class MainActivity extends AppCompatActivity {
 
         // load files
         GameManager.init(this.engine, savedInstanceState);
-        this.engine.getRender().setBackGorundColor(GameManager.getInstance().getColor(0));
-
-        // set sensor and sensor manager
-        this.sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        this.sensor = this.sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-        this.sensorManager.registerListener(this, this.sensor, SensorManager.SENSOR_DELAY_NORMAL);
+        this.engine.getRender().setBackGroundColor(GameManager.getInstance().getColor(0));
 
         //creates notification channel
         this.engine.getIntentSystem().createChannel("Nonogram",
@@ -98,6 +89,8 @@ public class MainActivity extends AppCompatActivity {
 
         // resume engine process cycle
         this.engine.resume();
+
+        this.engine.getLightSensor().onResume();
     }
 
     @Override
@@ -121,7 +114,8 @@ public class MainActivity extends AppCompatActivity {
 
         // pause engine process cycle
         this.engine.pause();
-        this.engine.getAudio().stopMusic();
+
+        this.engine.getLightSensor().onPause();
     }
 
     @Override
@@ -202,21 +196,5 @@ public class MainActivity extends AppCompatActivity {
                         .build();
 
         WorkManager.getInstance(this).enqueue(uploadWorkRequestPeriodic);
-    }
-
-    @Override
-    public void onSensorChanged(SensorEvent sensorEvent) {
-        if (sensorEvent.sensor.getType() == Sensor.TYPE_LIGHT) {
-            float sensorValue = sensorEvent.values[0];
-            // TODO
-        }
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int i) {
-        if (sensor.getType() == Sensor.TYPE_LIGHT) {
-
-            // TODO
-        }
     }
 }

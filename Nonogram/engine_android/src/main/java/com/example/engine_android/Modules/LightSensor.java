@@ -18,7 +18,6 @@ public class LightSensor implements SensorEventListener {
         // set sensor and sensor manager
         this.sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         this.sensor = this.sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-        this.sensorManager.registerListener(this, this.sensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     public void onResume() {
@@ -26,7 +25,7 @@ public class LightSensor implements SensorEventListener {
         this.sensorManager.registerListener(this, this.sensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
-    public void OnPause() {
+    public void onPause() {
         // sensor things i guess
         this.sensorManager.unregisterListener(this);
     }
