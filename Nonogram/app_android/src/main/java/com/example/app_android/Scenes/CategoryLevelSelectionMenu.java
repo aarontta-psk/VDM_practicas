@@ -48,8 +48,8 @@ public class CategoryLevelSelectionMenu implements IScene {
     public void init(EngineAndroid engRef) {
         // selection levels
         this.levelSelectionButtons = new Button[LEVELS_PER_CATEGORY];
-        int x = engRef.getRender().getWidth() / 5;
-        int y = engRef.getRender().getHeight() / 4;
+        int x = GameManager.getInstance().getWidth() / 5;
+        int y = GameManager.getInstance().getHeight() / 4;
         for (int i = 0; i < LEVELS_PER_CATEGORY; i++) {
             String image = i >= this.lastUnlocked ? Resources.IMAGE_LOCK : "";
             this.levelSelectionButtons[i] = new Button(x / 2 + x * (i % 4), y + (y / 2 * (i / 4)), x - x / 10, x - x / 10,
@@ -57,7 +57,7 @@ public class CategoryLevelSelectionMenu implements IScene {
         }
 
         // buttons
-        int getW = engRef.getRender().getWidth();
+        int getW = GameManager.getInstance().getWidth();
         this.backButton = new Button(getW / 8, y / 4, getW / 4, (y - y / 4) / 2, "Back",
                 Resources.IMAGE_BACK_BUTTON, Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON, false);
         this.coinIndicator = new Button(5 * getW / 8, y / 4, getW / 4, (y - y / 4) / 2,
