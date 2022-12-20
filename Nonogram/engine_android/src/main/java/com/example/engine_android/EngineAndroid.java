@@ -80,8 +80,7 @@ public class EngineAndroid implements Runnable {
 
         // add input listener to window
         surface.setOnTouchListener(new InputListener());
-        this.myRenderManager.updateScale(this.orientation != Orientation.PORTRAIT);
-        
+
         // thread to generate initial configuration
         initialConfigurationDone = false;
         this.configThread = new Thread(new SurfaceAvailable(this));
