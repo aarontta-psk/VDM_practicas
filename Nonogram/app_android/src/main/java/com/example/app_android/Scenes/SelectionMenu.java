@@ -32,13 +32,13 @@ public class SelectionMenu implements IScene {
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON, false);
         this.t5x5 = new Button(0, 0, 0, 0, "5x5", "",
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON, false);
-        this.t5x10 = new Button(0, 0, 0, 0, "10x5", "",
+        this.t5x10 = new Button(0, 0, 0, 0, "5x10", "",
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON, false);
         this.t8x8 = new Button(0, 0, 0, 0, "8x8", "",
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON, false);
         this.t10x10 = new Button(0, 0, 0, 0, "10x10", "",
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON, false);
-        this.t10x15 = new Button(0, 0, 0, 0, "15x10", "",
+        this.t10x15 = new Button(0, 0, 0, 0, "10x15", "",
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON, false);
 
         // back button
