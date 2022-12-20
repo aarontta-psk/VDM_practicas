@@ -30,8 +30,8 @@ public class PaletteMenu implements IScene {
         this.mainFont = Resources.FONT_KOMIKAX;
 
         // buttons
-        int getW = engRef.getRender().getWidth();
-        int getH = engRef.getRender().getHeight();
+        int getW = GameManager.getInstance().getWidth();
+        int getH = GameManager.getInstance().getHeight();
         int numPalettes = GameManager.getInstance().NUM_PALETTES;
 
         paletteButtons = new Button[numPalettes];
@@ -62,7 +62,7 @@ public class PaletteMenu implements IScene {
         renderMng.setColor(0xFF000000);
         renderMng.setFont(this.mainFont);
         int textWidth = renderMng.getTextWidth(this.mainFont, this.mainText);
-        renderMng.drawText((renderMng.getWidth() - textWidth) / 2, renderMng.getHeight() / 6, this.mainText);
+        renderMng.drawText((GameManager.getInstance().getWidth() - textWidth) / 2, GameManager.getInstance().getHeight() / 6, this.mainText);
 
         // buttons
         for(Button a : paletteButtons)
