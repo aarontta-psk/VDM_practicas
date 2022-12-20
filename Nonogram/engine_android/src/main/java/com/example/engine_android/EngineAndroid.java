@@ -107,7 +107,7 @@ public class EngineAndroid implements Runnable {
                     this.mySceneManager.currentScene().handleInput(input.removeFirst(), this);
 
                 // update
-                this.mySceneManager.currentScene().update(deltaTime / 1000.0f);
+                this.mySceneManager.currentScene().update(deltaTime / 1000.0f, this);
 
                 // render
                 while (!this.myRenderManager.surfaceValid()) ;
