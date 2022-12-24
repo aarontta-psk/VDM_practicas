@@ -12,6 +12,7 @@ import android.view.SurfaceView;
 import android.view.WindowManager;
 
 import com.example.engine_android.EngineAndroid;
+import com.example.nonogram.BootScene;
 import com.example.nonogram.MainMenu;
 
 public class MainActivity extends AppCompatActivity {
@@ -37,10 +38,11 @@ public class MainActivity extends AppCompatActivity {
         // create engine and scene
         AssetManager aMan = this.getBaseContext().getAssets();
         EngineAndroid eng = new EngineAndroid(renderView, aMan, 4.0f/6.0f, 0xFFFFFFFF);
-        MainMenu scene = new MainMenu();
+        BootScene bootScene = new BootScene();
 
         // start up
-        eng.getSceneManager().pushScene(scene);
+        eng.getSceneManager().pushScene(bootScene);
+        eng.getAudio().playMusic();
         eng.resume();
     }
 }

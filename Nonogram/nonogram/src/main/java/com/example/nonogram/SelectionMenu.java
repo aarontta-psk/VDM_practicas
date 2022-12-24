@@ -16,30 +16,33 @@ public class SelectionMenu implements IScene {
     Button t10x10;
     Button t10x15;
     Button backButton;
-    String font;
 
     private IEngine engRef;
 
     @Override
     public void init(IEngine engine) {
         engRef = engine;
-        font = engRef.getRender().loadFont("fonts/SimplySquare.ttf", FontType.DEFAULT, engRef.getRender().getWidth() / 22);
+
         int x = engRef.getRender().getWidth()/3;
         int y = engRef.getRender().getHeight()/6;
-        String btAudio = engRef.getAudio().loadSound("sounds/button.wav", 1);
-        t4x4 = new Button(x / 4, y*2, x/2, x/2, "4x4", "", font, btAudio);
-        t5x5 = new Button(x * 5 / 4, y*2, x/2, x/2, "5x5", "", font, btAudio);
-        t5x10 = new Button(x * 9 / 4, y*2, x/2, x/2, "5x10", "", font, btAudio);
-        t8x8 = new Button(x / 4, y*3, x/2, x/2, "8x8", "", font, btAudio);
-        t10x10 = new Button(x * 5 / 4, y*3, x/2, x/2, "10x10", "", font, btAudio);
-        t10x15 = new Button(x * 9 / 4, y*3, x/2, x/2, "10x15", "", font, btAudio);
-        backButton = new Button(x, y*5, x, y/3, "Back", "", font, btAudio);
+        t4x4 = new Button(x / 4, y*2, x/2, x/2, "4x4", "",
+                Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
+        t5x5 = new Button(x * 5 / 4, y*2, x/2, x/2, "5x5", "",
+                Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
+        t5x10 = new Button(x * 9 / 4, y*2, x/2, x/2, "5x10", "",
+                Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
+        t8x8 = new Button(x / 4, y*3, x/2, x/2, "8x8", "",
+                Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
+        t10x10 = new Button(x * 5 / 4, y*3, x/2, x/2, "10x10", "",
+                Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
+        t10x15 = new Button(x * 9 / 4, y*3, x/2, x/2, "10x15", "",
+                Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
+        backButton = new Button(x, y*5, x, y/3, "Back", "",
+                Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
     }
 
     @Override
-    public void update(double deltaTime) {
-
-    }
+    public void update(double deltaTime) {}
 
     @Override
     public void render(IRender renderMng) {

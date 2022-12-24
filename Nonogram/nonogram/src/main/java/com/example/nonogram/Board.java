@@ -148,7 +148,7 @@ public class Board {
         posY = ((int) (eng.getRender().getHeight() / 0.75f) - (board_cell_size + separation_margin) * height - maxNumbers * fontSize) / 2;
 
         font = eng.getRender().loadFont("fonts/SimplySquare.ttf", FontType.DEFAULT, fontSize);
-        fontWrongText = eng.getRender().loadFont("fonts/SimplySquare.ttf", FontType.DEFAULT, eng.getRender().getWidth() / 20);
+        fontWrongText = Resources.FONT_SIMPLY_SQUARE_BIG;
         lastTimeChecked = -1;
     }
 

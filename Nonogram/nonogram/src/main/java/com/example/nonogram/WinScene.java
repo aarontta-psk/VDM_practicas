@@ -7,10 +7,11 @@ import com.example.engine_common.interfaces.IScene;
 import com.example.engine_common.shared.FontType;
 import com.example.engine_common.shared.InputType;
 
+import java.sql.PreparedStatement;
+
 public class WinScene implements IScene {
     private Board board;
     private String winText;
-    private String font;
     private Button backButton;
 
     private IEngine engRef;
@@ -22,12 +23,12 @@ public class WinScene implements IScene {
     @Override
     public void init(IEngine engine) {
         engRef = engine;
+
         winText = "¡¡Victoria!!";
-        font = engRef.getRender().loadFont("fonts/Exo-Regular.ttf", FontType.DEFAULT, engRef.getRender().getWidth() / 8);
-        String fontButtons = engRef.getRender().loadFont("fonts/SimplySquare.ttf", FontType.DEFAULT, engRef.getRender().getWidth() / 22);
-        String btAudio = engRef.getAudio().loadSound("sounds/button.wav", 1);
-        backButton = new Button((engRef.getRender().getWidth()-engRef.getRender().getWidth()/4)/2, engRef.getRender().getHeight()*7/8,
-                engRef.getRender().getWidth()/4, engRef.getRender().getHeight()/12, "Back", engRef.getRender().loadImage("./assets/images/backbutton.png"), fontButtons, btAudio);
+        backButton = new Button((engRef.getRender().getWidth()-engRef.getRender().getWidth()/4)/2,
+                engRef.getRender().getHeight()*7/8, engRef.getRender().getWidth()/4,
+                engRef.getRender().getHeight()/12, "Back", Resources.IMAGE_BACK_BUTTON,
+                Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
     }
 
     @Override
@@ -38,8 +39,8 @@ public class WinScene implements IScene {
     @Override
     public void render(IRender renderMng) {
         renderMng.setColor(0xFF000000);
-        renderMng.setFont(font);
-        int w = renderMng.getTextWidth(font, winText);
+        renderMng.setFont(Resources.FONT_EXO_REGULAR_BIG);
+        int w = renderMng.getTextWidth(Resources.FONT_EXO_REGULAR_BIG, winText);
         renderMng.drawText((renderMng.getWidth()-w)/2, renderMng.getHeight()/6, winText);
         board.renderWin(renderMng);
         backButton.render(renderMng);

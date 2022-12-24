@@ -10,41 +10,34 @@ import com.example.engine_common.shared.InputType;
 public class MainMenu implements IScene {
     Button playButton;
     String title;
-    String font;
 
     private IEngine engRef;
+
     @Override
     public void init(IEngine engine) {
         engRef = engine;
-        String fontButton = engRef.getRender().loadFont("fonts/Exo-Regular.ttf", FontType.DEFAULT, engRef.getRender().getWidth() / 10);
-        font = engRef.getRender().loadFont("fonts/KOMIKAX_.ttf", FontType.DEFAULT, engRef.getRender().getWidth() / 10);
-
-        String btAudio = engRef.getAudio().loadSound("sounds/button.wav", 1);
-        playButton = new Button((engRef.getRender().getWidth() - engRef.getRender().getWidth()/3 )/2, (int)(engRef.getRender().getHeight() /1.5),
-                engRef.getRender().getWidth()/3, engRef.getRender().getHeight()/8, "PLAY", "", fontButton, btAudio);
         title = "NONOGRAMAS";
-
-        engRef.getAudio().loadMusic("sounds/puzzleTheme.wav", 0.1f);
-        engRef.getAudio().playMusic();
+        playButton = new Button((engRef.getRender().getWidth() - engRef.getRender().getWidth() / 3) / 2,
+                (int) (engRef.getRender().getHeight() / 1.5), engRef.getRender().getWidth() / 3,
+                engRef.getRender().getHeight() / 8, "PLAY", "", Resources.FONT_EXO_REGULAR_BIG,
+                Resources.SOUND_BUTTON);
     }
 
     @Override
-    public void update(double deltaTime) {
-
-    }
+    public void update(double deltaTime) {}
 
     @Override
     public void render(IRender renderMng) {
         renderMng.setColor(0xFF000000);
-        renderMng.setFont(font);
-        int wi = engRef.getRender().getTextWidth(font, title);
-        renderMng.drawText((engRef.getRender().getWidth() - wi)/2, engRef.getRender().getHeight()/6, title);
+        renderMng.setFont(Resources.FONT_KOMIKAX);
+        int wi = engRef.getRender().getTextWidth(Resources.FONT_KOMIKAX, title);
+        renderMng.drawText((engRef.getRender().getWidth() - wi) / 2, engRef.getRender().getHeight() / 6, title);
         playButton.render(renderMng);
     }
 
     @Override
     public void handleInput(IInput input) {
-        if(input.getType() == InputType.TOUCH_UP && playButton.isInButton(input.getX(), input.getY())){
+        if (input.getType() == InputType.TOUCH_UP && playButton.isInButton(input.getX(), input.getY())) {
             engRef.getSceneManager().pushScene(new SelectionMenu());
             playButton.clicked(engRef.getAudio());
         }

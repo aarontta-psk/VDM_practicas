@@ -3,6 +3,7 @@ package com.example.app_desktop;
 import javax.swing.JFrame;
 
 import com.example.engine_desktop.EngineDesktop;
+import com.example.nonogram.BootScene;
 import com.example.nonogram.MainMenu;
 
 public class MainActivity {
@@ -29,11 +30,11 @@ public class MainActivity {
 
         // create engine and scene
         EngineDesktop engine = new EngineDesktop(renderView, 0xFFFFFFFF);
-        MainMenu mainMenu = new MainMenu();
+        BootScene bootScene = new BootScene();
 
         // start up
-        mainMenu.init(engine);
-        engine.getSceneManager().pushScene(mainMenu);
+        engine.getSceneManager().pushScene(bootScene);
+        engine.getAudio().playMusic();
         engine.resume();
     }
 }
