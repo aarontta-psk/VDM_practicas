@@ -147,8 +147,8 @@ public class Board {
         posX = (eng.getRender().getWidth() - (board_cell_size + separation_margin) * width - maxNumbers * fontSize) / 2;
         posY = ((int) (eng.getRender().getHeight() / 0.75f) - (board_cell_size + separation_margin) * height - maxNumbers * fontSize) / 2;
 
-        font = eng.getRender().loadFont("./assets/fonts/SimplySquare.ttf", FontType.DEFAULT, fontSize);
-        fontWrongText = eng.getRender().loadFont("./assets/fonts/SimplySquare.ttf", FontType.DEFAULT, eng.getRender().getWidth() / 20);
+        font = eng.getRender().loadFont("fonts/SimplySquare.ttf", FontType.DEFAULT, fontSize);
+        fontWrongText = eng.getRender().loadFont("fonts/SimplySquare.ttf", FontType.DEFAULT, eng.getRender().getWidth() / 20);
         lastTimeChecked = -1;
     }
 

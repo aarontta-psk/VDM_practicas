@@ -20,7 +20,7 @@ public class AudioDesktop implements IAudio {
     // always returns key to obtain the object. If present, it won't load again
     @Override
     public void loadMusic(String filePath, float volume) {
-        this.bgMusic = new SoundDesktop(new File(filePath), toDB(volume));
+        this.bgMusic = new SoundDesktop(new File("./assets/" + filePath), toDB(volume));
 
         FloatControl gainControl = (FloatControl) this.bgMusic.getSound().getControl(FloatControl.Type.MASTER_GAIN);
         gainControl.setValue(this.bgMusic.getVolume());
@@ -29,7 +29,7 @@ public class AudioDesktop implements IAudio {
     // always returns key to obtain the object. If present, it won't load again
     @Override
     public String loadSound(String filePath, float volume) {
-        File soundFile = new File(filePath);
+        File soundFile = new File("./assets/" + filePath);
         if(!this.sounds.containsKey(soundFile.getName()))
             this.sounds.put(soundFile.getName(), new SoundDesktop(soundFile, toDB(volume)));
         return soundFile.getName();

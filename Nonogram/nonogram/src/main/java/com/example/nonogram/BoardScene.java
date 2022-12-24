@@ -29,14 +29,14 @@ public class BoardScene implements IScene {
 
         engRef = engine;
 
-        String fontButtons = engRef.getRender().loadFont("./assets/fonts/SimplySquare.ttf", FontType.DEFAULT, engRef.getRender().getWidth() / 22);
-        String btAudio = engRef.getAudio().loadSound("./assets/sounds/button.wav", 1);
+        String fontButtons = engRef.getRender().loadFont("fonts/SimplySquare.ttf", FontType.DEFAULT, engRef.getRender().getWidth() / 22);
+        String btAudio = engRef.getAudio().loadSound("sounds/button.wav", 1);
         checkButton = new Button((engRef.getRender().getWidth() - (engRef.getRender().getWidth()/3))/5, engRef.getRender().getHeight()/9,
-                engRef.getRender().getWidth()/3, engRef.getRender().getHeight()/12, "Check" ,engRef.getRender().loadImage("./assets/images/checkbutton.png"), fontButtons, btAudio);
+                engRef.getRender().getWidth()/3, engRef.getRender().getHeight()/12, "Check" ,engRef.getRender().loadImage("images/checkbutton.png"), fontButtons, btAudio);
         backButton = new Button((engRef.getRender().getWidth()- (engRef.getRender().getWidth()/3))*4/5, engRef.getRender().getHeight()/9,
-                engRef.getRender().getWidth()/3, engRef.getRender().getHeight()/12, "Back", engRef.getRender().loadImage("./assets/images/backbutton.png"), fontButtons, btAudio);
+                engRef.getRender().getWidth()/3, engRef.getRender().getHeight()/12, "Back", engRef.getRender().loadImage("images/backbutton.png"), fontButtons, btAudio);
 
-        sound = engine.getAudio().loadSound("./assets/sounds/click.wav", 1);
+        sound = engine.getAudio().loadSound("sounds/click.wav", 1);
     }
 
     @Override

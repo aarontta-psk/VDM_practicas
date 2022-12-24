@@ -23,9 +23,9 @@ public class WinScene implements IScene {
     public void init(IEngine engine) {
         engRef = engine;
         winText = "¡¡Victoria!!";
-        font = engRef.getRender().loadFont("./assets/fonts/Exo-Regular.ttf", FontType.DEFAULT, engRef.getRender().getWidth() / 8);
-        String fontButtons = engRef.getRender().loadFont("./assets/fonts/SimplySquare.ttf", FontType.DEFAULT, engRef.getRender().getWidth() / 22);
-        String btAudio = engRef.getAudio().loadSound("./assets/sounds/button.wav", 1);
+        font = engRef.getRender().loadFont("fonts/Exo-Regular.ttf", FontType.DEFAULT, engRef.getRender().getWidth() / 8);
+        String fontButtons = engRef.getRender().loadFont("fonts/SimplySquare.ttf", FontType.DEFAULT, engRef.getRender().getWidth() / 22);
+        String btAudio = engRef.getAudio().loadSound("sounds/button.wav", 1);
         backButton = new Button((engRef.getRender().getWidth()-engRef.getRender().getWidth()/4)/2, engRef.getRender().getHeight()*7/8,
                 engRef.getRender().getWidth()/4, engRef.getRender().getHeight()/12, "Back", engRef.getRender().loadImage("./assets/images/backbutton.png"), fontButtons, btAudio);
     }

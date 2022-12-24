@@ -105,7 +105,7 @@ public class RenderDesktop implements IRender {
 
     @Override
     public String loadImage(String filePath) {
-        File imageFile = new File(filePath);
+        File imageFile = new File("./assets/" + filePath);
         if(!this.images.containsKey(imageFile.getName()))
             this.images.put(imageFile.getName(), new ImageDesktop(imageFile));
         return imageFile.getName();
@@ -113,7 +113,7 @@ public class RenderDesktop implements IRender {
 
     @Override
     public String loadFont(String filePath, FontType type, int size) {
-        File fontFile = new File(filePath);
+        File fontFile = new File("./assets/" + filePath);
         String fontID = fontFile.getName() + type.toString() + size;
         if(!this.fonts.containsKey(fontID))
             this.fonts.put(fontID, new FontDesktop(fontFile, type, size));

@@ -23,10 +23,10 @@ public class SelectionMenu implements IScene {
     @Override
     public void init(IEngine engine) {
         engRef = engine;
-        font = engRef.getRender().loadFont("./assets/fonts/SimplySquare.ttf", FontType.DEFAULT, engRef.getRender().getWidth() / 22);
+        font = engRef.getRender().loadFont("fonts/SimplySquare.ttf", FontType.DEFAULT, engRef.getRender().getWidth() / 22);
         int x = engRef.getRender().getWidth()/3;
         int y = engRef.getRender().getHeight()/6;
-        String btAudio = engRef.getAudio().loadSound("./assets/sounds/button.wav", 1);
+        String btAudio = engRef.getAudio().loadSound("sounds/button.wav", 1);
         t4x4 = new Button(x / 4, y*2, x/2, x/2, "4x4", "", font, btAudio);
         t5x5 = new Button(x * 5 / 4, y*2, x/2, x/2, "5x5", "", font, btAudio);
         t5x10 = new Button(x * 9 / 4, y*2, x/2, x/2, "5x10", "", font, btAudio);

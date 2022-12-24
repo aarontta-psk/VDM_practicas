@@ -42,8 +42,7 @@ public class AudioAndroid implements IAudio {
         AssetFileDescriptor assetFD = null;
         try {
             // load the music resource from assets folder
-            String convFilepath = filePath.replaceAll("./assets/", "");
-            assetFD = this.assetManager.openFd(convFilepath);
+            assetFD = this.assetManager.openFd(filePath);
             this.mediaPlayer.setDataSource(assetFD.getFileDescriptor(),
                     assetFD.getStartOffset(), assetFD.getLength());
 
@@ -62,10 +61,9 @@ public class AudioAndroid implements IAudio {
     public String loadSound(String filePath, float volume) {
         //obtains the path of the sound in the assets folder
         File soundFile = new File(filePath);
-        String convFilepath = filePath.replaceAll("./assets/", "");
         //if the sound has not been already been loaded, it is stored in the sounds manager
         if(!this.sounds.containsKey(soundFile.getName()))
-            this.sounds.put(soundFile.getName(), new SoundAndroid(convFilepath, this.assetManager, this.soundPool,volume));
+            this.sounds.put(soundFile.getName(), new SoundAndroid(filePath, this.assetManager, this.soundPool, volume));
         return soundFile.getName(); //it returns the name of the sound in order to looking for it when you need to play it
     }
 
