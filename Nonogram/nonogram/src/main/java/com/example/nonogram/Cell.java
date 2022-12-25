@@ -3,17 +3,64 @@ package com.example.nonogram;
 import com.example.engine_common.interfaces.IRender;
 
 public class Cell {
-    public enum State {
-        EMPTY, MARKED, CROSSED, CHECKED    }
+    public enum State {EMPTY, MARKED, CROSSED, CHECKED}
 
-    public void init(boolean ans) {
-        isAnswer = ans;
-        s = notCheckedS = State.EMPTY;
+    private boolean isAnswer;
+    private State state;
+    private State previousState;
+
+    public void init(boolean answer) {
+        this.isAnswer = answer;
+        this.state = this.previousState = State.EMPTY;
     }
 
-    public void render(IRender renderMng, int x, int y, int size){
+    public void render(IRender renderMng, int x, int y, int size) {
+        // draw cell color
+        renderMng.setColor(getCellColor());
+        renderMng.drawRectangle(x, y, size, size, true);
+
+        // if crossed, we draw
+        if (this.state == State.CROSSED) {
+            renderMng.setColor(0xFF000000);
+            renderMng.drawRectangle(x, y, size, size, false);
+            renderMng.drawLine(x, y, x + size, y + size);
+        }
+    }
+
+    public int changeCell() {
+        if (this.state == State.EMPTY) this.state = State.MARKED;
+        else if (this.state == State.MARKED) this.state = State.CROSSED;
+        else if (this.state == State.CROSSED) this.state = State.EMPTY;
+
+        // valor para cambiar el contador de casillas restantes
+        if (this.state == State.CROSSED && this.isAnswer)
+            return -1;
+        else if (this.state == State.MARKED && this.isAnswer)
+            return 1;
+
+        return 0;
+    }
+
+    public void setChecked() {
+        this.previousState = state;
+        this.state = State.CHECKED;
+    }
+
+    public void uncheck() {
+        this.state = previousState;
+    }
+
+    public boolean isAnswer() {
+        return this.isAnswer;
+    }
+
+    public State getState() {
+        return this.state;
+    }
+
+    private int getCellColor() {
         int color = 0x1FFFFFF;
-        switch (s){
+        switch (this.state) {
             case EMPTY:
                 color = 0xFFCCCCCC;
                 break;
@@ -27,36 +74,6 @@ public class Cell {
                 color = 0xFFFF2F2B;
                 break;
         }
-        renderMng.setColor(color);
-        renderMng.drawRectangle(x, y, size, size, true);
-        if(s == State.CROSSED){
-            renderMng.setColor(0xFF000000);
-            renderMng.drawRectangle(x, y, size, size, false);
-            renderMng.drawLine(x, y, x + size, y + size);
-        }
+        return color;
     }
-
-    public int changeCell(){
-        if(s == State.EMPTY) s=State.MARKED;
-        else if(s == State.MARKED) s=State.CROSSED;
-        else if(s == State.CROSSED) s=State.EMPTY;
-
-        //Valor para cambiar el contador de casillas restantes
-        int retValue = 0;
-
-        if(s==State.CROSSED && isAnswer)
-            retValue = -1;
-        else if(s == State.MARKED && isAnswer)
-            retValue = 1;
-
-        return retValue;
-    }
-
-    private boolean isAnswer;
-    private State s;
-    private State notCheckedS;
-    public boolean isAnswer(){ return isAnswer;}
-    public State getState(){ return s;}
-    public void setChecked(){ notCheckedS = s; s = State.CHECKED;}
-    public void unChecked(){ s = notCheckedS; }
 }

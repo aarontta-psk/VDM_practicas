@@ -4,7 +4,6 @@ import com.example.engine_common.interfaces.IInput;
 import com.example.engine_common.interfaces.IScene;
 import com.example.engine_common.interfaces.IRender;
 import com.example.engine_common.interfaces.IEngine;
-import com.example.engine_common.shared.FontType;
 import com.example.engine_common.shared.InputType;
 
 //Clase interna que representa la escena que queremos pintar
@@ -21,47 +20,50 @@ public class BoardScene implements IScene {
     }
 
     @Override
-    public void init(IEngine engine) {
-        board = new Board();
-        board.init(dim_w, dim_h, engine);
+    public void init() {
+        // init board
+        this.board = new Board();
+        this.board.init(this.dim_w, this.dim_h);
 
-        String fontButtons = engine.getRender().loadFont("fonts/SimplySquare.ttf", FontType.DEFAULT, engine.getRender().getWidth() / 22);
-        String btAudio = engine.getAudio().loadSound("sounds/button.wav", 1);
-        checkButton = new Button((engine.getRender().getWidth() - (engine.getRender().getWidth() / 3)) / 5,
-                engine.getRender().getHeight() / 9, engine.getRender().getWidth() / 3,
-                engine.getRender().getHeight() / 12, "Check", Resources.IMAGE_CHECK_BUTTON,
+        // buttons
+        int gameWidth = GameManager.getInstance().getWidth();
+        int gameHeight = GameManager.getInstance().getHeight();
+        this.checkButton = new Button((gameWidth - (gameWidth / 3)) / 5, gameHeight / 9,
+                gameWidth / 3, gameHeight / 12, "Check", Resources.IMAGE_CHECK_BUTTON,
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
-        backButton = new Button((engine.getRender().getWidth() - (engine.getRender().getWidth() / 3)) * 4 / 5,
-                engine.getRender().getHeight() / 9, engine.getRender().getWidth() / 3,
-                engine.getRender().getHeight() / 12, "Back", Resources.IMAGE_BACK_BUTTON,
+        this.backButton = new Button((gameWidth - (gameWidth / 3)) * 4 / 5, gameHeight / 9,
+                gameWidth / 3, gameHeight / 12, "Back", Resources.IMAGE_BACK_BUTTON,
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
     }
 
     @Override
     public void update(double deltaTime, IEngine engine) {
-        board.update(deltaTime);
+        this.board.update(deltaTime);
     }
 
     @Override
     public void render(IRender renderMng) {
-        board.render(renderMng);
-        checkButton.render(renderMng);
-        backButton.render(renderMng);
+        // buttons
+        this.checkButton.render(renderMng);
+        this.backButton.render(renderMng);
+
+        // board
+        this.board.render(renderMng);
     }
 
     @Override
     public void handleInput(IInput input, IEngine engine) {
         if (input.getType() == InputType.TOUCH_UP) {
-            if (board.isInBoard(input.getX(), input.getY())) {
+            if (this.board.isInBoard(input.getX(), input.getY())) {
                 engine.getAudio().playSound(Resources.SOUND_CLICK);
-                board.markCell(input.getX(), input.getY());
-            } else if (checkButton.isInButton(input.getX(), input.getY())) {
-                board.checkear();
-                checkButton.clicked(engine.getAudio());
-                if (board.win)
-                    engine.getSceneManager().pushScene(new WinScene(board), engine);
-            } else if (backButton.isInButton(input.getX(), input.getY())) {
-                backButton.clicked(engine.getAudio());
+                this.board.markCell(input.getX(), input.getY());
+            } else if (this.checkButton.isInButton(input.getX(), input.getY())) {
+                this.board.check();
+                this.checkButton.clicked(engine.getAudio());
+                if (this.board.win)
+                    engine.getSceneManager().pushScene(new WinScene(this.board));
+            } else if (this.backButton.isInButton(input.getX(), input.getY())) {
+                this.backButton.clicked(engine.getAudio());
                 engine.getSceneManager().popScene();
             }
         }

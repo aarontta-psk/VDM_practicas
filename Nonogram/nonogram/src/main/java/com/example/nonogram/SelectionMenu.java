@@ -17,27 +17,28 @@ public class SelectionMenu implements IScene {
     private Button backButton;
 
     @Override
-    public void init(IEngine engine) {
-        int x = engine.getRender().getWidth()/3;
-        int y = engine.getRender().getHeight()/6;
-        t4x4 = new Button(x / 4, y*2, x/2, x/2, "4x4", "",
+    public void init() {
+        int gameWidth = GameManager.getInstance().getWidth() / 3;
+        int gameHeight = GameManager.getInstance().getHeight() / 6;
+        t4x4 = new Button(gameWidth / 4, gameHeight * 2, gameWidth / 2, gameWidth / 2, "4x4", "",
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
-        t5x5 = new Button(x * 5 / 4, y*2, x/2, x/2, "5x5", "",
+        t5x5 = new Button(gameWidth * 5 / 4, gameHeight * 2, gameWidth / 2, gameWidth / 2, "5x5", "",
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
-        t5x10 = new Button(x * 9 / 4, y*2, x/2, x/2, "5x10", "",
+        t5x10 = new Button(gameWidth * 9 / 4, gameHeight * 2, gameWidth / 2, gameWidth / 2, "5x10", "",
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
-        t8x8 = new Button(x / 4, y*3, x/2, x/2, "8x8", "",
+        t8x8 = new Button(gameWidth / 4, gameHeight * 3, gameWidth / 2, gameWidth / 2, "8x8", "",
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
-        t10x10 = new Button(x * 5 / 4, y*3, x/2, x/2, "10x10", "",
+        t10x10 = new Button(gameWidth * 5 / 4, gameHeight * 3, gameWidth / 2, gameWidth / 2, "10x10", "",
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
-        t10x15 = new Button(x * 9 / 4, y*3, x/2, x/2, "10x15", "",
+        t10x15 = new Button(gameWidth * 9 / 4, gameHeight * 3, gameWidth / 2, gameWidth / 2, "10x15", "",
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
-        backButton = new Button(x, y*5, x, y/3, "Back", "",
+        backButton = new Button(gameWidth, gameHeight * 5, gameWidth, gameHeight / 3, "Back", "",
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
     }
 
     @Override
-    public void update(double deltaTime, IEngine engine) {}
+    public void update(double deltaTime, IEngine engine) {
+    }
 
     @Override
     public void render(IRender renderMng) {
@@ -54,39 +55,33 @@ public class SelectionMenu implements IScene {
     @Override
     public void handleInput(IInput input, IEngine engine) {
         if (input.getType() == InputType.TOUCH_UP) {
-            int x = 0, y = 0;
-            if (t4x4.isInButton(input.getX(), input.getY())){
-                x=4;
-                y=4;
+            int numRows = 0, numCols = 0;
+            if (t4x4.isInButton(input.getX(), input.getY())) {
+                numRows = 4; numCols = 4;
             }
-            else if(t5x5.isInButton(input.getX(), input.getY())){
-                x=5;
-                y=5;
+            else if (t5x5.isInButton(input.getX(), input.getY())) {
+                numRows = 5; numCols = 5;
             }
-            else if(t5x10.isInButton(input.getX(), input.getY())){
-                x=5;
-                y=10;
+            else if (t5x10.isInButton(input.getX(), input.getY())) {
+                numRows = 5; numCols = 10;
             }
-            else if(t8x8.isInButton(input.getX(), input.getY())){
-                x=8;
-                y=8;
+            else if (t8x8.isInButton(input.getX(), input.getY())) {
+                numRows = 8; numCols = 8;
             }
-            else if(t10x10.isInButton(input.getX(), input.getY())){
-                x=10;
-                y=10;
+            else if (t10x10.isInButton(input.getX(), input.getY())) {
+                numRows = 10; numCols = 10;
             }
-            else if(t10x15.isInButton(input.getX(), input.getY())){
-                x=10;
-                y=15;
+            else if (t10x15.isInButton(input.getX(), input.getY())) {
+                numRows = 10; numCols = 15;
             }
-            else if(backButton.isInButton(input.getX(), input.getY())){
+            else if (backButton.isInButton(input.getX(), input.getY())) {
                 engine.getSceneManager().popScene();
                 backButton.clicked(engine.getAudio());
             }
 
-            if(x != 0){
+            if (numRows != 0 && numCols != 0) {
                 t4x4.clicked(engine.getAudio());
-                engine.getSceneManager().pushScene(new BoardScene(x, y), engine);
+                engine.getSceneManager().pushScene(new BoardScene(numRows, numCols));
             }
         }
     }

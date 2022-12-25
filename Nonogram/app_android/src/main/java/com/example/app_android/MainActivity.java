@@ -13,9 +13,13 @@ import android.view.WindowManager;
 
 import com.example.engine_android.EngineAndroid;
 import com.example.nonogram.BootScene;
+import com.example.nonogram.GameManager;
 import com.example.nonogram.MainMenu;
 
 public class MainActivity extends AppCompatActivity {
+    private final int WIDTH = 400;
+    private final int HEIGHT = 600;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,11 +41,14 @@ public class MainActivity extends AppCompatActivity {
 
         // create engine and scene
         AssetManager aMan = this.getBaseContext().getAssets();
-        EngineAndroid engine = new EngineAndroid(renderView, aMan, 4.0f/6.0f, 0xFFFFFFFF);
+        EngineAndroid engine = new EngineAndroid(renderView, aMan, 400.0f/600.0f, 0xFFFFFFFF);
         BootScene bootScene = new BootScene();
 
+        // GameManager
+        GameManager.init(WIDTH, HEIGHT);
+
         // start up
-        engine.getSceneManager().pushScene(bootScene, engine);
+        engine.getSceneManager().pushScene(bootScene);
         engine.getAudio().playMusic();
         engine.resume();
     }

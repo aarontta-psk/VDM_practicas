@@ -12,9 +12,9 @@ public class SceneManager {
 
     public IScene currentScene() { return this.scenes.peek(); }
 
-    public void pushScene(IScene newScene, IEngine engine) {
-        newScene.init(engine);
+    public void pushScene(IScene newScene) {
         this.scenes.push(newScene);
+        this.scenes.peek().init();
     }
 
     public IScene popScene() { return this.scenes.pop(); }

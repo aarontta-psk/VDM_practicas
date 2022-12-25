@@ -9,17 +9,22 @@ import java.util.List;
 import java.util.Random;
 
 public class Board {
-    static int SEGS_CHECKED = 5;
+    static int SECONDS_CHECKED = 5;
+
+    public boolean win = false;
+
+    private Cell[][] board;
+    private List<Integer>[] cols;
+    private List<Integer>[] rows;
 
     private int board_cell_size;
     private int separation_margin;
     private int fontSize;
-    private Cell[][] board;
-    private List<Integer>[] cols;
-    private List<Integer>[] rows;
+
     private int cellsLeft;
     private int height, width;
     private int posX = 0, posY = 0;
+
     private String font;
     private String fontWrongText;
 
@@ -27,49 +32,7 @@ public class Board {
     private List<Cell> checkedCells;
     private double lastTimeChecked;
 
-    public boolean win = false;
-
-    public void render(IRender renderMng) {
-        renderMng.setColor(0xFF000000); //Cuadrados alrededor
-        renderMng.drawRectangle(maxNumbers * fontSize + posX, posY + maxNumbers * fontSize, width * (board_cell_size + separation_margin) + 1,
-                height * (board_cell_size + separation_margin) + 1, false);
-        renderMng.drawRectangle(posX + maxNumbers * fontSize, maxNumbers * fontSize + posY, width * (board_cell_size + separation_margin) + 1,
-                height * (board_cell_size + separation_margin) + 1, false);
-
-        printNumbers(renderMng);
-
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                board[i][j].render(renderMng, i * board_cell_size + (i + 1) * separation_margin + posX + maxNumbers * fontSize,
-                        j * board_cell_size + (j + 1) * separation_margin + posY + maxNumbers * fontSize, board_cell_size);
-            }
-        }
-
-        renderMng.setFont(fontWrongText);
-
-        if (lastTimeChecked != -1) {
-            renderMng.setColor(0xFFFF0000);
-            int x = renderMng.getTextWidth(fontWrongText, "Te faltan " + checkedCells.size() + " casillas");
-            int x2 = renderMng.getTextWidth(fontWrongText, "Tienes mal " + checkedCells.size() + " casillas");
-            int y = renderMng.getTextHeight(fontWrongText);
-            renderMng.drawText((renderMng.getWidth() - x) / 2, posY - renderMng.getHeight() / 10, "Te faltan " + cellsLeft + " casillas");
-            renderMng.drawText((renderMng.getWidth() - x2) / 2, posY - renderMng.getHeight() / 10 + y * 2, "Tienes mal " + checkedCells.size() + " casillas");
-        }
-    }
-
-    public void renderWin(IRender renderMng){
-        posX = (renderMng.getWidth() - board_cell_size*width - separation_margin*(width+1))/2;
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < height; j++) {
-                if(board[i][j].isAnswer()){
-                    board[i][j].render(renderMng, i * board_cell_size + (i + 1) * separation_margin + posX,
-                        j * board_cell_size + (j + 1) * separation_margin + posY - renderMng.getHeight()/10, board_cell_size);
-                }
-            }
-        }
-    }
-
-    public void init(int h, int w, IEngine eng) {
+    public void init(int h, int w) {
         height = h;
         width = w;
         board = new Cell[width][height];
@@ -136,20 +99,60 @@ public class Board {
         }
         int maxDimension = Math.max(w, h);
 
-        int winW = (eng.getRender().getWidth()) / (maxDimension + maxDimension / 8);
-        int winH = ((int)(eng.getRender().getHeight() / 1.85) - maxNumbers * fontSize) / (maxDimension + maxDimension / 8);
+        int winW = (GameManager.getInstance().getWidth()) / (maxDimension + maxDimension / 8);
+        int winH = ((int)(GameManager.getInstance().getHeight() / 1.85) - maxNumbers * fontSize) / (maxDimension + maxDimension / 8);
 
         board_cell_size = Math.min(winH, winW);
         separation_margin = Math.max(board_cell_size / 25, 1);
         board_cell_size -= separation_margin;
         fontSize = board_cell_size / 3;
 
-        posX = (eng.getRender().getWidth() - (board_cell_size + separation_margin) * width - maxNumbers * fontSize) / 2;
-        posY = ((int) (eng.getRender().getHeight() / 0.75f) - (board_cell_size + separation_margin) * height - maxNumbers * fontSize) / 2;
+        posX = (GameManager.getInstance().getWidth() - (board_cell_size + separation_margin) * width - maxNumbers * fontSize) / 2;
+        posY = ((int) (GameManager.getInstance().getHeight() / 0.75f) - (board_cell_size + separation_margin) * height - maxNumbers * fontSize) / 2;
 
-        font = eng.getRender().loadFont("fonts/SimplySquare.ttf", FontType.DEFAULT, fontSize);
+//        font = eng.getRender().loadFont("fonts/SimplySquare.ttf", FontType.DEFAULT, fontSize);
         fontWrongText = Resources.FONT_SIMPLY_SQUARE_BIG;
         lastTimeChecked = -1;
+    }
+
+    public void render(IRender renderMng) {
+        renderMng.setColor(0xFF000000); //Cuadrados alrededor
+        renderMng.drawRectangle(maxNumbers * fontSize + posX, posY + maxNumbers * fontSize, width * (board_cell_size + separation_margin) + 1,
+                height * (board_cell_size + separation_margin) + 1, false);
+        renderMng.drawRectangle(posX + maxNumbers * fontSize, maxNumbers * fontSize + posY, width * (board_cell_size + separation_margin) + 1,
+                height * (board_cell_size + separation_margin) + 1, false);
+
+        printNumbers(renderMng);
+
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                board[i][j].render(renderMng, i * board_cell_size + (i + 1) * separation_margin + posX + maxNumbers * fontSize,
+                        j * board_cell_size + (j + 1) * separation_margin + posY + maxNumbers * fontSize, board_cell_size);
+            }
+        }
+
+        renderMng.setFont(fontWrongText);
+
+        if (lastTimeChecked != -1) {
+            renderMng.setColor(0xFFFF0000);
+            int x = renderMng.getTextWidth(fontWrongText, "Te faltan " + checkedCells.size() + " casillas");
+            int x2 = renderMng.getTextWidth(fontWrongText, "Tienes mal " + checkedCells.size() + " casillas");
+            int y = renderMng.getTextHeight(fontWrongText);
+            renderMng.drawText((renderMng.getWidth() - x) / 2, posY - renderMng.getHeight() / 10, "Te faltan " + cellsLeft + " casillas");
+            renderMng.drawText((renderMng.getWidth() - x2) / 2, posY - renderMng.getHeight() / 10 + y * 2, "Tienes mal " + checkedCells.size() + " casillas");
+        }
+    }
+
+    public void renderWin(IRender renderMng){
+        posX = (GameManager.getInstance().getWidth() - board_cell_size*width - separation_margin*(width+1))/2;
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                if(board[i][j].isAnswer()){
+                    board[i][j].render(renderMng, i * board_cell_size + (i + 1) * separation_margin + posX,
+                        j * board_cell_size + (j + 1) * separation_margin + posY - GameManager.getInstance().getHeight()/10, board_cell_size);
+                }
+            }
+        }
     }
 
     public void update(double deltaTime) {
@@ -157,7 +160,7 @@ public class Board {
             if (lastTimeChecked - deltaTime < 0) {
                 lastTimeChecked = -1;
                 for (int i = 0; i < checkedCells.size(); i++) {
-                    checkedCells.get(i).unChecked();
+                    checkedCells.get(i).uncheck();
                 }
                 checkedCells.clear();
             } else
@@ -166,7 +169,7 @@ public class Board {
     }
 
     private void printNumbers(IRender renderMng) {
-        renderMng.setFont(font);
+        renderMng.setFont(renderMng.loadFont("fonts/SimplySquare.ttf", FontType.DEFAULT, fontSize));
         for (int i = 0; i < cols.length; i++) {
             if (cols[i].size() == 1) {
                 renderMng.drawText(posX + board_cell_size * (i + 1) + separation_margin * i - board_cell_size / 2 + maxNumbers * fontSize,
@@ -192,7 +195,7 @@ public class Board {
         }
     }
 
-    public void checkear() {
+    public void check() {
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 if (!board[i][j].isAnswer() && board[i][j].getState() == Cell.State.MARKED) {
@@ -201,7 +204,7 @@ public class Board {
                 }
             }
         }
-        lastTimeChecked = SEGS_CHECKED;
+        lastTimeChecked = SECONDS_CHECKED;
         if(checkedCells.size() == 0 && cellsLeft == 0)
             win = true;
     }
@@ -231,9 +234,5 @@ public class Board {
 
     public int getHeight() {
         return rows.length;
-    }
-
-    public String getFont() {
-        return font;
     }
 }

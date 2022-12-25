@@ -4,44 +4,49 @@ import com.example.engine_common.interfaces.IAudio;
 import com.example.engine_common.interfaces.IRender;
 
 public class Button {
+    private int posX, posY;
+    private int width, height;
     private String text;
     private String font;
     private String image;
-    private int posX, posY;
-    private int width, height;
     private String sound;
 
-    public Button(int x, int y, int w, int h, String tx, String im, String f, String s){
-        posX = x;
-        posY = y;
-        width = w;
-        height = h;
-        text = tx;
-        font = f;
-        image = im;
-        sound = s;
+    public Button(int x, int y, int w, int h, String tx, String im, String f, String s) {
+        this.posX = x; this.posY = y;
+        this.width = w; this.height = h;
+
+        this.text = tx;
+        this.font = f;
+        this.image = im;
+        this.sound = s;
     }
 
-    public void render(IRender renderMng){
+    public void render(IRender renderMng) {
+        // background color
         renderMng.setColor(0xFFCCCCCC);
-        renderMng.setFont(font);
-        renderMng.drawRectangle(posX, posY, width, height, true);
-        int x = posX;
-        if(image != ""){
-            x += height-2;
-            renderMng.drawImage(posX + 1, posY+1, height-2, height-2, image);
+        renderMng.setFont(this.font);
+        renderMng.drawRectangle(this.posX, this.posY, this.width, this.height, true);
+
+        // draw image
+        int x = this.posX;
+        if (this.image != "") {
+            x += this.height - 2;
+            renderMng.drawImage(this.posX + 1, this.posY + 1, this.height - 2,
+                    this.height - 2, this.image);
         }
 
-        int lg = renderMng.getTextWidth(font, text);
-
+        // draw text
+        int textWidth = renderMng.getTextWidth(this.font, this.text);
         renderMng.setColor(0xFF000000);
-        renderMng.drawText(x + (width - (x-posX))/2 - lg/2, posY + height/2 + renderMng.getTextHeight(font)/2, text);
-    }
-    public boolean isInButton(int x, int y){
-        return x > posX && x < posX + width && y > posY && y < posY + height;
+        renderMng.drawText(x + (this.width - (x - this.posX)) / 2 - textWidth / 2,
+                this.posY + this.height / 2 + renderMng.getTextHeight(this.font) / 2, this.text);
     }
 
-    public void clicked(IAudio soundMng){
-        soundMng.playSound(sound);
+    public void clicked(IAudio soundMng) {
+        soundMng.playSound(this.sound);
+    }
+
+    public boolean isInButton(int x, int y) {
+        return x > this.posX && x < this.posX + this.width && y > this.posY && y < this.posY + this.height;
     }
 }

@@ -3,10 +3,14 @@ package com.example.app_desktop;
 import javax.swing.JFrame;
 
 import com.example.engine_desktop.EngineDesktop;
+
 import com.example.nonogram.BootScene;
-import com.example.nonogram.MainMenu;
+import com.example.nonogram.GameManager;
 
 public class MainActivity {
+    private static final int WIDTH = 400;
+    private static final int HEIGHT = 600;
+
     public static void main(String[] args) {
         // create window
         JFrame renderView = new JFrame("Nonogram");
@@ -32,9 +36,12 @@ public class MainActivity {
         EngineDesktop engine = new EngineDesktop(renderView, 0xFFFFFFFF);
         BootScene bootScene = new BootScene();
 
+        // GameManager
+        GameManager.init(WIDTH, HEIGHT);
+
         // start up
-        engine.getSceneManager().pushScene(bootScene, engine);
-        engine.getAudio().playMusic();
+        engine.getSceneManager().pushScene(bootScene);
+//        engine.getAudio().playMusic();
         engine.resume();
     }
 }
