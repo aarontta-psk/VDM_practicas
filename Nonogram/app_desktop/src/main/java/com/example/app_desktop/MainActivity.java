@@ -33,7 +33,7 @@ public class MainActivity {
         BootScene bootScene = new BootScene();
 
         // start up
-        engine.getSceneManager().pushScene(bootScene);
+        engine.getSceneManager().pushScene(bootScene, engine);
         engine.getAudio().playMusic();
         engine.resume();
     }

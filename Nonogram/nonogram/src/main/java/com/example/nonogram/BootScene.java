@@ -7,12 +7,10 @@ import com.example.engine_common.interfaces.IEngine;
 import com.example.engine_common.shared.FontType;
 
 public class BootScene implements IScene {
-    IEngine eng;
 
     @Override
     public void init(IEngine engRef) {
         // TODO: Load all files here, assign string to Resources final values, then go to MainMenu
-        eng = engRef;
         // images
         Resources.IMAGE_BACK_BUTTON = engRef.getRender().loadImage("images/backbutton.png");
         Resources.IMAGE_CHECK_BUTTON = engRef.getRender().loadImage("images/checkbutton.png");
@@ -39,14 +37,14 @@ public class BootScene implements IScene {
     }
 
     @Override
-    public void update(double deltaTime) {
+    public void update(double deltaTime, IEngine engine) {
         // change to main menu
-        eng.getSceneManager().pushScene(new MainMenu());
+        engine.getSceneManager().pushScene(new MainMenu(), engine);
     }
 
     @Override
     public void render(IRender renderMng) {}
 
     @Override
-    public void handleInput(IInput input) {}
+    public void handleInput(IInput input, IEngine engine) {}
 }

@@ -37,12 +37,12 @@ public class MainActivity extends AppCompatActivity {
 
         // create engine and scene
         AssetManager aMan = this.getBaseContext().getAssets();
-        EngineAndroid eng = new EngineAndroid(renderView, aMan, 4.0f/6.0f, 0xFFFFFFFF);
+        EngineAndroid engine = new EngineAndroid(renderView, aMan, 4.0f/6.0f, 0xFFFFFFFF);
         BootScene bootScene = new BootScene();
 
         // start up
-        eng.getSceneManager().pushScene(bootScene);
-        eng.getAudio().playMusic();
-        eng.resume();
+        engine.getSceneManager().pushScene(bootScene, engine);
+        engine.getAudio().playMusic();
+        engine.resume();
     }
 }

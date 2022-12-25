@@ -4,17 +4,12 @@ import com.example.engine_common.interfaces.IEngine;
 import com.example.engine_common.interfaces.IInput;
 import com.example.engine_common.interfaces.IRender;
 import com.example.engine_common.interfaces.IScene;
-import com.example.engine_common.shared.FontType;
 import com.example.engine_common.shared.InputType;
-
-import java.sql.PreparedStatement;
 
 public class WinScene implements IScene {
     private Board board;
     private String winText;
     private Button backButton;
-
-    private IEngine engRef;
 
     public WinScene(Board b){
         board = b;
@@ -22,17 +17,15 @@ public class WinScene implements IScene {
 
     @Override
     public void init(IEngine engine) {
-        engRef = engine;
-
         winText = "¡¡Victoria!!";
-        backButton = new Button((engRef.getRender().getWidth()-engRef.getRender().getWidth()/4)/2,
-                engRef.getRender().getHeight()*7/8, engRef.getRender().getWidth()/4,
-                engRef.getRender().getHeight()/12, "Back", Resources.IMAGE_BACK_BUTTON,
+        backButton = new Button((engine.getRender().getWidth()- engine.getRender().getWidth()/4)/2,
+                engine.getRender().getHeight()*7/8, engine.getRender().getWidth()/4,
+                engine.getRender().getHeight()/12, "Back", Resources.IMAGE_BACK_BUTTON,
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
     }
 
     @Override
-    public void update(double deltaTime) {
+    public void update(double deltaTime, IEngine engine) {
 
     }
 
@@ -47,11 +40,11 @@ public class WinScene implements IScene {
     }
 
     @Override
-    public void handleInput(IInput input) {
+    public void handleInput(IInput input, IEngine engine) {
         if(input.getType() == InputType.TOUCH_UP && backButton.isInButton(input.getX(), input.getY())){
-            while(engRef.getSceneManager().getStackSize() > 1)
-                engRef.getSceneManager().popScene();
-            backButton.clicked(engRef.getAudio());
+            while(engine.getSceneManager().getStackSize() > 1)
+                engine.getSceneManager().popScene();
+            backButton.clicked(engine.getAudio());
         }
     }
 }

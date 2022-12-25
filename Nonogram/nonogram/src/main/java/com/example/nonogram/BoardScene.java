@@ -15,8 +15,6 @@ public class BoardScene implements IScene {
     private Button checkButton;
     private Button backButton;
 
-    private IEngine engRef;
-
     public BoardScene(int w, int h) {
         this.dim_w = w;
         this.dim_h = h;
@@ -27,22 +25,20 @@ public class BoardScene implements IScene {
         board = new Board();
         board.init(dim_w, dim_h, engine);
 
-        engRef = engine;
-
-        String fontButtons = engRef.getRender().loadFont("fonts/SimplySquare.ttf", FontType.DEFAULT, engRef.getRender().getWidth() / 22);
-        String btAudio = engRef.getAudio().loadSound("sounds/button.wav", 1);
-        checkButton = new Button((engRef.getRender().getWidth() - (engRef.getRender().getWidth() / 3)) / 5,
-                engRef.getRender().getHeight() / 9, engRef.getRender().getWidth() / 3,
-                engRef.getRender().getHeight() / 12, "Check", Resources.IMAGE_CHECK_BUTTON,
+        String fontButtons = engine.getRender().loadFont("fonts/SimplySquare.ttf", FontType.DEFAULT, engine.getRender().getWidth() / 22);
+        String btAudio = engine.getAudio().loadSound("sounds/button.wav", 1);
+        checkButton = new Button((engine.getRender().getWidth() - (engine.getRender().getWidth() / 3)) / 5,
+                engine.getRender().getHeight() / 9, engine.getRender().getWidth() / 3,
+                engine.getRender().getHeight() / 12, "Check", Resources.IMAGE_CHECK_BUTTON,
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
-        backButton = new Button((engRef.getRender().getWidth() - (engRef.getRender().getWidth() / 3)) * 4 / 5,
-                engRef.getRender().getHeight() / 9, engRef.getRender().getWidth() / 3,
-                engRef.getRender().getHeight() / 12, "Back", Resources.IMAGE_BACK_BUTTON,
+        backButton = new Button((engine.getRender().getWidth() - (engine.getRender().getWidth() / 3)) * 4 / 5,
+                engine.getRender().getHeight() / 9, engine.getRender().getWidth() / 3,
+                engine.getRender().getHeight() / 12, "Back", Resources.IMAGE_BACK_BUTTON,
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
     }
 
     @Override
-    public void update(double deltaTime) {
+    public void update(double deltaTime, IEngine engine) {
         board.update(deltaTime);
     }
 
@@ -54,19 +50,19 @@ public class BoardScene implements IScene {
     }
 
     @Override
-    public void handleInput(IInput input) {
+    public void handleInput(IInput input, IEngine engine) {
         if (input.getType() == InputType.TOUCH_UP) {
             if (board.isInBoard(input.getX(), input.getY())) {
-                engRef.getAudio().playSound(Resources.SOUND_CLICK);
+                engine.getAudio().playSound(Resources.SOUND_CLICK);
                 board.markCell(input.getX(), input.getY());
             } else if (checkButton.isInButton(input.getX(), input.getY())) {
                 board.checkear();
-                checkButton.clicked(engRef.getAudio());
+                checkButton.clicked(engine.getAudio());
                 if (board.win)
-                    engRef.getSceneManager().pushScene(new WinScene(board));
+                    engine.getSceneManager().pushScene(new WinScene(board), engine);
             } else if (backButton.isInButton(input.getX(), input.getY())) {
-                backButton.clicked(engRef.getAudio());
-                engRef.getSceneManager().popScene();
+                backButton.clicked(engine.getAudio());
+                engine.getSceneManager().popScene();
             }
         }
     }

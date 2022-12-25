@@ -8,23 +8,18 @@ import com.example.engine_common.shared.FontType;
 import com.example.engine_common.shared.InputType;
 
 public class SelectionMenu implements IScene {
-
-    Button t4x4;
-    Button t5x5;
-    Button t5x10;
-    Button t8x8;
-    Button t10x10;
-    Button t10x15;
-    Button backButton;
-
-    private IEngine engRef;
+    private Button t4x4;
+    private Button t5x5;
+    private Button t5x10;
+    private Button t8x8;
+    private Button t10x10;
+    private Button t10x15;
+    private Button backButton;
 
     @Override
     public void init(IEngine engine) {
-        engRef = engine;
-
-        int x = engRef.getRender().getWidth()/3;
-        int y = engRef.getRender().getHeight()/6;
+        int x = engine.getRender().getWidth()/3;
+        int y = engine.getRender().getHeight()/6;
         t4x4 = new Button(x / 4, y*2, x/2, x/2, "4x4", "",
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
         t5x5 = new Button(x * 5 / 4, y*2, x/2, x/2, "5x5", "",
@@ -42,7 +37,7 @@ public class SelectionMenu implements IScene {
     }
 
     @Override
-    public void update(double deltaTime) {}
+    public void update(double deltaTime, IEngine engine) {}
 
     @Override
     public void render(IRender renderMng) {
@@ -57,7 +52,7 @@ public class SelectionMenu implements IScene {
     }
 
     @Override
-    public void handleInput(IInput input) {
+    public void handleInput(IInput input, IEngine engine) {
         if (input.getType() == InputType.TOUCH_UP) {
             int x = 0, y = 0;
             if (t4x4.isInButton(input.getX(), input.getY())){
@@ -85,13 +80,13 @@ public class SelectionMenu implements IScene {
                 y=15;
             }
             else if(backButton.isInButton(input.getX(), input.getY())){
-                engRef.getSceneManager().popScene();
-                backButton.clicked(engRef.getAudio());
+                engine.getSceneManager().popScene();
+                backButton.clicked(engine.getAudio());
             }
 
             if(x != 0){
-                t4x4.clicked(engRef.getAudio());
-                engRef.getSceneManager().pushScene(new BoardScene(x, y));
+                t4x4.clicked(engine.getAudio());
+                engine.getSceneManager().pushScene(new BoardScene(x, y), engine);
             }
         }
     }

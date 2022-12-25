@@ -28,9 +28,10 @@ public class EngineDesktop implements IEngine, Runnable {
     private boolean running;
 
     public EngineDesktop(JFrame myWindow, int bg) {
+        // engine modules
         this.myRenderDesktop = new RenderDesktop(myWindow, bg);
         this.myAudioDesktop = new AudioDesktop();
-        this.mySceneManager = new SceneManager(this);
+        this.mySceneManager = new SceneManager();
         this.myInputManager = new InputManager();
 
         // add input listener to window
@@ -54,10 +55,10 @@ public class EngineDesktop implements IEngine, Runnable {
                 // handle input
                 LinkedList<IInput> input = myInputManager.getInput();
                 while (!input.isEmpty())
-                    this.mySceneManager.currentScene().handleInput(input.removeFirst());
+                    this.mySceneManager.currentScene().handleInput(input.removeFirst(), this);
 
                 // update
-                this.mySceneManager.currentScene().update(deltaTime / 1000.0);
+                this.mySceneManager.currentScene().update(deltaTime / 1000.0, this);
 
                 // render
                 do {

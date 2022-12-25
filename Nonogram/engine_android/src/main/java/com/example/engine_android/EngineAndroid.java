@@ -28,9 +28,6 @@ public class EngineAndroid implements IEngine, Runnable {
     // asset manager
     private AssetManager assetManager;
 
-    // start scene
-    private IScene startScene;
-
     // thread variables
     private Thread renderThread;
     private boolean running;
@@ -40,7 +37,7 @@ public class EngineAndroid implements IEngine, Runnable {
 
         this.myRenderManager = new RenderAndroid(surface, this.assetManager, ratio, bgColor);
         this.myAudioManager = new AudioAndroid(this.assetManager);
-        this.mySceneManager = new SceneManager(this);
+        this.mySceneManager = new SceneManager();
         this.myInputManager = new InputManager();
 
         // add input listener to window
@@ -66,10 +63,10 @@ public class EngineAndroid implements IEngine, Runnable {
                 // handle input
                 LinkedList<IInput> input = this.myInputManager.getInput();
                 while (!input.isEmpty())
-                    this.mySceneManager.currentScene().handleInput(input.removeFirst());
+                    this.mySceneManager.currentScene().handleInput(input.removeFirst(), this);
 
                 // update
-                this.mySceneManager.currentScene().update(deltaTime/1000.0f);
+                this.mySceneManager.currentScene().update(deltaTime/1000.0f, this);
 
                 // render
                 while (!this.myRenderManager.surfaceValid());
