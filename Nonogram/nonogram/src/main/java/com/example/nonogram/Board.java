@@ -1,6 +1,5 @@
 package com.example.nonogram;
 
-import com.example.engine_common.interfaces.IEngine;
 import com.example.engine_common.interfaces.IRender;
 import com.example.engine_common.shared.FontType;
 

@@ -32,10 +32,10 @@ public class EngineAndroid implements IEngine, Runnable {
     private Thread renderThread;
     private boolean running;
 
-    public EngineAndroid(SurfaceView surface, AssetManager aM, float ratio, int bgColor) {
+    public EngineAndroid(SurfaceView surface, AssetManager aM, int width, int height, int bgColor) {
         this.assetManager = aM;
 
-        this.myRenderManager = new RenderAndroid(surface, this.assetManager, ratio, bgColor);
+        this.myRenderManager = new RenderAndroid(surface, this.assetManager, width, height, bgColor);
         this.myAudioManager = new AudioAndroid(this.assetManager);
         this.mySceneManager = new SceneManager();
         this.myInputManager = new InputManager();
@@ -49,10 +49,8 @@ public class EngineAndroid implements IEngine, Runnable {
         if (this.renderThread != Thread.currentThread())
             throw new RuntimeException("run() should not be called directly");
 
-        while(this.running && myRenderManager.getViewWidth() == 0);
+        while(this.running && !this.myRenderManager.isRenderReady());
 
-        this.myRenderManager.adaptScale();
-        this.mySceneManager.currentScene().init(this);
         long currentTime = System.currentTimeMillis();
         while(this.running) {
             try {
@@ -121,8 +119,8 @@ public class EngineAndroid implements IEngine, Runnable {
     private class InputListener implements View.OnTouchListener {
         @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
-            int input_y = (int)motionEvent.getY() - (myRenderManager.getViewHeight() - myRenderManager.getHeight()) / 2;
-            int input_x = (int)motionEvent.getX() - (myRenderManager.getViewWidth() - myRenderManager.getWidth()) / 2;
+            int input_y = (int) ((motionEvent.getY() - myRenderManager.getPosCanvasY()) / myRenderManager.getScale());
+            int input_x = (int) ((motionEvent.getX() - myRenderManager.getPosCanvasX()) / myRenderManager.getScale());
             
             if (input_x < 0 ||  input_y < 0 || input_x > myRenderManager.getWidth() || input_y > myRenderManager.getHeight())
                 return true;

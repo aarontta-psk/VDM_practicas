@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
     private final int WIDTH = 400;
     private final int HEIGHT = 600;
 
+    EngineAndroid engine;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,15 +43,23 @@ public class MainActivity extends AppCompatActivity {
 
         // create engine and scene
         AssetManager aMan = this.getBaseContext().getAssets();
-        EngineAndroid engine = new EngineAndroid(renderView, aMan, 400.0f/600.0f, 0xFFFFFFFF);
+        this.engine = new EngineAndroid(renderView, aMan, WIDTH, HEIGHT, 0xFFFFFFFF);
         BootScene bootScene = new BootScene();
 
         // GameManager
         GameManager.init(WIDTH, HEIGHT);
 
         // start up
-        engine.getSceneManager().pushScene(bootScene);
-        engine.getAudio().playMusic();
-        engine.resume();
+        this.engine.getSceneManager().pushScene(bootScene);
+        this.engine.getAudio().playMusic();
+        this.engine.resume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        // engine pause
+        this.engine.pause();
     }
 }

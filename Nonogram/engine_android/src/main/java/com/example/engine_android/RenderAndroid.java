@@ -8,6 +8,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
 import com.example.engine_common.interfaces.IRender;
 import com.example.engine_common.shared.FontType;
@@ -38,7 +39,8 @@ public class RenderAndroid implements IRender {
     //background color
     private int bgColor;
 
-    public RenderAndroid(SurfaceView myView, AssetManager aM, float ratio, int bgColor) {
+    public RenderAndroid(SurfaceView myView, AssetManager aM, int width, int height, int bgColor) {
+        // canvas
         this.myView = myView;
         this.holder = this.myView.getHolder();
         this.paint = new Paint();
@@ -50,27 +52,23 @@ public class RenderAndroid implements IRender {
         this.images = new HashMap<>();
 
         // initializes canvas values
-        this.scale = ratio;
+//        this.scale = ratio;
+        this.baseWidth = width;
+        this.baseHeight = height;
 
         // sets the background color
         this.bgColor = bgColor;
+
+        // add layout change listener
+        this.myView.addOnLayoutChangeListener(new MyOnLayoutChangeListener());
     }
 
-    public void adaptScale() {
-        while(this.holder.getSurfaceFrame().width() == 0);
-
-        float w = this.holder.getSurfaceFrame().width();
-        float y = this.holder.getSurfaceFrame().height();
-        float scaleX = w;
-        float scaleY = y;
-
-        if (scaleX * this.scale < scaleY) scaleY = scaleX / scale;
-        else scaleX = scaleY * this.scale;
-
-        this.posCanvasX = (int) (w - scaleX) / 2;
-        this.posCanvasY = (int) (y - scaleY) / 2;
-        this.baseWidth = (int)scaleX;
-        this.baseHeight = (int)scaleY;
+    public void updateScale() {
+        int hWidth = this.holder.getSurfaceFrame().width();
+        int hHeight = this.holder.getSurfaceFrame().height();
+        this.scale = hWidth / (float) (this.baseWidth);
+        this.posCanvasX = (int) ((hWidth - this.baseWidth * this.scale) / 2);
+        this.posCanvasY = (int) ((hHeight - this.baseHeight * this.scale) / 2);
     }
 
     public boolean surfaceValid() {
@@ -81,6 +79,7 @@ public class RenderAndroid implements IRender {
         this.canvas = this.holder.lockCanvas();
         this.canvas.drawColor(this.bgColor);
         this.canvas.translate(this.posCanvasX, this.posCanvasY);
+        this.canvas.scale(this.scale, this.scale);
         setColor(this.bgColor);
         drawRectangle(0, 0, this.baseWidth, this.baseHeight, true);
     }
@@ -92,7 +91,7 @@ public class RenderAndroid implements IRender {
     @Override
     public String loadImage(String filePath) {
         File imageFile = new File(filePath);
-        if(!this.images.containsKey(imageFile.getName()))
+        if (!this.images.containsKey(imageFile.getName()))
             this.images.put(imageFile.getName(), new ImageAndroid(filePath, this.assetManager));
         return imageFile.getName();
     }
@@ -101,7 +100,7 @@ public class RenderAndroid implements IRender {
     public String loadFont(String filePath, FontType type, int size) {
         File fontFile = new File(filePath);
         String fontID = fontFile.getName() + type.toString() + size;
-        if(!this.fonts.containsKey(fontID))
+        if (!this.fonts.containsKey(fontID))
             this.fonts.put(fontID, new FontAndroid(filePath, this.assetManager, size, type));
         return fontID;
     }
@@ -138,8 +137,8 @@ public class RenderAndroid implements IRender {
     @Override
     public void drawImage(int x, int y, int width, int height, String imageID) {
         Bitmap image = this.images.get(imageID).getImage();
-        Rect src = new Rect(0,0,image.getWidth(), image.getHeight());
-        Rect dst = new Rect(x, y, x + width, y+height);
+        Rect src = new Rect(0, 0, image.getWidth(), image.getHeight());
+        Rect dst = new Rect(x, y, x + width, y + height);
         this.canvas.drawBitmap(image, src, dst, this.paint);
     }
 
@@ -158,19 +157,46 @@ public class RenderAndroid implements IRender {
         float width = this.paint.measureText(text);
         this.paint.setTypeface(prev_font);
 
-        return (int)width;
+        return (int) width;
     }
 
     @Override
-    public int getTextHeight(String fontID) { return this.fonts.get(fontID).getSize(); }
+    public int getTextHeight(String fontID) {
+        return this.fonts.get(fontID).getSize();
+    }
 
     @Override
-    public int getWidth() { return this.baseWidth; }
+    public int getWidth() {
+        return this.myView.getWidth();
+    }
 
     @Override
-    public int getHeight() { return this.baseHeight; }
+    public int getHeight() {
+        return this.myView.getHeight();
+    }
 
-    public int getViewWidth() { return this.myView.getWidth(); }
+    public boolean isRenderReady() {
+        while (this.holder.getSurfaceFrame().width() == 0) ;
+        updateScale();
+        return true;
+    }
 
-    public int getViewHeight() { return this.myView.getHeight(); }
+    public int getPosCanvasX() {
+        return this.posCanvasX;
+    }
+
+    public int getPosCanvasY() {
+        return this.posCanvasY;
+    }
+
+    public float getScale() {
+        return this.scale;
+    }
+
+    private class MyOnLayoutChangeListener implements View.OnLayoutChangeListener {
+        @Override
+        public void onLayoutChange(View v, int left, int top, int right, int bottom, int leftWas, int topWas, int rightWas, int bottomWas) {
+            updateScale();
+        }
+    }
 }
