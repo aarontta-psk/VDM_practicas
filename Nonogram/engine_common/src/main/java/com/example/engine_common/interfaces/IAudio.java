@@ -9,6 +9,9 @@ public interface IAudio {
     public void playMusic();
     public void playSound(String soundName);
 
+    public void pauseMusic();
+    public void pauseSound(String soundName);
+
     public void setMusicVolume(float volume);
     public void setSoundVolume(String soundName, float volume);
 }

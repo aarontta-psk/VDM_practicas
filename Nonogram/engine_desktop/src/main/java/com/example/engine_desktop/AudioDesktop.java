@@ -50,8 +50,20 @@ public class AudioDesktop implements IAudio {
         FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
         gainControl.setValue(this.sounds.get(soundName).getVolume());
 
+        clip.stop();
         clip.setFramePosition(0);
         clip.start();
+    }
+
+    @Override
+    public void pauseMusic() {
+        this.bgMusic.getSound().stop();
+    }
+
+    @Override
+    public void pauseSound(String soundName) {
+        Clip clip = this.sounds.get(soundName).getSound();
+        clip.stop();
     }
 
     @Override

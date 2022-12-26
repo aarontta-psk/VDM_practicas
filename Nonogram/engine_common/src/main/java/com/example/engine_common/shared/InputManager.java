@@ -12,7 +12,7 @@ public class InputManager {
     public void addInput(IInput newInput) { this.bufferInput.addLast(newInput); }
 
     public LinkedList<IInput> getInput() {
-        LinkedList<IInput> bufferCopy = new LinkedList<>(bufferInput);
+        LinkedList<IInput> bufferCopy = new LinkedList<>(this.bufferInput);
         this.bufferInput.clear();
         return bufferCopy;
     }

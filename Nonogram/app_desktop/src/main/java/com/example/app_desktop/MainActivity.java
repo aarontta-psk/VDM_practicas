@@ -32,16 +32,15 @@ public class MainActivity {
             }
         }
 
-        // create engine and scene
+        // create engine
         EngineDesktop engine = new EngineDesktop(renderView, 0xFFFFFFFF);
-        BootScene bootScene = new BootScene();
 
         // GameManager
         GameManager.init(WIDTH, HEIGHT);
 
         // start up
-        engine.getSceneManager().pushScene(bootScene);
-//        engine.getAudio().playMusic();
+        engine.getSceneManager().pushScene(new BootScene(engine));
+        engine.getAudio().playMusic();
         engine.resume();
     }
 }

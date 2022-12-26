@@ -80,6 +80,17 @@ public class AudioAndroid implements IAudio {
     }
 
     @Override
+    public void pauseMusic() {
+        this.mediaPlayer.pause();
+    }
+
+    @Override
+    public void pauseSound(String soundName) {
+        SoundAndroid sound = this.sounds.get(soundName);
+        this.soundPool.pause(sound.getSoundId());
+    }
+
+    @Override
     public void setMusicVolume(float volume) {
         this.mediaPlayer.setVolume(volume, volume);
     }

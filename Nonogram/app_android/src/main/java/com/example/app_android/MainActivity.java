@@ -41,16 +41,20 @@ public class MainActivity extends AppCompatActivity {
         }
         getSupportActionBar().hide();
 
-        // create engine and scene
+        // create engine
         AssetManager aMan = this.getBaseContext().getAssets();
         this.engine = new EngineAndroid(renderView, aMan, WIDTH, HEIGHT, 0xFFFFFFFF);
-        BootScene bootScene = new BootScene();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
 
         // GameManager
         GameManager.init(WIDTH, HEIGHT);
 
         // start up
-        this.engine.getSceneManager().pushScene(bootScene);
+        this.engine.getSceneManager().pushScene(new BootScene(this.engine));
         this.engine.getAudio().playMusic();
         this.engine.resume();
     }
@@ -61,5 +65,6 @@ public class MainActivity extends AppCompatActivity {
 
         // engine pause
         this.engine.pause();
+        this.engine.getAudio().pauseMusic();
     }
 }
