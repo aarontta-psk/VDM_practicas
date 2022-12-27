@@ -19,6 +19,7 @@ public class SelectionMenu implements IScene {
     public void init() {
         int gameWidth = GameManager.getInstance().getWidth() / 3;
         int gameHeight = GameManager.getInstance().getHeight() / 6;
+
         this.t4x4 = new Button(gameWidth / 4, gameHeight * 2, gameWidth / 2, gameWidth / 2, "4x4", "",
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
         this.t5x5 = new Button(gameWidth * 5 / 4, gameHeight * 2, gameWidth / 2, gameWidth / 2, "5x5", "",
@@ -36,19 +37,17 @@ public class SelectionMenu implements IScene {
     }
 
     @Override
-    public void update(double deltaTime, IEngine engine) {
-    }
+    public void update(double deltaTime, IEngine engine) {}
 
     @Override
-    public void render(IRender renderMng) {
-        renderMng.setColor(0xFF000000);
-        this.t4x4.render(renderMng);
-        this.t5x5.render(renderMng);
-        this.t10x5.render(renderMng);
-        this.t8x8.render(renderMng);
-        this.t10x10.render(renderMng);
-        this.t15x10.render(renderMng);
-        this.backButton.render(renderMng);
+    public void render(IRender renderer) {
+        this.t4x4.render(renderer);
+        this.t5x5.render(renderer);
+        this.t10x5.render(renderer);
+        this.t8x8.render(renderer);
+        this.t10x10.render(renderer);
+        this.t15x10.render(renderer);
+        this.backButton.render(renderer);
     }
 
     @Override
@@ -56,24 +55,24 @@ public class SelectionMenu implements IScene {
         if (input.getType() == InputType.TOUCH_UP) {
             int numRows = 0, numCols = 0;
             if (this.t4x4.isInButton(input.getX(), input.getY())) {
-                numRows = 4; numCols = 4;
-            }
-            else if (this.t5x5.isInButton(input.getX(), input.getY())) {
-                numRows = 5; numCols = 5;
-            }
-            else if (this.t10x5.isInButton(input.getX(), input.getY())) {
-                numRows = 10; numCols = 5;
-            }
-            else if (this.t8x8.isInButton(input.getX(), input.getY())) {
-                numRows = 8; numCols = 8;
-            }
-            else if (this.t10x10.isInButton(input.getX(), input.getY())) {
-                numRows = 10; numCols = 10;
-            }
-            else if (this.t15x10.isInButton(input.getX(), input.getY())) {
-                numRows = 15; numCols = 10;
-            }
-            else if (this.backButton.isInButton(input.getX(), input.getY())) {
+                numRows = 4;
+                numCols = 4;
+            } else if (this.t5x5.isInButton(input.getX(), input.getY())) {
+                numRows = 5;
+                numCols = 5;
+            } else if (this.t10x5.isInButton(input.getX(), input.getY())) {
+                numRows = 10;
+                numCols = 5;
+            } else if (this.t8x8.isInButton(input.getX(), input.getY())) {
+                numRows = 8;
+                numCols = 8;
+            } else if (this.t10x10.isInButton(input.getX(), input.getY())) {
+                numRows = 10;
+                numCols = 10;
+            } else if (this.t15x10.isInButton(input.getX(), input.getY())) {
+                numRows = 15;
+                numCols = 10;
+            } else if (this.backButton.isInButton(input.getX(), input.getY())) {
                 engine.getSceneManager().popScene();
                 this.backButton.clicked(engine.getAudio());
             }

@@ -41,7 +41,7 @@ public class BootScene implements IScene {
     }
 
     @Override
-    public void render(IRender renderMng) {}
+    public void render(IRender renderer) {}
 
     @Override
     public void handleInput(IInput input, IEngine engine) {}

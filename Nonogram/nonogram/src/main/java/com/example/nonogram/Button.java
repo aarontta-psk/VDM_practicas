@@ -21,25 +21,25 @@ public class Button {
         this.sound = s;
     }
 
-    public void render(IRender renderMng) {
+    public void render(IRender renderer) {
         // background color
-        renderMng.setColor(0xFFCCCCCC);
-        renderMng.setFont(this.font);
-        renderMng.drawRectangle(this.posX, this.posY, this.width, this.height, true);
+        renderer.setColor(0xFFCCCCCC);
+        renderer.setFont(this.font);
+        renderer.drawRectangle(this.posX, this.posY, this.width, this.height, true);
 
         // draw image
         int x = this.posX;
         if (this.image != "") {
             x += this.height - 2;
-            renderMng.drawImage(this.posX + 1, this.posY + 1, this.height - 2,
+            renderer.drawImage(this.posX + 1, this.posY + 1, this.height - 2,
                     this.height - 2, this.image);
         }
 
         // draw text
-        int textWidth = renderMng.getTextWidth(this.font, this.text);
-        renderMng.setColor(0xFF000000);
-        renderMng.drawText(x + (this.width - (x - this.posX)) / 2 - textWidth / 2,
-                this.posY + this.height / 2 + renderMng.getTextHeight(this.font) / 2, this.text);
+        int textWidth = renderer.getTextWidth(this.font, this.text);
+        renderer.setColor(0xFF000000);
+        renderer.drawText(x + (this.width - (x - this.posX)) / 2 - textWidth / 2,
+                this.posY + this.height / 2 + renderer.getTextHeight(this.font) / 2, this.text);
     }
 
     public void clicked(IAudio soundMng) {

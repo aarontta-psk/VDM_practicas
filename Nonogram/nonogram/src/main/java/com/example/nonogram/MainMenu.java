@@ -7,7 +7,7 @@ import com.example.engine_common.interfaces.IScene;
 import com.example.engine_common.shared.InputType;
 
 public class MainMenu implements IScene {
-    private String title;
+    private Label title;
     private Button playButton;
 
     @Override
@@ -15,7 +15,8 @@ public class MainMenu implements IScene {
         int gameWidth = GameManager.getInstance().getWidth();
         int gameHeight = GameManager.getInstance().getHeight();
 
-        this.title = "NONOGRAMAS";
+        this.title = new Label(gameWidth / 2, gameHeight / 6, "NONOGRAMAS", Resources.FONT_KOMIKAX);
+
         this.playButton = new Button((gameWidth - gameWidth / 3) / 2, (int) (gameHeight / 1.5),
                 gameWidth / 3, gameHeight / 8, "PLAY", "",
                 Resources.FONT_EXO_REGULAR_BIG, Resources.SOUND_BUTTON);
@@ -25,16 +26,12 @@ public class MainMenu implements IScene {
     public void update(double deltaTime, IEngine engine) {}
 
     @Override
-    public void render(IRender renderMng) {
+    public void render(IRender renderer) {
         // text
-        renderMng.setColor(0xFF000000);
-        renderMng.setFont(Resources.FONT_KOMIKAX);
-        int textWidth = renderMng.getTextWidth(Resources.FONT_KOMIKAX, title);
-        renderMng.drawText((GameManager.getInstance().getWidth() - textWidth) / 2,
-                GameManager.getInstance().getHeight() / 6, this.title);
+        this.title.render(renderer);
 
         // button
-        this.playButton.render(renderMng);
+        this.playButton.render(renderer);
     }
 
     @Override

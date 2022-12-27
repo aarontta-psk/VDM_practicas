@@ -7,8 +7,8 @@ import com.example.engine_common.interfaces.IScene;
 import com.example.engine_common.shared.InputType;
 
 public class WinScene implements IScene {
+    private Label winText;
     private Board board;
-    private String winText;
     private Button backButton;
 
     public WinScene(Board board) {
@@ -17,10 +17,11 @@ public class WinScene implements IScene {
 
     @Override
     public void init() {
-        this.winText = "¡¡Victoria!!";
-
         int gameWidth = GameManager.getInstance().getWidth();
         int gameHeight = GameManager.getInstance().getHeight();
+
+        this.winText = new Label(gameWidth / 2, gameHeight / 6, "¡¡Victoria!!", Resources.FONT_EXO_REGULAR_BIG);
+
         this.backButton = new Button((gameWidth - gameWidth / 4) / 2, gameHeight * 7 / 8,
                 gameWidth / 4, gameHeight / 12, "Back", Resources.IMAGE_BACK_BUTTON,
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
@@ -30,19 +31,15 @@ public class WinScene implements IScene {
     public void update(double deltaTime, IEngine engine) {}
 
     @Override
-    public void render(IRender renderMng) {
+    public void render(IRender renderer) {
         // text
-        renderMng.setColor(0xFF000000);
-        renderMng.setFont(Resources.FONT_EXO_REGULAR_BIG);
-        int textWidth = renderMng.getTextWidth(Resources.FONT_EXO_REGULAR_BIG, this.winText);
-        renderMng.drawText((GameManager.getInstance().getWidth() - textWidth) / 2,
-                GameManager.getInstance().getHeight() / 6, this.winText);
+        this.winText.render(renderer);
 
         // completed board
-        this.board.renderWin(renderMng);
+        this.board.renderWin(renderer);
 
         // back button
-        this.backButton.render(renderMng);
+        this.backButton.render(renderer);
     }
 
     @Override

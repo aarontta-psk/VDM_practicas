@@ -21,19 +21,20 @@ public class BoardScene implements IScene {
 
     @Override
     public void init() {
-        // init board
-        this.board = new Board();
-        this.board.init(this.dim_w, this.dim_h);
-
-        // buttons
         int gameWidth = GameManager.getInstance().getWidth();
         int gameHeight = GameManager.getInstance().getHeight();
+
+        // buttons
         this.checkButton = new Button((gameWidth - (gameWidth / 3)) / 5, gameHeight / 9,
                 gameWidth / 3, gameHeight / 12, "Check", Resources.IMAGE_CHECK_BUTTON,
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
         this.backButton = new Button((gameWidth - (gameWidth / 3)) * 4 / 5, gameHeight / 9,
                 gameWidth / 3, gameHeight / 12, "Back", Resources.IMAGE_BACK_BUTTON,
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
+
+        // init board
+        this.board = new Board();
+        this.board.init(this.dim_w, this.dim_h);
     }
 
     @Override
@@ -42,13 +43,13 @@ public class BoardScene implements IScene {
     }
 
     @Override
-    public void render(IRender renderMng) {
+    public void render(IRender renderer) {
         // buttons
-        this.checkButton.render(renderMng);
-        this.backButton.render(renderMng);
+        this.checkButton.render(renderer);
+        this.backButton.render(renderer);
 
         // board
-        this.board.render(renderMng);
+        this.board.render(renderer);
     }
 
     @Override

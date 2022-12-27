@@ -13,16 +13,16 @@ public class Cell {
         this.state = State.EMPTY;
     }
 
-    public void render(IRender renderMng, int x, int y, int size) {
+    public void render(IRender renderer, int x, int y, int size) {
         // draw cell color
-        renderMng.setColor(getCellColor());
-        renderMng.drawRectangle(x, y, size, size, true);
+        renderer.setColor(getCellColor());
+        renderer.drawRectangle(x, y, size, size, true);
 
         // if crossed, we draw
         if (this.state == State.CROSSED) {
-            renderMng.setColor(0xFF000000);
-            renderMng.drawRectangle(x, y, size, size, false);
-            renderMng.drawLine(x, y, x + size, y + size);
+            renderer.setColor(0xFF000000);
+            renderer.drawRectangle(x, y, size, size, false);
+            renderer.drawLine(x, y, x + size, y + size);
         }
     }
 

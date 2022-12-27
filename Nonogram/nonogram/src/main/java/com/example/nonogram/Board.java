@@ -26,7 +26,8 @@ public class Board {
 
     private int cellsLeft;
 
-    private String fontWrongText;
+    private Label wrongCells;
+    private Label missingCells;
 
     private List<Cell> checkedCells;
     private double lastTimeChecked;
@@ -113,50 +114,53 @@ public class Board {
                 - this.maxNumbers * this.fontSize) / 2;
 
         // error message setup
-        this.fontWrongText = Resources.FONT_SIMPLY_SQUARE_BIG;
+        this.wrongCells = new Label(GameManager.getInstance().getWidth()  / 2, this.posY - GameManager.getInstance().getHeight() / 10,
+                "", Resources.FONT_SIMPLY_SQUARE_BIG);
+        this.missingCells = new Label(GameManager.getInstance().getWidth() / 2, this.posY - GameManager.getInstance().getHeight() / 18,
+                "", Resources.FONT_SIMPLY_SQUARE_BIG);
         this.lastTimeChecked = -1;
     }
 
-    public void render(IRender renderMng) {
-        renderMng.setColor(0xFF000000); // board limits
-        renderMng.drawRectangle(this.maxNumbers * this.fontSize + this.posX, this.posY + this.maxNumbers * this.fontSize,
+    public void render(IRender renderer) {
+        // board limits
+        renderer.setColor(0xFF000000);
+        renderer.drawRectangle(this.maxNumbers * this.fontSize + this.posX, this.posY + this.maxNumbers * this.fontSize,
                 this.width * (this.board_cell_size + this.separation_margin) + 1,
                 this.height * (this.board_cell_size + this.separation_margin) + 1, false);
-        renderMng.drawRectangle(this.posX + this.maxNumbers * this.fontSize, this.maxNumbers * this.fontSize + this.posY,
+        renderer.drawRectangle(this.posX + this.maxNumbers * this.fontSize, this.maxNumbers * this.fontSize + this.posY,
                 this.width * (this.board_cell_size + this.separation_margin) + 1,
                 this.height * (this.board_cell_size + this.separation_margin) + 1, false);
 
         // board number indicators
-        printNumbers(renderMng);
+        printNumbers(renderer);
 
         // board cells
         for (int i = 0; i < this.width; i++)
             for (int j = 0; j < this.height; j++)
-                this.board[i][j].render(renderMng, i * this.board_cell_size + (i + 1) * this.separation_margin +
+                this.board[i][j].render(renderer, i * this.board_cell_size + (i + 1) * this.separation_margin +
                                 this.posX + this.maxNumbers * this.fontSize,
                         j * this.board_cell_size + (j + 1) * this.separation_margin +
                                 this.posY + this.maxNumbers * this.fontSize, this.board_cell_size);
 
         // board fail text
         if (this.lastTimeChecked != -1) {
-            renderMng.setColor(0xFFFF0000);
-            renderMng.setFont(this.fontWrongText);
-            int textWidth = renderMng.getTextWidth(this.fontWrongText, "Te faltan " + this.checkedCells.size() + " casillas");
-            int textWidth2 = renderMng.getTextWidth(this.fontWrongText, "Tienes mal " + this.checkedCells.size() + " casillas");
-            int textHeight = renderMng.getTextHeight(this.fontWrongText);
-            renderMng.drawText((renderMng.getWidth() - textWidth) / 2, posY - renderMng.getHeight() / 10,
-                    "Te faltan " + this.cellsLeft + " casillas");
-            renderMng.drawText((renderMng.getWidth() - textWidth2) / 2, posY - renderMng.getHeight() / 10 + textHeight * 2,
-                    "Tienes mal " + this.checkedCells.size() + " casillas");
+            this.wrongCells.setColor(0xFFFF0000);
+            this.missingCells.setColor(0xFFFF0000);
+
+            this.wrongCells.setText("Te faltan " + this.cellsLeft + " casillas");
+            this.missingCells.setText("Tienes mal " + this.checkedCells.size() + " casillas");
+
+            this.wrongCells.render(renderer);
+            this.missingCells.render(renderer);
         }
     }
 
-    public void renderWin(IRender renderMng) {
+    public void renderWin(IRender renderer) {
         this.posX = (GameManager.getInstance().getWidth() - this.board_cell_size * width - this.separation_margin * (this.width + 1)) / 2;
         for (int i = 0; i < this.width; i++)
             for (int j = 0; j < this.height; j++)
                 if (this.board[i][j].isAnswer())
-                    this.board[i][j].render(renderMng, i * this.board_cell_size + (i + 1) * this.separation_margin + this.posX,
+                    this.board[i][j].render(renderer, i * this.board_cell_size + (i + 1) * this.separation_margin + this.posX,
                             j * this.board_cell_size + (j + 1) * this.separation_margin + this.posY - GameManager.getInstance().getHeight() / 10,
                             this.board_cell_size);
     }
@@ -174,16 +178,16 @@ public class Board {
         }
     }
 
-    private void printNumbers(IRender renderMng) {
-        renderMng.setFont(renderMng.loadFont("fonts/SimplySquare.ttf", FontType.DEFAULT, this.fontSize));
+    private void printNumbers(IRender renderer) {
+        renderer.setFont(renderer.loadFont("fonts/SimplySquare.ttf", FontType.DEFAULT, this.fontSize));
         for (int i = 0; i < this.colsNums.length; i++) {
             if (this.colsNums[i].size() == 1)
-                renderMng.drawText(this.posX + this.board_cell_size * (i + 1) + this.separation_margin * i -
+                renderer.drawText(this.posX + this.board_cell_size * (i + 1) + this.separation_margin * i -
                                 this.board_cell_size / 2 + this.maxNumbers * fontSize,
                         this.posY + this.maxNumbers * this.fontSize - 2 * this.separation_margin, "0");
             for (int j = this.colsNums[i].size() - 2; j >= 0; j--) {
                 int w = this.colsNums[i].get(j);
-                renderMng.drawText(this.posX + this.board_cell_size * (i + 1) + this.separation_margin * i -
+                renderer.drawText(this.posX + this.board_cell_size * (i + 1) + this.separation_margin * i -
                                 this.board_cell_size / 2 + this.maxNumbers * this.fontSize,
                         this.posY + this.maxNumbers * this.fontSize - 2 * this.separation_margin -
                                 (this.fontSize * (this.colsNums[i].size() - 2 - j)),
@@ -193,12 +197,12 @@ public class Board {
 
         for (int i = 0; i < this.rowsNums.length; i++) {
             if (this.rowsNums[i].size() == 1)
-                renderMng.drawText(this.posX + this.maxNumbers * this.fontSize - 8 * this.separation_margin,
+                renderer.drawText(this.posX + this.maxNumbers * this.fontSize - 8 * this.separation_margin,
                         this.posY + this.board_cell_size * (i + 1) + this.separation_margin * i -
                                 (int) (this.board_cell_size / 2.5) + this.maxNumbers * this.fontSize, "0");
             for (int j = rowsNums[i].size() - 2; j >= 0; j--) {
                 int w = rowsNums[i].get(j);
-                renderMng.drawText(this.posX + this.maxNumbers * this.fontSize - 8 * this.separation_margin -
+                renderer.drawText(this.posX + this.maxNumbers * this.fontSize - 8 * this.separation_margin -
                                 (this.fontSize * (this.rowsNums[i].size() - 2 - j)),
                         this.posY + this.board_cell_size * (i + 1) + this.separation_margin * i -
                                 (int) (this.board_cell_size / 2.5) + this.maxNumbers * this.fontSize, Integer.toString(w));
