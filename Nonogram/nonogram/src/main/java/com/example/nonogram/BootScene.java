@@ -17,11 +17,6 @@ public class BootScene implements IScene {
         // images
         Resources.IMAGE_BACK_BUTTON = this.engine.getRender().loadImage("images/backbutton.png");
         Resources.IMAGE_CHECK_BUTTON = this.engine.getRender().loadImage("images/checkbutton.png");
-//        Resources.IMAGE_COIN = engRef.getRender().loadImage("images/coin.png");
-//        Resources.IMAGE_LOCK = engRef.getRender().loadImage("images/lock.png");
-//        Resources.IMAGE_HEART = engRef.getRender().loadImage("images/heart.png");
-//        Resources.IMAGE_NO_HEART = engRef.getRender().loadImage("images/no_heart.png");
-//        Resources.IMAGE_TWITTER_BUTTON = engRef.getRender().loadImage("images/twitter_logo.png");
 
         // fonts
         int size = Math.min(GameManager.getInstance().getWidth(), GameManager.getInstance().getHeight());

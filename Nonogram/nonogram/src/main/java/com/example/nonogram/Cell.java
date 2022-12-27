@@ -7,11 +7,10 @@ public class Cell {
 
     private boolean isAnswer;
     private State state;
-    private State previousState;
 
     public void init(boolean answer) {
         this.isAnswer = answer;
-        this.state = this.previousState = State.EMPTY;
+        this.state = State.EMPTY;
     }
 
     public void render(IRender renderMng, int x, int y, int size) {
@@ -42,12 +41,11 @@ public class Cell {
     }
 
     public void setChecked() {
-        this.previousState = state;
         this.state = State.CHECKED;
     }
 
     public void uncheck() {
-        this.state = previousState;
+        this.state = State.EMPTY;
     }
 
     public boolean isAnswer() {

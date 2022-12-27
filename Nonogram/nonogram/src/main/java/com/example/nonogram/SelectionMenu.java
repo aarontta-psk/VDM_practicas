@@ -55,31 +55,31 @@ public class SelectionMenu implements IScene {
     public void handleInput(IInput input, IEngine engine) {
         if (input.getType() == InputType.TOUCH_UP) {
             int numRows = 0, numCols = 0;
-            if (t4x4.isInButton(input.getX(), input.getY())) {
+            if (this.t4x4.isInButton(input.getX(), input.getY())) {
                 numRows = 4; numCols = 4;
             }
-            else if (t5x5.isInButton(input.getX(), input.getY())) {
+            else if (this.t5x5.isInButton(input.getX(), input.getY())) {
                 numRows = 5; numCols = 5;
             }
-            else if (t10x5.isInButton(input.getX(), input.getY())) {
+            else if (this.t10x5.isInButton(input.getX(), input.getY())) {
                 numRows = 10; numCols = 5;
             }
-            else if (t8x8.isInButton(input.getX(), input.getY())) {
+            else if (this.t8x8.isInButton(input.getX(), input.getY())) {
                 numRows = 8; numCols = 8;
             }
-            else if (t10x10.isInButton(input.getX(), input.getY())) {
+            else if (this.t10x10.isInButton(input.getX(), input.getY())) {
                 numRows = 10; numCols = 10;
             }
-            else if (t15x10.isInButton(input.getX(), input.getY())) {
+            else if (this.t15x10.isInButton(input.getX(), input.getY())) {
                 numRows = 15; numCols = 10;
             }
-            else if (backButton.isInButton(input.getX(), input.getY())) {
+            else if (this.backButton.isInButton(input.getX(), input.getY())) {
                 engine.getSceneManager().popScene();
-                backButton.clicked(engine.getAudio());
+                this.backButton.clicked(engine.getAudio());
             }
 
             if (numRows != 0 && numCols != 0) {
-                t4x4.clicked(engine.getAudio());
+                this.t4x4.clicked(engine.getAudio());
                 engine.getSceneManager().pushScene(new BoardScene(numCols, numRows));
             }
         }

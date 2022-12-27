@@ -1,6 +1,5 @@
 package com.example.engine_desktop;
 
-import com.example.engine_common.interfaces.IImage;
 import com.example.engine_common.interfaces.IRender;
 
 import com.example.engine_common.shared.FontType;
@@ -32,7 +31,7 @@ public class RenderDesktop implements IRender {
     private int canvasHeight;
 
     // scale values
-    private double ogDPI;
+    private double originalDPI;
     private double scaleFactor;
 
     // margin values
@@ -57,7 +56,7 @@ public class RenderDesktop implements IRender {
         this.canvasHeight = this.window.getHeight();
 
         // safe configs
-        this.ogDPI = this.canvas.getTransform().getScaleX();
+        this.originalDPI = this.canvas.getTransform().getScaleX();
         this.borders = this.window.getInsets();
 
         // adjust to JFrame insets
@@ -180,24 +179,24 @@ public class RenderDesktop implements IRender {
 
     public boolean windowCreated() { return this.window.getWidth() != 0; }
 
-    public int getOffsetX() { return (int)Math.round((this.borders.left + this.marginWidth) / this.ogDPI); }
+    public int getOffsetX() { return (int)Math.round((this.borders.left + this.marginWidth) / this.originalDPI); }
 
-    public int getOffsetY() { return (int)Math.round((this.borders.top + this.marginHeight) / this.ogDPI); }
+    public int getOffsetY() { return (int)Math.round((this.borders.top + this.marginHeight) / this.originalDPI); }
 
-    public double getScale() { return this.scaleFactor / this.ogDPI; }
+    public double getScale() { return this.scaleFactor / this.originalDPI; }
 
     private void scaleCanvas() {
         // select the lower scale to make proportion viable
         double scaleX = (window.getWidth() - this.borders.left - this.borders.right) / (float) this.canvasWidth;
         double scaleY = (window.getHeight() - this.borders.top - this.borders.bottom) / (float) this.canvasHeight;
-        this.scaleFactor = Math.min(scaleX * this.ogDPI, scaleY * this.ogDPI);
+        this.scaleFactor = Math.min(scaleX * this.originalDPI, scaleY * this.originalDPI);
 
         // we translate with the scale in mind since when you scale below, it does with upper left
         // portion as the center, so we take the logic width/height scale into account so it truly fits
         // in the center
-        int tx = (int)((this.window.getWidth() / 2 - this.canvasWidth * (this.scaleFactor / this.ogDPI) / 2) * this.ogDPI);
+        int tx = (int)((this.window.getWidth() / 2 - this.canvasWidth * (this.scaleFactor / this.originalDPI) / 2) * this.originalDPI);
         int ty = (int)((((this.window.getHeight()) + this.borders.top - this.borders.bottom) / 2 -
-                this.canvasHeight * (this.scaleFactor / this.ogDPI) / 2) * this.ogDPI);
+                this.canvasHeight * (this.scaleFactor / this.originalDPI) / 2) * this.originalDPI);
 
         // we also get the margins width and height data to print them afterwards
         this.marginWidth = Math.max(tx - this.borders.left, 0);
