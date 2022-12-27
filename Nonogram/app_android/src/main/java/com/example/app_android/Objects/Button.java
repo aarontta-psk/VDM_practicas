@@ -1,5 +1,7 @@
 package com.example.app_android.Objects;
 
+import android.util.Pair;
+
 import com.example.app_android.GameManager;
 import com.example.engine_android.Modules.AudioAndroid;
 import com.example.engine_android.Modules.RenderAndroid;
@@ -61,6 +63,10 @@ public class Button {
         width = w;
         height = h;
     }
+
+    public Pair<Integer, Integer> getPos() { return new Pair<>(posX, posY); }
+
+    public Pair<Integer, Integer> getSize() { return new Pair<>(width, height); }
 
     public void setColor(int c){ color = c; }
 }

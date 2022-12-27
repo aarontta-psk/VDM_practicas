@@ -112,12 +112,13 @@ public class WinScene implements IScene {
         // buttons
         int w = GameManager.getInstance().getWidth() / 4;
         int h = GameManager.getInstance().getHeight();
-        this.backButton.setPosition(w / 2, (int)(h * 6.5 / 8));
+        this.backButton.setPosition(0, (int)(h * 7.25 / 8));
         this.backButton.setSize(w, h / 12);
-        this.coinsButton.setPosition(5 * w / 2, (int)(h * 6.5 / 8));
-        this.coinsButton.setSize(w, h / 12);
         this.shareButton.setPosition(3 * w / 2, (int)(h * 7.25 / 8));
         this.shareButton.setSize(w, h / 12);
+        this.coinsButton.setPosition(3 * w, (int)(h * 7.25 / 8));
+        this.coinsButton.setSize(w, h / 12);
+
 
         this.board.calcCellSize(engRef);
         this.board.setPos((GameManager.getInstance().getWidth() - board.getWidthInPixels()) / 2,
@@ -131,12 +132,12 @@ public class WinScene implements IScene {
         // buttons
         int w = GameManager.getInstance().getWidth() / 4;
         int h = GameManager.getInstance().getHeight();
-        this.backButton.setPosition(w / 2, (int)(h * 6.5 / 8));
+        this.backButton.setPosition(0, (int)(h * 7.25 / 8));
         this.backButton.setSize(w, h / 12);
-        this.coinsButton.setPosition(5 * w / 2, (int)(h * 6.5 / 8));
-        this.coinsButton.setSize(w, h / 12);
         this.shareButton.setPosition(3 * w / 2, (int)(h * 7.25 / 8));
         this.shareButton.setSize(w, h / 12);
+        this.coinsButton.setPosition(3 * w, (int)(h * 7.25 / 8));
+        this.coinsButton.setSize(w, h / 12);
 
         this.board.calcCellSize(engRef);
         this.board.setPos((GameManager.getInstance().getWidth() - board.getWidthInPixels()) / 2,
