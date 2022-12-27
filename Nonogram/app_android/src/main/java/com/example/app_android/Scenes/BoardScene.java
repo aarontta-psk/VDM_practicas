@@ -176,7 +176,8 @@ public class BoardScene implements IScene {
 
         this.board.calcCellSize(engRef);
         this.board.setPos((GameManager.getInstance().getWidth() - board.getWidthInPixels()) / 2,
-        (int)((GameManager.getInstance().getHeight() / 0.75f) - board.getHeightInPixels()) / 2);
+        (int)((GameManager.getInstance().getHeight() - (coinIndicator.getPos().second + coinIndicator.getSize().second)
+                - board.getHeightInPixels()) / 2) + (coinIndicator.getPos().second + coinIndicator.getSize().second));
     }
 
     private void arrangeLandscape(EngineAndroid engRef) {
@@ -195,6 +196,7 @@ public class BoardScene implements IScene {
         this.liveW = GameManager.getInstance().getWidth() / 18;
 
         this.board.calcCellSize(engRef);
-        this.board.setPos((GameManager.getInstance().getWidth() - board.getWidthInPixels()) / 2, 10);
+        this.board.setPos((GameManager.getInstance().getWidth() - board.getWidthInPixels()) / 2,
+                (int)((GameManager.getInstance().getHeight() - board.getHeightInPixels()) / 2));
     }
 }

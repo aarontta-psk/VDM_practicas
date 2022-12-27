@@ -24,7 +24,7 @@ public class ThemeSelectionMenu implements IScene {
     private Button backButton;
     private Button coinIndicator;
 
-    final int LEVEL_UNLOCK_CATEGORY = 10;
+    final int LEVEL_UNLOCK_CATEGORY = 1;
 
     @Override
     public String getId() {
