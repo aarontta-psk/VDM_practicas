@@ -13,7 +13,6 @@ public class BootScene implements IScene {
 
     @Override
     public void init() {
-        // TODO: Load all files here, assign string to Resources final values, then go to MainMenu
         // images
         Resources.IMAGE_BACK_BUTTON = this.engine.getRender().loadImage("images/backbutton.png");
         Resources.IMAGE_CHECK_BUTTON = this.engine.getRender().loadImage("images/checkbutton.png");

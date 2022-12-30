@@ -9,14 +9,14 @@ import java.util.Random;
 
 public class Board {
     static float SECONDS_CHECKED = 1.5f;
-
+    private final int cellProbability = 4;
     public boolean win = false;
 
     private Cell[][] board;
     private List<Integer>[] colsNums;
     private List<Integer>[] rowsNums;
 
-    private int height, width;
+    private int rows, cols;
     private int posX, posY;
 
     private int board_cell_size;
@@ -33,34 +33,33 @@ public class Board {
     private double lastTimeChecked;
 
     public void init(int w, int h) {
-        this.width = w;
-        this.height = h;
-        this.board = new Cell[this.width][this.height];
-        for (int i = 0; i < this.width; i++)
-            for (int j = 0; j < this.height; j++)
+        this.cols = w;
+        this.rows = h;
+        this.board = new Cell[this.cols][this.rows];
+        for (int i = 0; i < this.cols; i++)
+            for (int j = 0; j < this.rows; j++)
                 this.board[i][j] = new Cell();
 
         Random random = new Random();
-        this.colsNums = new ArrayList[this.width];
-        this.rowsNums = new ArrayList[this.height];
+        this.colsNums = new ArrayList[this.cols];
+        this.rowsNums = new ArrayList[this.rows];
         this.checkedCells = new ArrayList<>();
 
         this.maxNumbers = 1;
-        for (int i = 0; i < this.height; i++) {
+        for (int i = 0; i < this.rows; i++) {
             this.rowsNums[i] = new ArrayList<>();
             this.rowsNums[i].add(-1);
-            if (this.maxNumbers < rowsNums[i].size())
-                this.maxNumbers = rowsNums[i].size();
         }
 
         // creación aleatoria del tablero
-        for (int i = 0; i < this.width; i++) {
+        for (int i = 0; i < this.cols; i++) {
             this.colsNums[i] = new ArrayList<>();
             this.colsNums[i].add(-1);
-            for (int j = 0; j < this.height; j++) {
+            for (int j = 0; j < this.rows; j++) {
                 int rand = random.nextInt(10);
-                this.board[i][j].init(rand < 4);
-                if (rand < 4) {
+                this.board[i][j].init(rand < this.cellProbability);
+                // si es casilla
+                if (rand < this.cellProbability) {
                     this.cellsLeft++;
 
                     // rellenado vector indicador numeros columnas
@@ -95,7 +94,7 @@ public class Board {
         }
 
         // -1 at the end of every numbers' row
-        for (int i = 0; i < this.height; i++)
+        for (int i = 0; i < this.rows; i++)
             if (this.rowsNums[i].get(this.rowsNums[i].size() - 1) != -1)
                 this.rowsNums[i].add(-1);
 
@@ -108,9 +107,9 @@ public class Board {
         this.board_cell_size -= this.separation_margin;
         this.fontSize = this.board_cell_size / 3;
 
-        this.posX = (GameManager.getInstance().getWidth() - (this.board_cell_size + this.separation_margin) * this.width
+        this.posX = (GameManager.getInstance().getWidth() - (this.board_cell_size + this.separation_margin) * this.cols
                 - this.maxNumbers * this.fontSize) / 2;
-        this.posY = ((int) (GameManager.getInstance().getHeight() / 0.75f) - (this.board_cell_size + this.separation_margin) * this.height
+        this.posY = ((int) (GameManager.getInstance().getHeight() / 0.75f) - (this.board_cell_size + this.separation_margin) * this.rows
                 - this.maxNumbers * this.fontSize) / 2;
 
         // error message setup
@@ -125,18 +124,18 @@ public class Board {
         // board limits
         renderer.setColor(0xFF000000);
         renderer.drawRectangle(this.maxNumbers * this.fontSize + this.posX, this.posY + this.maxNumbers * this.fontSize,
-                this.width * (this.board_cell_size + this.separation_margin) + 1,
-                this.height * (this.board_cell_size + this.separation_margin) + 1, false);
+                this.cols * (this.board_cell_size + this.separation_margin) + 1,
+                this.rows * (this.board_cell_size + this.separation_margin) + 1, false);
         renderer.drawRectangle(this.posX + this.maxNumbers * this.fontSize, this.maxNumbers * this.fontSize + this.posY,
-                this.width * (this.board_cell_size + this.separation_margin) + 1,
-                this.height * (this.board_cell_size + this.separation_margin) + 1, false);
+                this.cols * (this.board_cell_size + this.separation_margin) + 1,
+                this.rows * (this.board_cell_size + this.separation_margin) + 1, false);
 
         // board number indicators
         printNumbers(renderer);
 
         // board cells
-        for (int i = 0; i < this.width; i++)
-            for (int j = 0; j < this.height; j++)
+        for (int i = 0; i < this.cols; i++)
+            for (int j = 0; j < this.rows; j++)
                 this.board[i][j].render(renderer, i * this.board_cell_size + (i + 1) * this.separation_margin +
                                 this.posX + this.maxNumbers * this.fontSize,
                         j * this.board_cell_size + (j + 1) * this.separation_margin +
@@ -156,9 +155,9 @@ public class Board {
     }
 
     public void renderWin(IRender renderer) {
-        this.posX = (GameManager.getInstance().getWidth() - this.board_cell_size * width - this.separation_margin * (this.width + 1)) / 2;
-        for (int i = 0; i < this.width; i++)
-            for (int j = 0; j < this.height; j++)
+        this.posX = (GameManager.getInstance().getWidth() - this.board_cell_size * cols - this.separation_margin * (this.cols + 1)) / 2;
+        for (int i = 0; i < this.cols; i++)
+            for (int j = 0; j < this.rows; j++)
                 if (this.board[i][j].isAnswer())
                     this.board[i][j].render(renderer, i * this.board_cell_size + (i + 1) * this.separation_margin + this.posX,
                             j * this.board_cell_size + (j + 1) * this.separation_margin + this.posY - GameManager.getInstance().getHeight() / 10,
@@ -211,8 +210,8 @@ public class Board {
     }
 
     public void check() {
-        for (int i = 0; i < this.width; i++) {
-            for (int j = 0; j < this.height; j++) {
+        for (int i = 0; i < this.cols; i++) {
+            for (int j = 0; j < this.rows; j++) {
                 if (!this.board[i][j].isAnswer() && this.board[i][j].getState() == Cell.State.MARKED) {
                     this.board[i][j].setChecked();
                     this.checkedCells.add(this.board[i][j]);
@@ -227,9 +226,9 @@ public class Board {
 
     public boolean isInBoard(int posX, int posY) {
         return posX > (this.separation_margin + this.posX + this.maxNumbers * this.fontSize) &&
-                posX < (this.width * this.board_cell_size + this.width * this.separation_margin + this.posX + this.maxNumbers * this.fontSize) &&
+                posX < (this.cols * this.board_cell_size + this.cols * this.separation_margin + this.posX + this.maxNumbers * this.fontSize) &&
                 posY > (this.separation_margin + this.posY + this.maxNumbers * this.fontSize) &&
-                posY < (this.height * this.board_cell_size + this.height * this.separation_margin + this.posY + this.maxNumbers * this.fontSize);
+                posY < (this.rows * this.board_cell_size + this.rows * this.separation_margin + this.posY + this.maxNumbers * this.fontSize);
     }
 
     public void markCell(int x, int y) {
@@ -248,11 +247,11 @@ public class Board {
         return this.separation_margin;
     }
 
-    public int getWidth() {
+    public int getCols() {
         return this.colsNums.length;
     }
 
-    public int getHeight() {
+    public int getRows() {
         return this.rowsNums.length;
     }
 }

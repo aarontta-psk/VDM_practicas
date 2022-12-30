@@ -49,7 +49,7 @@ public class RenderDesktop implements IRender {
         // obtain window and render data
         this.window = win;
         this.bufferStrategy = this.window.getBufferStrategy();
-        this.canvas = (Graphics2D) bufferStrategy.getDrawGraphics();
+        this.canvas = (Graphics2D) this.bufferStrategy.getDrawGraphics();
 
         // canvas distribution
         this.canvasWidth = this.window.getWidth();
@@ -62,11 +62,11 @@ public class RenderDesktop implements IRender {
         // adjust to JFrame insets
         this.window.setSize(this.window.getWidth() + this.borders.left + this.borders.right,
                 this.window.getHeight() + this.borders.top + this.borders.bottom);
-        this.canvas = (Graphics2D) bufferStrategy.getDrawGraphics();
+        this.canvas = (Graphics2D) this.bufferStrategy.getDrawGraphics();
 
         // bg color
         this.bgColor = bg;
-        this.window.setBackground(new Color(bgColor));
+        this.window.setBackground(new Color(this.bgColor));
 
         // start resource managers
         this.fonts = new HashMap<>();
