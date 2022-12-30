@@ -98,9 +98,8 @@ public class Board {
             if (this.rowsNums[i].get(this.rowsNums[i].size() - 1) != -1)
                 this.rowsNums[i].add(-1);
 
-        int maxDimension = Math.max(w, h);
-        int winW = (GameManager.getInstance().getWidth()) / (maxDimension + maxDimension / 8);
-        int winH = ((int) (GameManager.getInstance().getHeight() / 1.85) - this.maxNumbers * this.fontSize) / (maxDimension + maxDimension / 8);
+        int winW = (9 * GameManager.getInstance().getWidth() / 10) / (cols + 1);
+        int winH = (7 * GameManager.getInstance().getHeight() / 10) / (rows + 1);
 
         this.board_cell_size = Math.min(winH, winW);
         this.separation_margin = Math.max(this.board_cell_size / 25, 1);
