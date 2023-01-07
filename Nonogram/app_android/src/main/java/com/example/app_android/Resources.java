@@ -8,6 +8,7 @@ public class Resources {
     public static String IMAGE_LOCK = null;
     public static String IMAGE_HEART = null;
     public static String IMAGE_NO_HEART = null;
+    public static String IMAGE_RECOVER_HEART = null;
 
     // fonts
     public static String FONT_EXO_REGULAR_BIG = null;
