@@ -11,7 +11,7 @@ import com.example.engine_android.Enums.InputType;
 import com.example.engine_android.Modules.RenderAndroid;
 
 public class PaletteMenu implements IScene {
-    final int PALETTE_VALUE = 3;
+    final int[] PALETTE_VALUE = {5, 10};
     private Label mainText;
 
     private Button[] paletteButtons;
@@ -33,10 +33,15 @@ public class PaletteMenu implements IScene {
         int getH = GameManager.getInstance().getHeight();
         int numPalettes = GameManager.getInstance().NUM_PALETTES;
 
+        GameManager gM = GameManager.getInstance();
         paletteButtons = new Button[numPalettes];
         for (int i = 0; i < numPalettes; i++) {
-            this.paletteButtons[i] = new Button(0, 0, 0, 0,
-                    "Palette " + (i + 1), "", Resources.FONT_SIMPLY_SQUARE_BIG, Resources.SOUND_BUTTON, false);
+            if (gM.isPaletteUnlocked(i))
+                this.paletteButtons[i] = new Button(0, 0, 0, 0,
+                        "Palette " + (i + 1), "", Resources.FONT_SIMPLY_SQUARE_BIG, Resources.SOUND_BUTTON, false);
+            else
+                this.paletteButtons[i] = new Button(0, 0, 0, 0,
+                       "(-" + PALETTE_VALUE[i-1] + ") Palette " + (i + 1), Resources.IMAGE_COIN, Resources.FONT_SIMPLY_SQUARE_BIG, Resources.SOUND_BUTTON, false);
         }
         this.coinIndicator = new Button(0,0,0,0, Integer.toString(GameManager.getInstance().getCoins()),
                 Resources.IMAGE_COIN, Resources.FONT_EXO_REGULAR_MEDIUM, "", false);
@@ -84,12 +89,12 @@ public class PaletteMenu implements IScene {
 
             if (x != -1) {
                 GameManager gM = GameManager.getInstance();
-                if (!gM.isPaletteUnlocked(x) && gM.getCoins() < PALETTE_VALUE) {
+                if (!gM.isPaletteUnlocked(x) && gM.getCoins() < PALETTE_VALUE[x-1]) {
                     return;
                 }
                 else if(!gM.isPaletteUnlocked(x)){
                     gM.unlockPalette(x);
-                    gM.addCoins(-PALETTE_VALUE);
+                    gM.addCoins(-PALETTE_VALUE[x-1]);
                 }
                 gM.setPalette(x);
                 engRef.getRender().setBackGroundColor(GameManager.getInstance().getColor(GameManager.ColorTypes.BG_COLOR.ordinal()));
@@ -120,8 +125,9 @@ public class PaletteMenu implements IScene {
 
         int numPalettes = GameManager.getInstance().NUM_PALETTES;
         for (int i = 0; i < numPalettes; i++) {
-            this.paletteButtons[i].setPosition(getW / 2 - (getW / 5)*numPalettes/2 + (getW / 5 + 5)*i, (getH / 2));
-            this.paletteButtons[i].setSize(getW / 5, getW / 5);
+            this.paletteButtons[i].setPosition(getW/4, (getH / 4) + (getH / 5 + 5)*i);
+            this.paletteButtons[i].setSize((int)(getW/1.80f), getW / 5);
+            this.paletteButtons[i].setColor(GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
         }
     }
 
@@ -140,8 +146,8 @@ public class PaletteMenu implements IScene {
 
         int numPalettes = GameManager.getInstance().NUM_PALETTES;
         for (int i = 0; i < numPalettes; i++) {
-            this.paletteButtons[i].setPosition(getW / 2 - (getW / 5)*numPalettes/2 + (getW / 5 + 5)*i, (getH / 2));
-            this.paletteButtons[i].setSize(getW / 5, getW / 5);
+            this.paletteButtons[i].setPosition(getW / 3, (getH / 4) + (getW / 10 + 5)*i);
+            this.paletteButtons[i].setSize(getW/3, getH / 10);
             this.paletteButtons[i].setColor(GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
         }
     }
