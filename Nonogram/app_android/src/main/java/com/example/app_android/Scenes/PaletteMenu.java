@@ -39,15 +39,15 @@ public class PaletteMenu implements IScene {
         for (int i = 0; i < numPalettes; i++) {
             if (gM.isPaletteUnlocked(i))
                 this.paletteButtons[i] = new Button(0, 0, 0, 0,
-                        "Palette " + (i + 1), "", Resources.FONT_SIMPLY_SQUARE_BIG, Resources.SOUND_BUTTON, false, GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
+                        "Palette " + (i + 1), "", Resources.FONT_SIMPLY_SQUARE_BIG, Resources.SOUND_BUTTON);
             else
                 this.paletteButtons[i] = new Button(0, 0, 0, 0,
-                       "(-" + PALETTE_VALUE[i-1] + ") Palette " + (i + 1), Resources.IMAGE_COIN, Resources.FONT_SIMPLY_SQUARE_BIG, Resources.SOUND_BUTTON, false, GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
+                       "(-" + PALETTE_VALUE[i-1] + ") Palette " + (i + 1), Resources.IMAGE_COIN, Resources.FONT_SIMPLY_SQUARE_BIG, Resources.SOUND_BUTTON);
         }
         this.coinIndicator = new Button(0,0,0,0, Integer.toString(GameManager.getInstance().getCoins()),
-                Resources.IMAGE_COIN, Resources.FONT_EXO_REGULAR_MEDIUM, "", false, GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
+                Resources.IMAGE_COIN, Resources.FONT_EXO_REGULAR_MEDIUM, "");
         this.backButton = new Button(0, 0, 0, 0, "Back",
-                Resources.IMAGE_BACK_BUTTON, Resources.FONT_SIMPLY_SQUARE_BIG, Resources.SOUND_BUTTON, false, GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
+                Resources.IMAGE_BACK_BUTTON, Resources.FONT_SIMPLY_SQUARE_BIG, Resources.SOUND_BUTTON);
 
         this.paletteButtons[gM.getActPalette()].setColor(gM.getColor(GameManager.ColorTypes.MAIN_COLOR.ordinal()));
         rearrange(engRef);
