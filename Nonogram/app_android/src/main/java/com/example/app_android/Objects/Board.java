@@ -202,9 +202,9 @@ public class Board {
         if (!board[boardX][boardY].isAnswer() && board[boardX][boardY].getState() == Cell.State.MARKED) {
             board[boardX][boardY].setChecked();
             checkedCells.add(board[boardX][boardY]);
+            lastTimeChecked = SECONDS_CHECKED;
         }
 
-        lastTimeChecked = SECONDS_CHECKED;
         if (cellsLeft == 0)
             win = true;
 

@@ -1,7 +1,5 @@
 package com.example.app_android.Objects;
 
-import com.example.app_android.GameManager;
-import com.example.engine_android.EngineAndroid;
 import com.example.engine_android.Modules.RenderAndroid;
 
 public class Label {
@@ -18,7 +16,7 @@ public class Label {
         this.color = 0xFF000000;
     }
 
-    public void render(IRender renderer) {
+    public void render(RenderAndroid renderer) {
         renderer.setColor(this.color);
         renderer.setFont(this.font);
         int textWidth = renderer.getTextWidth(this.font, this.text) / 2;
