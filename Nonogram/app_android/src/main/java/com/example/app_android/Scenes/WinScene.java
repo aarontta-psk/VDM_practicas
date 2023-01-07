@@ -35,13 +35,13 @@ public class WinScene implements IScene {
     public String getId() { return "WinScene"; }
 
     @Override
-    public void init(EngineAndroid engRef) {
+    public void init(EngineAndroid engine) {
         // what coins to add
         int coins = this.victory ? (this.board.getWidth() * this.board.getHeight()) / 2 : 0;
         GameManager.getInstance().addCoins(coins);
 
         // title
-        this.winLabel = new Label(this.victory ? "¡¡Victoria!!" : "Derrota :(", 0, 0,
+        this.winLabel = new Label(0, 0, this.victory ? "¡¡Victoria!!" : "Derrota :(",
                 Resources.FONT_EXO_REGULAR_BIG);
 
         // buttons
@@ -52,15 +52,15 @@ public class WinScene implements IScene {
         this.shareButton = new Button(0, 0, 0, 0, "Share", Resources.IMAGE_TWITTER_BUTTON,
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
 
-        rearrange(engRef);
+        rearrange(engine);
     }
 
     @Override
-    public void rearrange(EngineAndroid engRef) {
-        if (engRef.getOrientation() == EngineAndroid.Orientation.PORTRAIT)
-            arrangePortrait(engRef);
-        else if (engRef.getOrientation() == EngineAndroid.Orientation.LANDSCAPE)
-            arrangeLandscape(engRef);
+    public void rearrange(EngineAndroid engine) {
+        if (engine.getOrientation() == EngineAndroid.Orientation.PORTRAIT)
+            arrangePortrait(engine);
+        else if (engine.getOrientation() == EngineAndroid.Orientation.LANDSCAPE)
+            arrangeLandscape(engine);
     }
 
     @Override
@@ -69,29 +69,29 @@ public class WinScene implements IScene {
     }
 
     @Override
-    public void render(RenderAndroid renderMng) {
+    public void render(RenderAndroid renderer) {
         // render label
-        this.winLabel.render(renderMng);
+        this.winLabel.render(renderer);
 
         // render buttons
-        this.backButton.render(renderMng);
-        this.coinsButton.render(renderMng);
+        this.backButton.render(renderer);
+        this.coinsButton.render(renderer);
 
         // render solved board
         if (this.victory) {
-            this.board.renderWin(renderMng);
-            this.shareButton.render(renderMng);
+            this.board.renderWin(renderer);
+            this.shareButton.render(renderer);
         }
     }
 
     @Override
-    public void handleInput(InputAndroid input, EngineAndroid engRef) {
+    public void handleInput(InputAndroid input, EngineAndroid engine) {
         if(input.getType() == InputType.TOUCH_UP && this.backButton.isInButton(input.getX(), input.getY())){
             if(this.category == 0)
-                engRef.getSceneManager().changeScene(new SelectionMenu(), engRef);
+                engine.getSceneManager().changeScene(new SelectionMenu(), engine);
             else
-                engRef.getSceneManager().changeScene(new CategoryLevelSelectionMenu(this.category), engRef);
-            this.backButton.clicked(engRef.getAudio());
+                engine.getSceneManager().changeScene(new CategoryLevelSelectionMenu(this.category), engine);
+            this.backButton.clicked(engine.getAudio());
         }
         else if (input.getType() == InputType.TOUCH_UP && this.shareButton.isInButton(input.getX(), input.getY())){
             if (this.victory){
@@ -100,7 +100,7 @@ public class WinScene implements IScene {
                     text =  "I just won a super awesome random level on Nonograms, I dare you to beat it as well!";
                 else
                     text = "I just won level " + level + " on Nonograms, I dare you to beat it as well!";
-                engRef.getIntentSystem().share(IntentSystemAndroid.SocialNetwork.TWITTER, text);
+                engine.getIntentSystem().share(IntentSystemAndroid.SocialNetwork.TWITTER, text);
             }
         }
     }

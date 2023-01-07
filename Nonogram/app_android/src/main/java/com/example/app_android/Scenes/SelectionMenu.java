@@ -26,7 +26,7 @@ public class SelectionMenu implements IScene {
     }
 
     @Override
-    public void init(EngineAndroid engRef) {
+    public void init(EngineAndroid engine) {
         // select buttons
         this.t4x4 = new Button(0, 0, 0, 0, "4x4", "",
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
@@ -45,14 +45,14 @@ public class SelectionMenu implements IScene {
         this.backButton = new Button(0, 0, 0, 0, "Back", "",
                 Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
 
-        rearrange(engRef);
+        rearrange(engine);
     }
 
     @Override
-    public void rearrange(EngineAndroid engRef) {
-        if (engRef.getOrientation() == EngineAndroid.Orientation.PORTRAIT)
+    public void rearrange(EngineAndroid engine) {
+        if (engine.getOrientation() == EngineAndroid.Orientation.PORTRAIT)
             arrangePortrait();
-        else if (engRef.getOrientation() == EngineAndroid.Orientation.LANDSCAPE)
+        else if (engine.getOrientation() == EngineAndroid.Orientation.LANDSCAPE)
             arrangeLandscape();
     }
 
@@ -62,21 +62,21 @@ public class SelectionMenu implements IScene {
     }
 
     @Override
-    public void render(RenderAndroid renderMng) {
-        renderMng.setColor(0xFF000000);
+    public void render(RenderAndroid renderer) {
+        renderer.setColor(0xFF000000);
 
-        this.t4x4.render(renderMng);
-        this.t5x5.render(renderMng);
-        this.t5x10.render(renderMng);
-        this.t8x8.render(renderMng);
-        this.t10x10.render(renderMng);
-        this.t10x15.render(renderMng);
+        this.t4x4.render(renderer);
+        this.t5x5.render(renderer);
+        this.t5x10.render(renderer);
+        this.t8x8.render(renderer);
+        this.t10x10.render(renderer);
+        this.t10x15.render(renderer);
 
-        this.backButton.render(renderMng);
+        this.backButton.render(renderer);
     }
 
     @Override
-    public void handleInput(InputAndroid input, EngineAndroid engRef) {
+    public void handleInput(InputAndroid input, EngineAndroid engine) {
         if (input.getType() == InputType.TOUCH_UP) {
             int x = 0, y = 0;
             if (this.t4x4.isInButton(input.getX(), input.getY())) {
@@ -98,13 +98,13 @@ public class SelectionMenu implements IScene {
                 x = 15;
                 y = 10;
             } else if (this.backButton.isInButton(input.getX(), input.getY())) {
-                engRef.getSceneManager().changeScene(new ModeSelectionMenu(), engRef);
-                this.backButton.clicked(engRef.getAudio());
+                engine.getSceneManager().changeScene(new ModeSelectionMenu(), engine);
+                this.backButton.clicked(engine.getAudio());
             }
 
             if (x != 0) {
-                this.backButton.clicked(engRef.getAudio());
-                engRef.getSceneManager().changeScene(new BoardScene(x, y), engRef);
+                this.backButton.clicked(engine.getAudio());
+                engine.getSceneManager().changeScene(new BoardScene(x, y), engine);
             }
         }
     }

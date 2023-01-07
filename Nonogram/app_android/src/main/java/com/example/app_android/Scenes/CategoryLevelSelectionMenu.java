@@ -45,7 +45,7 @@ public class CategoryLevelSelectionMenu implements IScene {
     }
 
     @Override
-    public void init(EngineAndroid engRef) {
+    public void init(EngineAndroid engine) {
         // selection levels
         this.levelSelectionButtons = new Button[LEVELS_PER_CATEGORY];
         int x = GameManager.getInstance().getWidth() / 5;
@@ -58,20 +58,19 @@ public class CategoryLevelSelectionMenu implements IScene {
         }
 
         // buttons
-        int getW = GameManager.getInstance().getWidth();
         this.backButton = new Button(0, 0, 0, 0, "Back",
                 Resources.IMAGE_BACK_BUTTON, Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
         this.coinIndicator = new Button(0, 0, 0, 0, Integer.toString(GameManager.getInstance().getCoins()),
                 Resources.IMAGE_COIN, Resources.FONT_SIMPLY_SQUARE_MEDIUM, "");
 
-        rearrange(engRef);
+        rearrange(engine);
     }
 
     @Override
-    public void rearrange(EngineAndroid engRef) {
-        if (engRef.getOrientation() == EngineAndroid.Orientation.PORTRAIT)
+    public void rearrange(EngineAndroid engine) {
+        if (engine.getOrientation() == EngineAndroid.Orientation.PORTRAIT)
             arrangePortrait();
-        else if (engRef.getOrientation() == EngineAndroid.Orientation.LANDSCAPE)
+        else if (engine.getOrientation() == EngineAndroid.Orientation.LANDSCAPE)
             arrangeLandscape();
     }
 
@@ -81,22 +80,22 @@ public class CategoryLevelSelectionMenu implements IScene {
     }
 
     @Override
-    public void render(RenderAndroid renderMng) {
+    public void render(RenderAndroid renderer) {
         // buttons
-        renderMng.setColor(0xFF000000);
+        renderer.setColor(0xFF000000);
         for (int i = 0; i < LEVELS_PER_CATEGORY; i++)
-            this.levelSelectionButtons[i].render(renderMng);
-        this.backButton.render(renderMng);
-        this.coinIndicator.render(renderMng);
+            this.levelSelectionButtons[i].render(renderer);
+        this.backButton.render(renderer);
+        this.coinIndicator.render(renderer);
     }
 
     @Override
-    public void handleInput(InputAndroid input, EngineAndroid engRef) {
+    public void handleInput(InputAndroid input, EngineAndroid engine) {
         if (input.getType() == InputType.TOUCH_UP) {
             // back
             if (this.backButton.isInButton(input.getX(), input.getY())) {
-                this.backButton.clicked(engRef.getAudio());
-                engRef.getSceneManager().changeScene(new ThemeSelectionMenu(), engRef);
+                this.backButton.clicked(engine.getAudio());
+                engine.getSceneManager().changeScene(new ThemeSelectionMenu(), engine);
             }
 
             // check for level selected
@@ -109,8 +108,8 @@ public class CategoryLevelSelectionMenu implements IScene {
 
             // if level selected
             if (level < this.lastUnlocked) {
-                this.levelSelectionButtons[0].clicked(engRef.getAudio());
-                engRef.getSceneManager().changeScene(new BoardScene(this.path, level + 1, this.category), engRef);
+                this.levelSelectionButtons[0].clicked(engine.getAudio());
+                engine.getSceneManager().changeScene(new BoardScene(this.path, level + 1, this.category), engine);
             }
         }
     }

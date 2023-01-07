@@ -32,8 +32,8 @@ public class ThemeSelectionMenu implements IScene {
     }
 
     @Override
-    public void init(EngineAndroid engRef) {
-        this.mainLabel = new Label("Choose theme", 0, 0, Resources.FONT_KOMIKAX);
+    public void init(EngineAndroid engine) {
+        this.mainLabel = new Label(0, 0, "Choose theme", Resources.FONT_KOMIKAX);
 
         this.animalThemeButton = new Button(0, 0, 0, 0, "ANIMAL THEME", "",
                 Resources.FONT_EXO_REGULAR_MEDIUM, Resources.SOUND_BUTTON);
@@ -51,14 +51,14 @@ public class ThemeSelectionMenu implements IScene {
         this.coinIndicator = new Button(0, 0, 0, 0,  Integer.toString(GameManager.getInstance().getCoins()),
                 Resources.IMAGE_COIN, Resources.FONT_SIMPLY_SQUARE_MEDIUM, "");
 
-        rearrange(engRef);
+        rearrange(engine);
     }
 
     @Override
-    public void rearrange(EngineAndroid engRef) {
-        if (engRef.getOrientation() == EngineAndroid.Orientation.PORTRAIT)
+    public void rearrange(EngineAndroid engine) {
+        if (engine.getOrientation() == EngineAndroid.Orientation.PORTRAIT)
             arrangePortrait();
-        else if (engRef.getOrientation() == EngineAndroid.Orientation.LANDSCAPE)
+        else if (engine.getOrientation() == EngineAndroid.Orientation.LANDSCAPE)
             arrangeLandscape();
     }
 
@@ -68,51 +68,51 @@ public class ThemeSelectionMenu implements IScene {
     }
 
     @Override
-    public void render(RenderAndroid renderMng) {
+    public void render(RenderAndroid renderer) {
         // render text
-        renderMng.setColor(0xFF000000);
+        renderer.setColor(0xFF000000);
 
         // label
-        this.mainLabel.render(renderMng);
+        this.mainLabel.render(renderer);
 
         // buttons
-        this.animalThemeButton.render(renderMng);
-        this.emojiThemeButton.render(renderMng);
-        this.kitchenThemeButton.render(renderMng);
-        this.christmasThemeButton.render(renderMng);
+        this.animalThemeButton.render(renderer);
+        this.emojiThemeButton.render(renderer);
+        this.kitchenThemeButton.render(renderer);
+        this.christmasThemeButton.render(renderer);
 
-        this.coinIndicator.render(renderMng);
-        this.backButton.render(renderMng);
+        this.coinIndicator.render(renderer);
+        this.backButton.render(renderer);
     }
 
     @Override
-    public void handleInput(InputAndroid input, EngineAndroid engRef) {
+    public void handleInput(InputAndroid input, EngineAndroid engine) {
         GameManager gM = GameManager.getInstance();
         if (input.getType() == InputType.TOUCH_UP) {
             if (this.animalThemeButton.isInButton(input.getX(), input.getY())) {
-                engRef.getSceneManager().changeScene(new CategoryLevelSelectionMenu(1), engRef);
-                this.animalThemeButton.clicked(engRef.getAudio());
+                engine.getSceneManager().changeScene(new CategoryLevelSelectionMenu(1), engine);
+                this.animalThemeButton.clicked(engine.getAudio());
             } else if (this.emojiThemeButton.isInButton(input.getX(), input.getY()) && gM.getLevelUnlocked(1) > LEVEL_UNLOCK_CATEGORY) {
                 if (gM.getLevelUnlocked(2) == -1) {
                     gM.updateCategory(2, 0, null, -1);
                 }
-                engRef.getSceneManager().changeScene(new CategoryLevelSelectionMenu(2), engRef);
-                this.emojiThemeButton.clicked(engRef.getAudio());
+                engine.getSceneManager().changeScene(new CategoryLevelSelectionMenu(2), engine);
+                this.emojiThemeButton.clicked(engine.getAudio());
             } else if (this.kitchenThemeButton.isInButton(input.getX(), input.getY()) && gM.getLevelUnlocked(2) > LEVEL_UNLOCK_CATEGORY) {
                 if (gM.getLevelUnlocked(3) == -1) {
                     gM.updateCategory(3, 0, null, -1);
                 }
-                engRef.getSceneManager().changeScene(new CategoryLevelSelectionMenu(3), engRef);
-                this.emojiThemeButton.clicked(engRef.getAudio());
+                engine.getSceneManager().changeScene(new CategoryLevelSelectionMenu(3), engine);
+                this.emojiThemeButton.clicked(engine.getAudio());
             } else if (this.christmasThemeButton.isInButton(input.getX(), input.getY()) && gM.getLevelUnlocked(3) > LEVEL_UNLOCK_CATEGORY) {
                 if (gM.getLevelUnlocked(4) == -1) {
                     gM.updateCategory(4, 0, null, -1);
                 }
-                engRef.getSceneManager().changeScene(new CategoryLevelSelectionMenu(4), engRef);
-                this.emojiThemeButton.clicked(engRef.getAudio());
+                engine.getSceneManager().changeScene(new CategoryLevelSelectionMenu(4), engine);
+                this.emojiThemeButton.clicked(engine.getAudio());
             } else if (this.backButton.isInButton(input.getX(), input.getY())) {
-                engRef.getSceneManager().changeScene(new ModeSelectionMenu(), engRef);
-                this.backButton.clicked(engRef.getAudio());
+                engine.getSceneManager().changeScene(new ModeSelectionMenu(), engine);
+                this.backButton.clicked(engine.getAudio());
             }
         }
     }

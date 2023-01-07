@@ -6,9 +6,9 @@ import com.example.engine_android.Modules.RenderAndroid;
 public interface IScene {
     public String getId();
 
-    public void init(EngineAndroid engRef);
-    public void rearrange(EngineAndroid engRef);
+    public void init(EngineAndroid engine);
+    public void rearrange(EngineAndroid engine);
     public void update(double deltaTime, EngineAndroid engine);
-    public void render(RenderAndroid renderMng);
-    public void handleInput(InputAndroid input, EngineAndroid engRef);
+    public void render(RenderAndroid renderer);
+    public void handleInput(InputAndroid input, EngineAndroid engine);
 }

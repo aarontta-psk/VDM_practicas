@@ -15,34 +15,34 @@ public class BootScene implements IScene {
     }
 
     @Override
-    public void init(EngineAndroid engRef) {
-        // TODO: Load all files here, assign string to Resources final values, then go to MainMenu
+    public void init(EngineAndroid engine) {
         // images
-        Resources.IMAGE_BACK_BUTTON = engRef.getRender().loadImage("images/backbutton.png");
-        Resources.IMAGE_COIN = engRef.getRender().loadImage("images/coin.png");
-        Resources.IMAGE_LOCK = engRef.getRender().loadImage("images/lock.png");
-        Resources.IMAGE_HEART = engRef.getRender().loadImage("images/heart.png");
-        Resources.IMAGE_NO_HEART = engRef.getRender().loadImage("images/no_heart.png");
-        Resources.IMAGE_TWITTER_BUTTON = engRef.getRender().loadImage("images/twitter_logo.png");
-        Resources.IMAGE_RECOVER_HEART = engRef.getRender().loadImage("images/recover.png");
+        Resources.IMAGE_BACK_BUTTON = engine.getRender().loadImage("images/backbutton.png");
+        Resources.IMAGE_COIN = engine.getRender().loadImage("images/coin.png");
+        Resources.IMAGE_LOCK = engine.getRender().loadImage("images/lock.png");
+        Resources.IMAGE_HEART = engine.getRender().loadImage("images/heart.png");
+        Resources.IMAGE_NO_HEART = engine.getRender().loadImage("images/no_heart.png");
+        Resources.IMAGE_TWITTER_BUTTON = engine.getRender().loadImage("images/twitter_logo.png");
+        Resources.IMAGE_RECOVER_HEART = engine.getRender().loadImage("images/recover.png");
+
         // fonts
-        int size = engRef.getOrientation()==EngineAndroid.Orientation.PORTRAIT ? GameManager.getInstance().getWidth() : GameManager.getInstance().getHeight();
-        Resources.FONT_EXO_REGULAR_BIG = engRef.getRender().loadFont("fonts/Exo-Regular.ttf", FontType.DEFAULT, size / 8);
-        Resources.FONT_EXO_REGULAR_MEDIUM = engRef.getRender().loadFont("fonts/Exo-Regular.ttf", FontType.DEFAULT, size / 10);
-        Resources.FONT_KOMIKAX = engRef.getRender().loadFont("fonts/KOMIKAX.ttf", FontType.DEFAULT, size / 10);
-        Resources.FONT_SIMPLY_SQUARE_BIG = engRef.getRender().loadFont("fonts/SimplySquare.ttf", FontType.DEFAULT, size / 20);
-        Resources.FONT_SIMPLY_SQUARE_MEDIUM = engRef.getRender().loadFont("fonts/SimplySquare.ttf", FontType.DEFAULT, size / 22);
+        int size = engine.getOrientation()==EngineAndroid.Orientation.PORTRAIT ? GameManager.getInstance().getWidth() : GameManager.getInstance().getHeight();
+        Resources.FONT_EXO_REGULAR_BIG = engine.getRender().loadFont("fonts/Exo-Regular.ttf", FontType.DEFAULT, size / 8);
+        Resources.FONT_EXO_REGULAR_MEDIUM = engine.getRender().loadFont("fonts/Exo-Regular.ttf", FontType.DEFAULT, size / 10);
+        Resources.FONT_KOMIKAX = engine.getRender().loadFont("fonts/KOMIKAX.ttf", FontType.DEFAULT, size / 10);
+        Resources.FONT_SIMPLY_SQUARE_BIG = engine.getRender().loadFont("fonts/SimplySquare.ttf", FontType.DEFAULT, size / 20);
+        Resources.FONT_SIMPLY_SQUARE_MEDIUM = engine.getRender().loadFont("fonts/SimplySquare.ttf", FontType.DEFAULT, size / 22);
 
         // sounds
-        Resources.SOUND_BUTTON = engRef.getAudio().loadSound("sounds/button.wav", 1);
-        Resources.SOUND_CLICK = engRef.getAudio().loadSound("sounds/click.wav", 1);
+        Resources.SOUND_BUTTON = engine.getAudio().loadSound("sounds/button.wav", 1);
+        Resources.SOUND_CLICK = engine.getAudio().loadSound("sounds/click.wav", 1);
 
         // music
-        engRef.getAudio().loadMusic("sounds/puzzleTheme.wav", 0.1f);
+        engine.getAudio().loadMusic("sounds/puzzleTheme.wav", 0.1f);
     }
 
     @Override
-    public void rearrange(EngineAndroid engRef) {}
+    public void rearrange(EngineAndroid engine) {}
 
     @Override
     public void update(double deltaTime, EngineAndroid engine) {
@@ -51,7 +51,7 @@ public class BootScene implements IScene {
     }
 
     @Override
-    public void render(RenderAndroid renderMng) {}
+    public void render(RenderAndroid renderer) {}
 
     @Override
     public void handleInput(InputAndroid input, EngineAndroid engine) {}

@@ -50,16 +50,16 @@ public class BoardScene implements IScene {
     }
 
     @Override
-    public void init(EngineAndroid engRef) {
+    public void init(EngineAndroid engine) {
         // scene set up
         this.lives = MAX_LIVES;
         // board creation
         this.board = new Board();
         if (this.dim_h != 0)
-            this.board.init(this.dim_w, this.dim_h, engRef, null);
+            this.board.init(this.dim_w, this.dim_h, engine, null);
         else {
-            ArrayList<String> bf = engRef.readText(this.path, this.level);
-            this.board.initFile(bf, engRef);
+            ArrayList<String> bf = engine.readText(this.path, this.level);
+            this.board.initFile(bf, engine);
         }
         // creation needed to not save all data on file (we don't need if cell is the
         // answer, just if it was marked or not, and how)
@@ -85,15 +85,15 @@ public class BoardScene implements IScene {
         this.coinIndicator = new Button(0, 0, 0 ,0, Integer.toString(GameManager.getInstance().getCoins()),
                 Resources.IMAGE_COIN, Resources.FONT_SIMPLY_SQUARE_MEDIUM, "");
 
-        rearrange(engRef);
+        rearrange(engine);
     }
 
     @Override
-    public void rearrange(EngineAndroid engRef) {
-        if (engRef.getOrientation() == EngineAndroid.Orientation.PORTRAIT)
-            arrangePortrait(engRef);
-        else if (engRef.getOrientation() == EngineAndroid.Orientation.LANDSCAPE)
-            arrangeLandscape(engRef);
+    public void rearrange(EngineAndroid engine) {
+        if (engine.getOrientation() == EngineAndroid.Orientation.PORTRAIT)
+            arrangePortrait(engine);
+        else if (engine.getOrientation() == EngineAndroid.Orientation.LANDSCAPE)
+            arrangeLandscape(engine);
     }
 
     @Override
@@ -105,14 +105,14 @@ public class BoardScene implements IScene {
     }
 
     @Override
-    public void render(RenderAndroid renderMng) {
+    public void render(RenderAndroid renderer) {
         // board
-        this.board.render(renderMng);
+        this.board.render(renderer);
 
         // buttons
-        this.backButton.render(renderMng);
-        this.recoverLive.render(renderMng);
-        this.coinIndicator.render(renderMng);
+        this.backButton.render(renderer);
+        this.recoverLive.render(renderer);
+        this.coinIndicator.render(renderer);
 
         for (int i = MAX_LIVES; i > 0; i--) {
             String imName;
@@ -120,7 +120,7 @@ public class BoardScene implements IScene {
                 imName = this.noLiveImage;
             else
                 imName = this.liveImage;
-            renderMng.drawImage(livesPosX + (liveW * (MAX_LIVES - i)), livesPosY, liveW, liveW, imName);
+            renderer.drawImage(livesPosX + (liveW * (MAX_LIVES - i)), livesPosY, liveW, liveW, imName);
         }
     }
 

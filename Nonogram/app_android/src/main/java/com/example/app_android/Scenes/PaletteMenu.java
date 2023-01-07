@@ -15,7 +15,6 @@ public class PaletteMenu implements IScene {
     private Label mainText;
 
     private Button[] paletteButtons;
-    private Button selectedButton;
     private Button coinIndicator;
     private Button backButton;
 
@@ -25,16 +24,13 @@ public class PaletteMenu implements IScene {
     }
 
     @Override
-    public void init(EngineAndroid engRef) {
+    public void init(EngineAndroid engine) {
         // main text
-        this.mainText = new Label("Palette menu", 0, 0, Resources.FONT_KOMIKAX);
+        this.mainText = new Label(0, 0, "Palette menu", Resources.FONT_KOMIKAX);
 
         // buttons
-        int getW = GameManager.getInstance().getWidth();
-        int getH = GameManager.getInstance().getHeight();
-        int numPalettes = GameManager.getInstance().NUM_PALETTES;
-
         GameManager gM = GameManager.getInstance();
+        int numPalettes = GameManager.getInstance().NUM_PALETTES;
         this.paletteButtons = new Button[numPalettes];
         for (int i = 0; i < numPalettes; i++) {
             if (gM.isPaletteUnlocked(i))
@@ -50,14 +46,14 @@ public class PaletteMenu implements IScene {
                 Resources.IMAGE_BACK_BUTTON, Resources.FONT_SIMPLY_SQUARE_BIG, Resources.SOUND_BUTTON);
 
         this.paletteButtons[gM.getActPalette()].setColor(gM.getColor(GameManager.ColorTypes.MAIN_COLOR.ordinal()));
-        rearrange(engRef);
+        rearrange(engine);
     }
 
     @Override
-    public void rearrange(EngineAndroid engRef) {
-        if (engRef.getOrientation() == EngineAndroid.Orientation.PORTRAIT)
+    public void rearrange(EngineAndroid engine) {
+        if (engine.getOrientation() == EngineAndroid.Orientation.PORTRAIT)
             arrangePortrait();
-        else if (engRef.getOrientation() == EngineAndroid.Orientation.LANDSCAPE)
+        else if (engine.getOrientation() == EngineAndroid.Orientation.LANDSCAPE)
             arrangeLandscape();
     }
 
@@ -67,19 +63,19 @@ public class PaletteMenu implements IScene {
     }
 
     @Override
-    public void render(RenderAndroid renderMng) {
+    public void render(RenderAndroid renderer) {
         // text
-        mainText.render(renderMng);
+        mainText.render(renderer);
 
         // buttons
         for(Button a : paletteButtons)
-            a.render(renderMng);
-        this.coinIndicator.render(renderMng);
-        this.backButton.render(renderMng);
+            a.render(renderer);
+        this.coinIndicator.render(renderer);
+        this.backButton.render(renderer);
     }
 
     @Override
-    public void handleInput(InputAndroid input, EngineAndroid engRef) {
+    public void handleInput(InputAndroid input, EngineAndroid engine) {
         if (input.getType() == InputType.TOUCH_UP || input.getType() == InputType.TOUCH_LONG) {
             int x = -1;
             int i = 0;
@@ -99,15 +95,15 @@ public class PaletteMenu implements IScene {
                     gM.addCoins(-PALETTE_VALUE[x-1]);
                 }
                 gM.setPalette(x);
-                engRef.getRender().setBackGroundColor(GameManager.getInstance().getColor(GameManager.ColorTypes.BG_COLOR.ordinal()));
-                this.paletteButtons[0].clicked(engRef.getAudio());
+                engine.getRender().setBackGroundColor(GameManager.getInstance().getColor(GameManager.ColorTypes.BG_COLOR.ordinal()));
+                this.paletteButtons[0].clicked(engine.getAudio());
                 coinIndicator.setText(Integer.toString(gM.getCoins()));
-                rearrange(engRef);
+                rearrange(engine);
             }
 
             if (this.backButton.isInButton(input.getX(), input.getY())) {
-                engRef.getSceneManager().changeScene(new ModeSelectionMenu(), engRef);
-                this.backButton.clicked(engRef.getAudio());
+                engine.getSceneManager().changeScene(new ModeSelectionMenu(), engine);
+                this.backButton.clicked(engine.getAudio());
             }
         }
     }

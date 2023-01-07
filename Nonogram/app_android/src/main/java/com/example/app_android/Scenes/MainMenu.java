@@ -21,19 +21,19 @@ public class MainMenu implements IScene {
     }
 
     @Override
-    public void init(EngineAndroid engRef) {
-        this.title = new Label("NONOGRAMAS", 0, 0, Resources.FONT_KOMIKAX);
+    public void init(EngineAndroid engine) {
+        this.title = new Label(0, 0, "NONOGRAMAS", Resources.FONT_KOMIKAX);
         this.playButton = new Button(0, 0, 0, 0, "PLAY", "", Resources.FONT_EXO_REGULAR_MEDIUM,
                 Resources.SOUND_BUTTON);
 
-        rearrange(engRef);
+        rearrange(engine);
     }
 
     @Override
-    public void rearrange(EngineAndroid engRef) {
-        if (engRef.getOrientation() == EngineAndroid.Orientation.PORTRAIT)
+    public void rearrange(EngineAndroid engine) {
+        if (engine.getOrientation() == EngineAndroid.Orientation.PORTRAIT)
             arrangePortrait();
-        else if (engRef.getOrientation() == EngineAndroid.Orientation.LANDSCAPE)
+        else if (engine.getOrientation() == EngineAndroid.Orientation.LANDSCAPE)
             arrangeLandscape();
     }
 
@@ -43,11 +43,11 @@ public class MainMenu implements IScene {
     }
 
     @Override
-    public void render(RenderAndroid renderMng) {
+    public void render(RenderAndroid renderer) {
         // render title
-        this.title.render(renderMng);
+        this.title.render(renderer);
         // render button
-        this.playButton.render(renderMng);
+        this.playButton.render(renderer);
     }
 
     @Override

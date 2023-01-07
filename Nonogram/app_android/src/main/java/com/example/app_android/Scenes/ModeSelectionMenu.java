@@ -25,9 +25,9 @@ public class ModeSelectionMenu implements IScene {
     }
 
     @Override
-    public void init(EngineAndroid engRef) {
+    public void init(EngineAndroid engine) {
         // main text
-        this.mainText = new Label("Select mode", 0, 0, Resources.FONT_KOMIKAX);
+        this.mainText = new Label(0, 0, "Select mode", Resources.FONT_KOMIKAX);
 
         // buttons
         int getW = GameManager.getInstance().getWidth();
@@ -41,14 +41,14 @@ public class ModeSelectionMenu implements IScene {
         this.coinIndicator = new Button(0, 0, 0, 0, Integer.toString(GameManager.getInstance().getCoins()),
                 Resources.IMAGE_COIN, Resources.FONT_SIMPLY_SQUARE_MEDIUM, "");
 
-        rearrange(engRef);
+        rearrange(engine);
     }
 
     @Override
-    public void rearrange(EngineAndroid engRef) {
-        if (engRef.getOrientation() == EngineAndroid.Orientation.PORTRAIT)
+    public void rearrange(EngineAndroid engine) {
+        if (engine.getOrientation() == EngineAndroid.Orientation.PORTRAIT)
             arrangePortrait();
-        else if (engRef.getOrientation() == EngineAndroid.Orientation.LANDSCAPE)
+        else if (engine.getOrientation() == EngineAndroid.Orientation.LANDSCAPE)
             arrangeLandscape();
     }
 
@@ -58,29 +58,29 @@ public class ModeSelectionMenu implements IScene {
     }
 
     @Override
-    public void render(RenderAndroid renderMng) {
+    public void render(RenderAndroid renderer) {
         // text
-        this.mainText.render(renderMng);
+        this.mainText.render(renderer);
 
         // buttons
-        this.playRandomLevelButton.render(renderMng);
-        this.playThemeButton.render(renderMng);
-        this.paletteMenu.render(renderMng);
-        this.coinIndicator.render(renderMng);
+        this.playRandomLevelButton.render(renderer);
+        this.playThemeButton.render(renderer);
+        this.paletteMenu.render(renderer);
+        this.coinIndicator.render(renderer);
     }
 
     @Override
-    public void handleInput(InputAndroid input, EngineAndroid engRef) {
+    public void handleInput(InputAndroid input, EngineAndroid engine) {
         if (input.getType() == InputType.TOUCH_UP || input.getType() == InputType.TOUCH_LONG) {
             if (this.playRandomLevelButton.isInButton(input.getX(), input.getY())) {
-                engRef.getSceneManager().changeScene(new SelectionMenu(), engRef);
-                this.playRandomLevelButton.clicked(engRef.getAudio());
+                engine.getSceneManager().changeScene(new SelectionMenu(), engine);
+                this.playRandomLevelButton.clicked(engine.getAudio());
             } else if (this.playThemeButton.isInButton(input.getX(), input.getY())) {
-                engRef.getSceneManager().changeScene(new ThemeSelectionMenu(), engRef);
-                this.playThemeButton.clicked(engRef.getAudio());
+                engine.getSceneManager().changeScene(new ThemeSelectionMenu(), engine);
+                this.playThemeButton.clicked(engine.getAudio());
             } else if (this.paletteMenu.isInButton(input.getX(), input.getY())) {
-                engRef.getSceneManager().changeScene(new PaletteMenu(), engRef);
-                this.paletteMenu.clicked(engRef.getAudio());
+                engine.getSceneManager().changeScene(new PaletteMenu(), engine);
+                this.paletteMenu.clicked(engine.getAudio());
             }
         }
     }
