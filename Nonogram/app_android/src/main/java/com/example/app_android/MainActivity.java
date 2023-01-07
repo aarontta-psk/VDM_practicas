@@ -82,12 +82,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
-        // if the onCreate method did work, we load data here
-//        if (GameManager.getInstance() != null)
-//            GameManager.load(this.engine, savedInstanceState);
-    }
+//    @Override
+//    public void onRestoreInstanceState(Bundle savedInstanceState) {}
 
     @Override
     protected void onStart() {
