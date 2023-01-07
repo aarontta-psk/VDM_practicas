@@ -54,19 +54,12 @@ public class RenderAndroid {
         this.images = new HashMap<>();
 
         // initializes canvas values
-        //this.scale = ratio;
         this.baseWidth = w;
         this.baseHeight = h;
         this.landscape = false;
 
         // sets the background color
         this.bgColor = bgColor;
-    }
-
-    public void holderWait(EngineAndroid.Orientation ori) {
-        while (this.holder.getSurfaceFrame().width() == 0) ;
-
-        updateScale (ori != EngineAndroid.Orientation.PORTRAIT);
     }
 
     public void updateScale (boolean landscape) {
@@ -187,6 +180,11 @@ public class RenderAndroid {
         return this.myView.getHeight();
     }
 
+    public void isRenderReady(EngineAndroid.Orientation ori) {
+        while (this.holder.getSurfaceFrame().width() == 0);
+        updateScale(ori != EngineAndroid.Orientation.PORTRAIT);
+    }
+
     public int getPosCanvasX() {
         return posCanvasX;
     }
@@ -194,14 +192,6 @@ public class RenderAndroid {
     public int getPosCanvasY() {
         return posCanvasY;
     }
-
-//    public int getViewWidth() {
-//        return this.myView.getWidth();
-//    }
-//
-//    public int getViewHeight() {
-//        return this.myView.getHeight();
-//    }
 
     public float getScale() {
         return scale;
