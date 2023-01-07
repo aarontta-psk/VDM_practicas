@@ -73,14 +73,15 @@ public class MainActivity extends AppCompatActivity {
 
         // initialize GameManager
         GameManager.init(this.engine, w, h);
+        GameManager.load(this.engine, savedInstanceState);
         this.engine.getRender().setBackGroundColor(GameManager.getInstance().getColor(0));
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         // if the onCreate method did work, we load data here
-        if (GameManager.getInstance() != null)
-            GameManager.load(this.engine, savedInstanceState);
+//        if (GameManager.getInstance() != null)
+//            GameManager.load(this.engine, savedInstanceState);
     }
 
     @Override
