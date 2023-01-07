@@ -9,6 +9,7 @@ import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 import androidx.work.WorkRequest;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
@@ -61,9 +62,6 @@ public class MainActivity extends AppCompatActivity {
         this.engine.getIntentSystem().createChannel("Nonogram",
                 "Notifications for Nonogram App", "not_nonogram");
 
-        // cancel all queued notifications
-        WorkManager.getInstance(this).cancelAllWork();
-
         // load game data
         int w = WIDTH, h = HEIGHT;
         if(engine.getOrientation() == EngineAndroid.Orientation.LANDSCAPE){
@@ -75,6 +73,13 @@ public class MainActivity extends AppCompatActivity {
         GameManager.init(this.engine, w, h);
         GameManager.load(this.engine, savedInstanceState);
         this.engine.getRender().setBackGroundColor(GameManager.getInstance().getColor(0));
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        if(bundle!=null) {
+            int reward = bundle.getInt("reward");
+            GameManager.getInstance().addCoins(reward);
+        }
     }
 
     @Override
@@ -99,6 +104,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        // cancel all queued notifications
+        WorkManager.getInstance(this).cancelAllWork();
         // resume engine process cycle
         this.engine.resume();
     }
@@ -163,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
     // notification tryout?
     private void createWorkRequest(String channel_id, String title, String text) {
         HashMap<String, Object> dataValues = new HashMap<>();
-        dataValues.put("chanel", channel_id);
+        dataValues.put("channel", channel_id);
         dataValues.put("smallIcon", androidx.constraintlayout.widget.R.drawable.notification_template_icon_low_bg);
         dataValues.put("contentTitle", title);
         dataValues.put("contentText", text);
@@ -182,7 +189,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void startPeriodicWorkRequest(String channel_id, String title, String text) {
         HashMap<String, Object> dataValues = new HashMap<>();
-        dataValues.put("chanel", channel_id);
+        dataValues.put("channel", channel_id);
         dataValues.put("smallIcon", androidx.constraintlayout.widget.R.drawable.notification_template_icon_low_bg);
         dataValues.put("contentTitle", title);
         dataValues.put("contentText", text);

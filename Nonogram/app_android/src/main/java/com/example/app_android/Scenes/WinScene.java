@@ -46,11 +46,11 @@ public class WinScene implements IScene {
 
         // buttons
         this.backButton = new Button(0, 0, 0, 0, "Back", Resources.IMAGE_BACK_BUTTON,
-                Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON, false);
+                Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON, false, GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
         this.coinsButton = new Button(0, 0, 0, 0, "+ " + coins, Resources.IMAGE_COIN,
-                Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON, false);
+                Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON, false, GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
         this.shareButton = new Button(0, 0, 0, 0, "Share", Resources.IMAGE_TWITTER_BUTTON,
-                Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON, false);
+                Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON, false, GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
 
         rearrange(engRef);
     }

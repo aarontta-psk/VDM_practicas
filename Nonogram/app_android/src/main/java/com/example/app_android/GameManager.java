@@ -354,12 +354,12 @@ public class GameManager {
         nightMode = 0;
         palettes = new int[LIGHTMODES][NUM_PALETTES][NUM_COLORS_PER_PALETTE];
         palettes[0][0][ColorTypes.BG_COLOR.ordinal()] = 0xFFFFFFFF;//Background
-        palettes[0][0][ColorTypes.MAIN_COLOR.ordinal()] = 0xFF0000FF;//CellsCorrect
+        palettes[0][0][ColorTypes.MAIN_COLOR.ordinal()] = 0xFF5564eb;//CellsCorrect
         palettes[0][0][ColorTypes.SECONDARY_COLOR.ordinal()] = 0xFFFF0000;//CellsFailed
         palettes[0][0][ColorTypes.AUX_COLOR.ordinal()] = 0xFFCCCCCC;//CellsNotMarked
 
         palettes[1][0][ColorTypes.BG_COLOR.ordinal()] = 0xFFAAAAAA;//Background
-        palettes[1][0][ColorTypes.MAIN_COLOR.ordinal()] = 0xFF0000CC;//CellsCorrect
+        palettes[1][0][ColorTypes.MAIN_COLOR.ordinal()] = 0xFF6d7aee;//CellsCorrect
         palettes[1][0][ColorTypes.SECONDARY_COLOR.ordinal()] = 0xFFCC0000;//CellsFailed
         palettes[1][0][ColorTypes.AUX_COLOR.ordinal()] = 0xFFCCCCCC;//CellsNotMarked
 

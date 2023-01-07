@@ -1,8 +1,11 @@
 package com.example.app_android;
 
+import static android.content.Context.SENSOR_SERVICE;
+
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
+import android.hardware.SensorManager;
 
 import com.example.engine_android.EngineAndroid;
 import com.example.engine_android.Modules.LightSensor;

@@ -33,13 +33,13 @@ public class ModeSelectionMenu implements IScene {
         int getW = GameManager.getInstance().getWidth();
         int getH = GameManager.getInstance().getHeight();
         this.playRandomLevelButton = new Button(0, 0, 0, 0,
-                "RANDOM LEVELS", "", Resources.FONT_EXO_REGULAR_MEDIUM, Resources.SOUND_BUTTON, false);
+                "RANDOM LEVELS", "", Resources.FONT_EXO_REGULAR_MEDIUM, Resources.SOUND_BUTTON, false, GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
         this.playThemeButton = new Button(0, 0, 0, 0,
-                "THEME LEVELS", "", Resources.FONT_EXO_REGULAR_MEDIUM, Resources.SOUND_BUTTON, false);
+                "THEME LEVELS", "", Resources.FONT_EXO_REGULAR_MEDIUM, Resources.SOUND_BUTTON, false, GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
         this.paletteMenu = new Button(0, 0, 0, 0,
-                "PALETTE SELECTION", "", Resources.FONT_EXO_REGULAR_MEDIUM, Resources.SOUND_BUTTON, false);
+                "PALETTE SELECTION", "", Resources.FONT_EXO_REGULAR_MEDIUM, Resources.SOUND_BUTTON, false, GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
         this.coinIndicator = new Button(0, 0, 0, 0, Integer.toString(GameManager.getInstance().getCoins()),
-                Resources.IMAGE_COIN, Resources.FONT_EXO_REGULAR_MEDIUM, "", false);
+                Resources.IMAGE_COIN, Resources.FONT_EXO_REGULAR_MEDIUM, "", false, GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
 
         rearrange(engRef);
     }

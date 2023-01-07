@@ -36,20 +36,20 @@ public class ThemeSelectionMenu implements IScene {
         this.mainLabel = new Label("Choose theme", 0, 0, Resources.FONT_KOMIKAX);
 
         this.animalThemeButton = new Button(0, 0, 0, 0, "ANIMAL THEME", "",
-                Resources.FONT_EXO_REGULAR_MEDIUM, Resources.SOUND_BUTTON, false);
+                Resources.FONT_EXO_REGULAR_MEDIUM, Resources.SOUND_BUTTON, false, GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
         String buttonImage = GameManager.getInstance().getLevelUnlocked(1) > LEVEL_UNLOCK_CATEGORY ? "" : Resources.IMAGE_LOCK;
         this.emojiThemeButton = new Button(0, 0, 0, 0, "EMOJI THEME", buttonImage,
-                Resources.FONT_EXO_REGULAR_MEDIUM, Resources.SOUND_BUTTON, false);
+                Resources.FONT_EXO_REGULAR_MEDIUM, Resources.SOUND_BUTTON, false, GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
         buttonImage = GameManager.getInstance().getLevelUnlocked(2) > LEVEL_UNLOCK_CATEGORY ? "" : Resources.IMAGE_LOCK;
         this.kitchenThemeButton = new Button(0, 0, 0, 0, "KITCHEN THEME", buttonImage,
-                Resources.FONT_EXO_REGULAR_MEDIUM, Resources.SOUND_BUTTON, false);
+                Resources.FONT_EXO_REGULAR_MEDIUM, Resources.SOUND_BUTTON, false, GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
         buttonImage = GameManager.getInstance().getLevelUnlocked(3) > LEVEL_UNLOCK_CATEGORY ? "" : Resources.IMAGE_LOCK;
         this.christmasThemeButton = new Button(0, 0, 0, 0, "XMAS THEME", buttonImage,
-                Resources.FONT_EXO_REGULAR_MEDIUM, Resources.SOUND_BUTTON, false);
+                Resources.FONT_EXO_REGULAR_MEDIUM, Resources.SOUND_BUTTON, false, GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
         this.backButton = new Button(0, 0, 0, 0, "Back",
-                "", Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON, false);
+                "", Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON, false, GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
         this.coinIndicator = new Button(0, 0, 0, 0,  Integer.toString(GameManager.getInstance().getCoins()),
-                Resources.IMAGE_COIN, Resources.FONT_EXO_REGULAR_MEDIUM, "", false);
+                Resources.IMAGE_COIN, Resources.FONT_EXO_REGULAR_MEDIUM, "", false, GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
 
         rearrange(engRef);
     }
