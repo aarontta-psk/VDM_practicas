@@ -119,7 +119,7 @@ public class CategoryLevelSelectionMenu implements IScene {
         int getW = GameManager.getInstance().getWidth();
         int getH = GameManager.getInstance().getHeight();
         this.coinIndicator.setPosition(5 * getW / 8, 0);
-        this.coinIndicator.setSize(getW / 3, getW / 8);
+        this.coinIndicator.setSize(getW / 4, getW / 8);
         this.coinIndicator.setColor(GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
 
         this.backButton.setPosition(getW / 3, 7 * getH / 8);

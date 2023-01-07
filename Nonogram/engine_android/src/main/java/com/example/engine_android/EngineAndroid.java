@@ -59,6 +59,7 @@ public class EngineAndroid implements Runnable {
     // thread variables
     private Thread renderThread;
     private boolean running;
+    private boolean initConfig;
 
     public EngineAndroid(SurfaceView surface, AppCompatActivity activity, int w, int h, int bgColor) {
         // context
@@ -76,6 +77,8 @@ public class EngineAndroid implements Runnable {
         this.myAdSystem = new AdSystemAndroid(activity, this.context);
         this.myIntentSystem = new IntentSystemAndroid(this.context);
 
+        this.initConfig = false;
+
         // add input listener to window
         surface.setOnTouchListener(new InputListener());
         // add layout change listener to window
@@ -89,7 +92,10 @@ public class EngineAndroid implements Runnable {
 
         // we wait for the initial configuration to end before starting the game cycle
         this.myRenderManager.isRenderReady(this.orientation);
-        this.mySceneManager.currentScene().init(this);
+        if(!this.initConfig){
+            this.mySceneManager.currentScene().init(this);
+            this.initConfig = true;
+        }
 
         // resume audio
         this.myAudioManager.playMusic();

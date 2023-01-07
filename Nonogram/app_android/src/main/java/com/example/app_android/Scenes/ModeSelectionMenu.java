@@ -39,7 +39,7 @@ public class ModeSelectionMenu implements IScene {
         this.paletteMenu = new Button(0, 0, 0, 0,
                 "PALETTE SELECTION", "", Resources.FONT_EXO_REGULAR_MEDIUM, Resources.SOUND_BUTTON);
         this.coinIndicator = new Button(0, 0, 0, 0, Integer.toString(GameManager.getInstance().getCoins()),
-                Resources.IMAGE_COIN, Resources.FONT_EXO_REGULAR_MEDIUM, "");
+                Resources.IMAGE_COIN, Resources.FONT_SIMPLY_SQUARE_MEDIUM, "");
 
         rearrange(engRef);
     }
@@ -122,6 +122,6 @@ public class ModeSelectionMenu implements IScene {
         this.paletteMenu.setSize(getW, getH / 8);
 
         this.coinIndicator.setPosition(getW - getW / 5, 0);
-        this.coinIndicator.setSize(getW / 5, getW / 8);
+        this.coinIndicator.setSize(getW / 5, getH / 8);
     }
 }

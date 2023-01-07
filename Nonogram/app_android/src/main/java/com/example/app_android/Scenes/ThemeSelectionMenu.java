@@ -49,7 +49,7 @@ public class ThemeSelectionMenu implements IScene {
         this.backButton = new Button(0, 0, 0, 0, "Back",
                 "", Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
         this.coinIndicator = new Button(0, 0, 0, 0,  Integer.toString(GameManager.getInstance().getCoins()),
-                Resources.IMAGE_COIN, Resources.FONT_EXO_REGULAR_MEDIUM, "");
+                Resources.IMAGE_COIN, Resources.FONT_SIMPLY_SQUARE_MEDIUM, "");
 
         rearrange(engRef);
     }
@@ -158,6 +158,6 @@ public class ThemeSelectionMenu implements IScene {
         this.backButton.setPosition(w / 3, (h / 6) * 5);
         this.backButton.setSize(w / 3, (h / 6) / 3);
         this.coinIndicator.setPosition(w - w / 5, 0);
-        this.coinIndicator.setSize(w / 5, w / 8);
+        this.coinIndicator.setSize(w / 5, h / 8);
     }
 }

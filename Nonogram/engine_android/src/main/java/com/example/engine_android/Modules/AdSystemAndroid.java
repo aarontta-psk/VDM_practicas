@@ -161,7 +161,6 @@ public class AdSystemAndroid {
             // Called when ad is dismissed.
             // Set the ad reference to null so you don't show the ad a second time.
             System.err.println("Ad dismissed fullscreen content.");
-            rewardAd = null;
         }
 
         @Override

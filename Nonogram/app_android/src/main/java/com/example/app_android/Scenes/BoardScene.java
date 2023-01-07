@@ -181,8 +181,8 @@ public class BoardScene implements IScene {
     }
 
     private void arrangeLandscape(EngineAndroid engRef) {
-        int w = GameManager.getInstance().getWidth() / 6;
-        int h = GameManager.getInstance().getHeight() / 12;
+        int w = GameManager.getInstance().getWidth() / 5;
+        int h = GameManager.getInstance().getHeight() / 8;
         this.backButton.setPosition(0, h / 2);
         this.backButton.setSize(w, h);
 
@@ -192,8 +192,8 @@ public class BoardScene implements IScene {
         this.recoverLive.setPosition(GameManager.getInstance().getWidth() - w, h / 2);
         this.recoverLive.setSize(w, h);
         this.livesPosX = 0;
-        this.livesPosY = GameManager.getInstance().getHeight() / 6;
-        this.liveW = GameManager.getInstance().getWidth() / 18;
+        this.livesPosY = h * 2;
+        this.liveW = w / 3;
 
         this.board.calcCellSize(engRef);
         this.board.setPos((GameManager.getInstance().getWidth() - board.getWidthInPixels()) / 2,

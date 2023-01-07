@@ -11,7 +11,7 @@ import com.example.engine_android.Enums.InputType;
 import com.example.engine_android.Modules.RenderAndroid;
 
 public class PaletteMenu implements IScene {
-    final int[] PALETTE_VALUE = {5, 10};
+    final int[] PALETTE_VALUE = {50, 100};
     private Label mainText;
 
     private Button[] paletteButtons;
@@ -45,7 +45,7 @@ public class PaletteMenu implements IScene {
                        "(-" + PALETTE_VALUE[i-1] + ") Palette " + (i + 1), Resources.IMAGE_COIN, Resources.FONT_SIMPLY_SQUARE_BIG, Resources.SOUND_BUTTON);
         }
         this.coinIndicator = new Button(0,0,0,0, Integer.toString(GameManager.getInstance().getCoins()),
-                Resources.IMAGE_COIN, Resources.FONT_EXO_REGULAR_MEDIUM, "");
+                Resources.IMAGE_COIN, Resources.FONT_SIMPLY_SQUARE_MEDIUM, "");
         this.backButton = new Button(0, 0, 0, 0, "Back",
                 Resources.IMAGE_BACK_BUTTON, Resources.FONT_SIMPLY_SQUARE_BIG, Resources.SOUND_BUTTON);
 
