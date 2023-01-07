@@ -59,8 +59,6 @@ public class EngineAndroid implements Runnable {
     // thread variables
     private Thread renderThread;
     private boolean running;
-    private Thread configThread;
-    private boolean initialConfigurationDone;
 
     public EngineAndroid(SurfaceView surface, AppCompatActivity activity, int w, int h, int bgColor) {
         // context
@@ -80,20 +78,8 @@ public class EngineAndroid implements Runnable {
 
         // add input listener to window
         surface.setOnTouchListener(new InputListener());
-        surface.addOnLayoutChangeListener( new View.OnLayoutChangeListener()
-        {
-            public void onLayoutChange( View v,
-                                        int left,    int top,    int right,    int bottom,
-                                        int leftWas, int topWas, int rightWas, int bottomWas )
-            {
-                myRenderManager.updateScale(orientation != Orientation.PORTRAIT);
-            }
-        });
-
-        // thread to generate initial configuration
-        initialConfigurationDone = false;
-        this.configThread = new Thread(new SurfaceAvailable(this));
-        this.configThread.start();
+        // add layout change listener to window
+        surface.addOnLayoutChangeListener( new MyOnLayoutChangeListener());
     }
 
     @Override
@@ -102,7 +88,8 @@ public class EngineAndroid implements Runnable {
             throw new RuntimeException("run() should not be called directly");
 
         // we wait for the initial configuration to end before starting the game cycle
-        waitSurfaceConfiguration();
+        this.myRenderManager.isRenderReady(this.orientation);
+        this.mySceneManager.currentScene().init(this);
 
         // resume audio
         this.myAudioManager.playMusic();
@@ -211,10 +198,11 @@ public class EngineAndroid implements Runnable {
 
     public FileInputStream openInputFile(String path) {
         FileInputStream file = null;
+
         try {
             file = this.context.openFileInput(path);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Unable to open input file.");
         }
 
         return file;
@@ -222,10 +210,11 @@ public class EngineAndroid implements Runnable {
 
     public FileOutputStream openOutputFile(String path) {
         FileOutputStream file = null;
+
         try {
             file = this.context.openFileOutput(path, Context.MODE_PRIVATE);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Unable to open output file.");
         }
 
         return file;
@@ -236,14 +225,13 @@ public class EngineAndroid implements Runnable {
         ArrayList<String> receiveString = new ArrayList<>();
         try {
             //Comprobar si existe en el almacenamiento interno
-            FileInputStream fis = context.openFileInput(file);
+            FileInputStream fis = this.context.openFileInput(file);
             InputStreamReader inputStreamReader = new InputStreamReader(fis, StandardCharsets.UTF_8);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
             try {
-                while (bufferedReader.ready()) {
+                while (bufferedReader.ready())
                     receiveString.add(bufferedReader.readLine());
-                }
                 inputStreamReader.close();
             } catch (IOException ioException) {
                 ioException.printStackTrace();
@@ -252,17 +240,16 @@ public class EngineAndroid implements Runnable {
             return receiveString;
 
         } catch (FileNotFoundException e) {
-            //Si no existe, crea un nuevo archivo en almacenamiento interno como copia desde assets
-            e.printStackTrace();
+            // Si no existe, crea un nuevo archivo en almacenamiento interno como copia desde assets
+            System.out.println("Unable to read file.");
+            // e.printStackTrace();
             InputStreamReader inputStreamReader = null;
             try {
-                inputStreamReader = new InputStreamReader(assetManager.open(path + file));
+                inputStreamReader = new InputStreamReader(this.assetManager.open(path + file));
                 BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
-
-                while (bufferedReader.ready()) {
+                while (bufferedReader.ready())
                     receiveString.add(bufferedReader.readLine());
-                }
 
                 inputStreamReader.close();
 
@@ -299,41 +286,12 @@ public class EngineAndroid implements Runnable {
         return sb.toString();
     }
 
-    private void waitSurfaceConfiguration() {
-        while (!this.initialConfigurationDone) ;
-        if (this.configThread != null) {
-            while (true) {
-                try {
-                    this.configThread.join();
-                    this.configThread = null;
-                    break;
-                } catch (InterruptedException e) {
-                    System.err.println("Config join error");
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    // thread that's used only once, at engine creation, so
-    // we can do the start configuration when engine is created,
-    // and the run method waits till this is done
-    private class SurfaceAvailable implements Runnable {
-
-        EngineAndroid engine;
-
-        SurfaceAvailable(EngineAndroid engine) {
-            this.engine = engine;
-        }
-
-        ;
-
-        @Override
-        public void run() {
-            myRenderManager.holderWait(this.engine.getOrientation());
-            mySceneManager.currentScene().init(this.engine);
-
-            initialConfigurationDone = true;
+    private class MyOnLayoutChangeListener implements View.OnLayoutChangeListener
+    {
+        public void onLayoutChange( View v, int left, int top, int right, int bottom,
+            int leftWas, int topWas, int rightWas, int bottomWas )
+        {
+            myRenderManager.updateScale(orientation != Orientation.PORTRAIT);
         }
     }
 

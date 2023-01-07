@@ -24,7 +24,7 @@ public class MainMenu implements IScene {
     public void init(EngineAndroid engRef) {
         this.title = new Label("NONOGRAMAS", 0, 0, Resources.FONT_KOMIKAX);
         this.playButton = new Button(0, 0, 0, 0, "PLAY", "", Resources.FONT_EXO_REGULAR_MEDIUM,
-                Resources.SOUND_BUTTON, false, GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
+                Resources.SOUND_BUTTON);
 
         rearrange(engRef);
     }

@@ -16,7 +16,7 @@ public class Button {
     private String sound;
     private boolean mode;
 
-    public Button(int x, int y, int w, int h, String tx, String im, String f, String s, boolean m, int c){
+    public Button(int x, int y, int w, int h, String tx, String im, String f, String s){
         posX = x;
         posY = y;
         width = w;
@@ -25,8 +25,7 @@ public class Button {
         font = f;
         image = im;
         sound = s;
-        color = c;
-        mode = m;
+        color = GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal());
     }
 
     public void render(RenderAndroid renderMng){

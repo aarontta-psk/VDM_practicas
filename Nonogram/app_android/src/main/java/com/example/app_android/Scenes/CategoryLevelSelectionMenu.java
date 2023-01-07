@@ -54,15 +54,15 @@ public class CategoryLevelSelectionMenu implements IScene {
             String image = i >= this.lastUnlocked ? Resources.IMAGE_LOCK : "";
             String text = i < this.lastUnlocked ? "Lvl" + (i + 1) : "";
             this.levelSelectionButtons[i] = new Button(0, 0, 0, 0, text, image,
-                    Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON, false, GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
+                    Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
         }
 
         // buttons
         int getW = GameManager.getInstance().getWidth();
         this.backButton = new Button(0, 0, 0, 0, "Back",
-                Resources.IMAGE_BACK_BUTTON, Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON, false, GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
+                Resources.IMAGE_BACK_BUTTON, Resources.FONT_SIMPLY_SQUARE_MEDIUM, Resources.SOUND_BUTTON);
         this.coinIndicator = new Button(0, 0, 0, 0, Integer.toString(GameManager.getInstance().getCoins()),
-                Resources.IMAGE_COIN, Resources.FONT_SIMPLY_SQUARE_MEDIUM, "", false, GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
+                Resources.IMAGE_COIN, Resources.FONT_SIMPLY_SQUARE_MEDIUM, "");
 
         rearrange(engRef);
     }
