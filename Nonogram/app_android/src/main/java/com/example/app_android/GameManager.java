@@ -28,17 +28,14 @@ public class GameManager {
     private final int NUM_COLORS_PER_PALETTE = 4;
     private final int LIGHTMODES = 2;
 
-    final String SAVE_FILE = "save_data.json";
-    final String CHECKSUM_FILE = "checksum.txt";
+    private final String SAVE_FILE = "save_data.json";
+    private final String CHECKSUM_FILE = "checksum.txt";
 
     // singleton
     private static GameManager instance = null;
 
-    //Sensor
-    private LightSensorApp lightSensor;
-
-    //Dimensions
-    int width, height;
+    // dimensions
+    private int width, height;
 
     // categories (0 FREE LEVEL, 1-4 STORY LEVELS)
     private CategoryData[] categories = null;   // save
@@ -52,28 +49,26 @@ public class GameManager {
     // coins
     private int coins;                          // save
 
+    // sensor
+    private LightSensorApp lightSensor;
+
     // ---------------- SINGLETON ----------------
-    public GameManager() {
+    private GameManager() {
 
     }
 
     // loads the corresponding CategoryData saved files
-    public static void init(int w, int h, EngineAndroid engine, Bundle savedState) {
+    public static void init(EngineAndroid engine, int w, int h) {
         if (instance == null)
             // singleton initialization
             instance = new GameManager();
 
         // instance setting
-        instance.setup(engine, w, h, savedState);
+        instance.setup(engine, w, h);
     }
 
     public static GameManager getInstance() {
         return instance;
-    }
-
-    public static void save(EngineAndroid engine, Bundle savedState) {
-        // instance closure
-        instance.close(engine, savedState);
     }
 
     // saves CategoryData data
@@ -83,17 +78,31 @@ public class GameManager {
             instance = null;
     }
 
-    private void setup(EngineAndroid engine, int w, int h, Bundle savedState) {
-        //lightSensor
-        lightSensor = new LightSensorApp(engine.getContext(), engine);
-        engine.setLightSensor(lightSensor);
+    public static void load(EngineAndroid engine, Bundle savedState) {
+        // data save
+        instance.open(engine, savedState);
+    }
+
+    public static void save(EngineAndroid engine, Bundle savedState) {
+        // data save
+        instance.close(engine, savedState);
+    }
+
+    private void setup(EngineAndroid engine, int w, int h) {
+        // start lightSensor
+        this.lightSensor = new LightSensorApp(engine.getContext(), engine);
+        engine.setLightSensor(this.lightSensor);
+
+        // assign dimensions
+        this.width = w;
+        this.height = h;
 
         // load default values, in case something goes wrong
         loadGameDefaultData();
+    }
 
-        width = w;
-        height = h;
-
+    // ---------------- SAVE DATA MANAGEMENT ----------------
+    private void open(EngineAndroid engine, Bundle savedState) {
         // try to load from bundle
         if (loadData(savedState)) {
             System.out.println("Loaded properly from bundle");
@@ -106,7 +115,7 @@ public class GameManager {
             FileInputStream checksumFile = engine.openInputFile(CHECKSUM_FILE);
 
             // check if file has been modified
-            String savedChecksum = obtainSavedChecksum(checksumFile);
+            String savedChecksum = loadChecksum(checksumFile);
             String actualChecksum = engine.getChecksum(fileInputStream);
             if (!savedChecksum.equals(actualChecksum)) {
                 System.out.println("Save file has been modified, so we discard it");
@@ -178,6 +187,7 @@ public class GameManager {
         }
     }
 
+    // ---------------- SAVE DATA MANAGEMENT ----------------
     private void loadData(ObjectInputStream readSaveFile) {
         try {
             JSONObject dataObject = new JSONObject(readSaveFile.readObject().toString());
@@ -284,7 +294,7 @@ public class GameManager {
             savedState.putSerializable("category_" + ct, this.categories[ct]);
     }
 
-    private String obtainSavedChecksum(FileInputStream checksumFile) throws IOException {
+    private String loadChecksum(FileInputStream checksumFile) throws IOException {
         ByteArrayOutputStream resultChecksum = new ByteArrayOutputStream();
         byte[] buffer = new byte[8192]; int length;
         while ((length = checksumFile.read(buffer)) != -1)
@@ -296,13 +306,16 @@ public class GameManager {
     private void saveChecksum(EngineAndroid engine) throws NoSuchAlgorithmException, IOException {
         FileOutputStream fileOutputStream = engine.openOutputFile(CHECKSUM_FILE);
         FileInputStream fileInputStream = engine.openInputFile(SAVE_FILE);
+
+        // save obtained checksum
         String checksum = engine.getChecksum(fileInputStream);
-        System.out.println(checksum);
         fileOutputStream.write(checksum.getBytes(StandardCharsets.UTF_8));
+
         fileInputStream.close();
         fileOutputStream.close();
     }
 
+    // ---------------- CATEGORIES ----------------
     public void updateCategory(int category, int level, int[][] pendBoard, int lives) {
         if (category != 0 && pendBoard != null) {
             this.categories[category].pendingBoardLevel = level;
@@ -400,6 +413,7 @@ public class GameManager {
         coins += c;
     }
 
+    // ---------------- DIMENSIONS ----------------
     public int getWidth() {
         return width;
     }

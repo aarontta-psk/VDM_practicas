@@ -57,9 +57,12 @@ public class MainActivity extends AppCompatActivity {
         this.engine.getAdSystem().loadBannerAd((AdView)findViewById(R.id.adView));
         this.engine.getAdSystem().loadRewardedAd();
 
-        //creates notification channel
+        // creates notification channel
         this.engine.getIntentSystem().createChannel("Nonogram",
                 "Notifications for Nonogram App", "not_nonogram");
+
+        // cancel all queued notifications
+        WorkManager.getInstance(this).cancelAllWork();
 
         // load game data
         int w = WIDTH, h = HEIGHT;
@@ -68,26 +71,32 @@ public class MainActivity extends AppCompatActivity {
             h = WIDTH;
         }
 
-        GameManager.init(w, h, this.engine, savedInstanceState);
+        // initialize GameManager
+        GameManager.init(this.engine, w, h);
         this.engine.getRender().setBackGroundColor(GameManager.getInstance().getColor(0));
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState) {
-        // if the onCreate method doesn't work, we load data here
-        if (GameManager.getInstance() == null)
-            GameManager.init(WIDTH, HEIGHT, this.engine, savedInstanceState);
+        // if the onCreate method did work, we load data here
+        if (GameManager.getInstance() != null)
+            GameManager.load(this.engine, savedInstanceState);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        // create boot scene
+        if(this.engine.getSceneManager().currentScene() == null) {
+            BootScene scene = new BootScene();
+            this.engine.getSceneManager().changeScene(scene, engine);
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        //cancel notifications
-        WorkManager.getInstance(this).cancelAllWork();
-        // create boot scene
-        BootScene scene = new BootScene();
-        this.engine.getSceneManager().changeScene(scene, engine);
 
         // resume engine process cycle
         this.engine.resume();
@@ -97,9 +106,8 @@ public class MainActivity extends AppCompatActivity {
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
-        GameManager.getInstance().flipDimensions();
-
         // updates the orientation of the screen
+        GameManager.getInstance().flipDimensions();
         this.engine.updateConfiguration(newConfig);
     }
 
@@ -121,18 +129,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        GameManager.shutdown();
-    }
-
-    @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
 
         // save data
         GameManager.save(this.engine, outState);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // destroy GameManager
+        GameManager.shutdown();
     }
 
     private void activityConfigurations() {
