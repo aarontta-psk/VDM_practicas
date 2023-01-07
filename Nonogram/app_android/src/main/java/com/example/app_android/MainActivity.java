@@ -93,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
+        // cancel all queued notifications
+        WorkManager.getInstance(this).cancelAllWork();
+
         // create boot scene
         if(this.engine.getSceneManager().currentScene() == null) {
             BootScene scene = new BootScene();
@@ -104,8 +107,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        // cancel all queued notifications
-        WorkManager.getInstance(this).cancelAllWork();
         // resume engine process cycle
         this.engine.resume();
     }
