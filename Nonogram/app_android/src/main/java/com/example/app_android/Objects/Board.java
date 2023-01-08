@@ -250,7 +250,7 @@ public class Board {
 
         for (int row = 0; row < board.length; row++)
             for (int col = 0; col < board[0].length; col++) // we ignore the marked state
-                cellState[row][col] = board[col][row].getState().ordinal() % 3;
+                cellState[row][col] = board[row][col].getState().ordinal() % 3;
 
         return cellState;
     }
@@ -259,11 +259,11 @@ public class Board {
         for (int row = 0; row < board.length; row++){
             for (int col = 0; col < board[0].length; col++){
                 Cell.State cellState = Cell.State.values()[savedState[row][col]];
-                board[col][row].setState(cellState);
+                board[row][col].setState(cellState);
 
                 if(cellState == Cell.State.CHECKED)     // if checked, it was an error
-                    checkedCells.add(board[col][row]);
-                else if(cellState == Cell.State.MARKED && board[col][row].isAnswer())   // if marked and answer, discount from cellsleft
+                    checkedCells.add(board[row][col]);
+                else if(cellState == Cell.State.MARKED && board[row][col].isAnswer())   // if marked and answer, discount from cellsleft
                     cellsLeft--;
             }
         }

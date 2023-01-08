@@ -93,6 +93,7 @@ public class PaletteMenu implements IScene {
                 else if(!gM.isPaletteUnlocked(x)){
                     gM.unlockPalette(x);
                     gM.addCoins(-PALETTE_VALUE[x-1]);
+                    updatePalette();
                 }
                 gM.setPalette(x);
                 engine.getRender().setBackGroundColor(GameManager.getInstance().getColor(GameManager.ColorTypes.BG_COLOR.ordinal()));
@@ -149,5 +150,14 @@ public class PaletteMenu implements IScene {
             this.paletteButtons[i].setColor(GameManager.getInstance().getColor(GameManager.ColorTypes.AUX_COLOR.ordinal()));
         }
         this.paletteButtons[GameManager.getInstance().getActPalette()].setColor(GameManager.getInstance().getColor(GameManager.ColorTypes.MAIN_COLOR.ordinal()));
+    }
+
+    private void updatePalette(){
+        int numPalettes = GameManager.getInstance().NUM_PALETTES;
+        for (int i = 0; i < numPalettes; i++) {
+            if(GameManager.getInstance().isPaletteUnlocked(i))
+                this.paletteButtons[i].setImage("");
+                this.paletteButtons[i].setText("Palette " + (i + 1));
+        }
     }
 }
