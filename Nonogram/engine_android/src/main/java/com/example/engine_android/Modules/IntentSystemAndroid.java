@@ -17,9 +17,7 @@ import java.util.ArrayList;
 
 public class IntentSystemAndroid {
 
-    public enum SocialNetwork {
-        TWITTER
-    }
+    public enum SocialNetwork {TWITTER}
 
     // activity context
     private Context context;
@@ -73,16 +71,13 @@ public class IntentSystemAndroid {
                     String tweetUrl = "https://twitter.com/intent/tweet?text=" + msg;
                     Uri uri = Uri.parse(tweetUrl);
                     intent = new Intent(Intent.ACTION_VIEW, uri);
-
-//                    String tweetUrl = "https://twitter.com/intent/tweet?text=";
-//                    Uri uri = Uri.parse(tweetUrl).buildUpon().appendQueryParameter("text", tweetUrl + msg).build();
-//                    intent = new Intent(Intent.ACTION_VIEW, uri);
                 }
                 break;
             default:
                 return;
         }
+
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        this.context.startActivity(intent);
     }
 }

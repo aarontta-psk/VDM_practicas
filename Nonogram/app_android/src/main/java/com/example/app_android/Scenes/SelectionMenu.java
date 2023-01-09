@@ -78,33 +78,33 @@ public class SelectionMenu implements IScene {
     @Override
     public void handleInput(InputAndroid input, EngineAndroid engine) {
         if (input.getType() == InputType.TOUCH_UP) {
-            int x = 0, y = 0;
+            int numRows = 0, numCols = 0;
             if (this.t4x4.isInButton(input.getX(), input.getY())) {
-                x = 4;
-                y = 4;
+                numRows = 4;
+                numCols = 4;
             } else if (this.t5x5.isInButton(input.getX(), input.getY())) {
-                x = 5;
-                y = 5;
+                numRows = 5;
+                numCols = 5;
             } else if (this.t5x10.isInButton(input.getX(), input.getY())) {
-                x = 10;
-                y = 5;
+                numRows = 5;
+                numCols = 10;
             } else if (this.t8x8.isInButton(input.getX(), input.getY())) {
-                x = 8;
-                y = 8;
+                numRows = 8;
+                numCols = 8;
             } else if (this.t10x10.isInButton(input.getX(), input.getY())) {
-                x = 10;
-                y = 10;
+                numRows = 10;
+                numCols = 10;
             } else if (this.t10x15.isInButton(input.getX(), input.getY())) {
-                x = 15;
-                y = 10;
+                numRows = 10;
+                numCols = 15;
             } else if (this.backButton.isInButton(input.getX(), input.getY())) {
                 engine.getSceneManager().changeScene(new ModeSelectionMenu(), engine);
                 this.backButton.clicked(engine.getAudio());
             }
 
-            if (x != 0) {
-                this.backButton.clicked(engine.getAudio());
-                engine.getSceneManager().changeScene(new BoardScene(x, y), engine);
+            if (numRows != 0 && numCols != 0) {
+                this.t4x4.clicked(engine.getAudio());
+                engine.getSceneManager().changeScene(new BoardScene(numRows, numCols), engine);
             }
         }
     }

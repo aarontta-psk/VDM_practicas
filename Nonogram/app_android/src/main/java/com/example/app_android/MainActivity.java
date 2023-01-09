@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        if(bundle!=null) {
+        if (bundle!=null) {
             int reward = bundle.getInt("reward");
             GameManager.getInstance().addCoins(reward);
         }
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         WorkManager.getInstance(this).cancelAllWork();
 
         // create boot scene
-        if(this.engine.getSceneManager().currentScene() == null) {
+        if (this.engine.getSceneManager().currentScene() == null) {
             BootScene scene = new BootScene();
             this.engine.getSceneManager().changeScene(scene, engine);
         }

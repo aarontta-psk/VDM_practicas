@@ -13,10 +13,10 @@ public class LightSensor implements SensorEventListener {
     private Context context;
 
 
-    public LightSensor(Context c) {
-        context = c;
+    public LightSensor(Context context) {
+        this.context = context;
         // set sensor and sensor manager
-        this.sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
+        this.sensorManager = (SensorManager) this.context.getSystemService(Context.SENSOR_SERVICE);
         this.sensor = this.sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
     }
 

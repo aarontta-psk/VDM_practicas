@@ -37,7 +37,7 @@ public class WinScene implements IScene {
     @Override
     public void init(EngineAndroid engine) {
         // what coins to add
-        int coins = this.victory ? (this.board.getWidth() * this.board.getHeight()) / 2 : 0;
+        int coins = this.victory ? (this.board.getCols() * this.board.getRows()) / 2 : 0;
         GameManager.getInstance().addCoins(coins);
 
         // title

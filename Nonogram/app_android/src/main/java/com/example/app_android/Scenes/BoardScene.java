@@ -120,24 +120,25 @@ public class BoardScene implements IScene {
                 imName = this.noLiveImage;
             else
                 imName = this.liveImage;
-            renderer.drawImage(livesPosX + (liveW * (MAX_LIVES - i)), livesPosY, liveW, liveW, imName);
+            renderer.drawImage(this.livesPosX + (this.liveW * (this.MAX_LIVES - i)), this.livesPosY,
+                    this.liveW, this.liveW, imName);
         }
     }
 
     @Override
     public void handleInput(InputAndroid input, EngineAndroid engine) {
         if (input.getType() == InputType.TOUCH_UP) {
-            if (this.board.isInBoard(input.getX(), input.getY())) {          //Input en la zona del tablero
+            if (this.board.isInBoard(input.getX(), input.getY())) {                 //Input en la zona del tablero
                 engine.getAudio().playSound(this.sound);
                 this.lives -= this.board.markCell(input.getX(), input.getY(), false);
 
-                if (this.board.checkear(input.getX(), input.getY())) {            //Checkeo de la victoria
+                if (this.board.checkear(input.getX(), input.getY())) {              //Checkeo de la victoria
                     GameManager.getInstance().updateCategory(this.actCategory, this.actLevel, null, -1);
                     engine.getSceneManager().changeScene(new WinScene(this.board, true, this.actCategory, this.numberLevel), engine);
                 }
                 if (this.lives == 0)
                     engine.getSceneManager().changeScene(new WinScene(this.board, false, this.actCategory, this.numberLevel), engine);
-            } else if (this.backButton.isInButton(input.getX(), input.getY())) {   //Input boton de volver
+            } else if (this.backButton.isInButton(input.getX(), input.getY())) {    //Input boton de volver
                 this.backButton.clicked(engine.getAudio());
                 if (this.actCategory == 0)
                     engine.getSceneManager().changeScene(new ModeSelectionMenu(), engine);
@@ -145,10 +146,10 @@ public class BoardScene implements IScene {
                     engine.getSceneManager().changeScene(new CategoryLevelSelectionMenu(this.actCategory), engine);
 
                 updateCategoryInformation();
-            } else if (this.recoverLive.isInButton(input.getX(), input.getY())) {   //Input boton anuncio
+            } else if (this.recoverLive.isInButton(input.getX(), input.getY())) {       //Input boton anuncio
                 engine.getAdSystem().showRewardedAd();
             }
-        } else if (input.getType() == InputType.TOUCH_LONG) {     //Long touch en tablero
+        } else if (input.getType() == InputType.TOUCH_LONG) {                           //Long touch en tablero
             if (this.board.isInBoard(input.getX(), input.getY())) {
                 this.board.markCell(input.getX(), input.getY(), true);
             }
